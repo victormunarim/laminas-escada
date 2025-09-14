@@ -4,4 +4,10 @@ declare(strict_types=1);
 
 $this->headTitle('Pedidos');
 
+echo '<h1 class="mb-4">Pedidos</h1>';
+
+echo $this->barraPesquisa($this->searchTerm, 'escada', true, 'Nome');
+
 echo $this->tabelaPedidos($this->pedidos);
+
+echo $this->mensagensAlert($this->pedidos, $this->searchTerm);

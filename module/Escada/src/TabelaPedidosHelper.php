@@ -14,10 +14,7 @@ class TabelaPedidosHelper extends AbstractHelper
                     <p>Nenhum pedido encontrado. <a href="' . $addUrl . '">Adicionar primeiro pedido</a></p>';
         }
 
-        $html = '<h1>Pedidos</h1>';
-        $addUrl = $this->getView()->url('escada', ['action' => 'add']);
-        $html .= '<p><a href="' . $addUrl . '" class="btn btn-success">Adicionar pedido</a></p>';
-        $html .= '<table class="table table-striped">';
+        $html = '<table class="table table-striped">';
 
         $html .= '<tr><th>ID</th><th>Nome</th><th>Ações</th></tr>';
 

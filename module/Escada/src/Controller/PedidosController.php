@@ -21,8 +21,19 @@ class PedidosController extends AbstractActionController
 
     public function indexAction()
     {
+        $searchTerm = $this->params()->fromQuery('search', '');
+
+        if (! empty($searchTerm)) {
+            $resultSet = $this->table->procuraPedidos($searchTerm);
+            $pedidos = iterator_to_array($resultSet);
+        } else {
+            $resultSet = $this->table->fetchAll();
+            $pedidos = iterator_to_array($resultSet);
+        }
+
         return new ViewModel([
-            'pedidos' => $this->table->fetchAll()
+            'pedidos' => $pedidos,
+            'searchTerm' => $searchTerm
         ]);
     }
 

@@ -61,4 +61,16 @@ class PedidosTable
     {
         $this->tableGateway->delete(['id' => (int) $id]);
     }
+
+    public function procuraPedidos($searchTerm)
+    {
+        $searchTerm = '%' . $searchTerm . '%';
+
+        $select = $this->tableGateway->getSql()->select();
+        $select->where->like('nome', $searchTerm);
+
+        $resultSet = $this->tableGateway->selectWith($select);
+
+        return $resultSet;
+    }
 }

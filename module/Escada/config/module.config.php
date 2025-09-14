@@ -10,6 +10,7 @@ use Escada\Model\PedidosTableFactory;
 use Laminas\Db\Adapter\Adapter;
 use Laminas\Db\Adapter\AdapterServiceFactory;
 use Laminas\Router\Http\Segment;
+use Laminas\ServiceManager\Factory\InvokableFactory;
 
 return [
     'controllers' => [
@@ -23,9 +24,13 @@ return [
             TabelaPedidosHelper::class => function ($container) {
                 return new TabelaPedidosHelper();
             },
+            BarraPesquisaHelper::class => InvokableFactory::class,
+            MensagensAlertHelper::class => InvokableFactory::class,
         ],
         'aliases' => [
             'tabelaPedidos' => TabelaPedidosHelper::class,
+            'barraPesquisa' => BarraPesquisaHelper::class,
+            'mensagensAlert' => MensagensAlertHelper::class,
         ],
     ],
 
