@@ -1,0 +1,32 @@
+<?php
+$title = 'Adicionar Pedido';
+$this->headTitle($title);
+$form = $this->form;
+?>
+    <h1><?= $this->escapeHtml($title) ?></h1>
+<?php
+// This provides a default CSS class and placeholder text for the title element:
+$nome = $form->get('nome');
+$nome->setAttribute('class', 'form-control');
+$nome->setAttribute('placeholder', 'Nome');
+
+// This provides CSS classes for the submit button:
+$submit = $form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary');
+
+$form->setAttribute('action', $this->url('escada', ['action' => 'add']));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+?>
+
+    <div class="form-group">
+        <?= $this->formLabel($nome) ?>
+        <?= $this->formElement($nome) ?>
+        <?= $this->formElementErrors()->render($nome, ['class' => 'help-block']) ?>
+    </div>
+
+<?php
+echo $this->formSubmit($submit);
+echo $this->formHidden($form->get('id'));
+echo $this->form()->closeTag();
