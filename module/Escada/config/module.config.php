@@ -13,6 +13,7 @@ use Laminas\Db\Adapter\Adapter;
 use Laminas\Db\Adapter\AdapterServiceFactory;
 use Laminas\Router\Http\Segment;
 use Laminas\ServiceManager\Factory\InvokableFactory;
+use Psr\Container\ContainerInterface;
 
 return [
     'controllers' => [
@@ -24,7 +25,7 @@ return [
     'view_helpers' => [
         'factories' => [
             /**
-             * @param \Psr\Container\ContainerInterface $container
+             * @param ContainerInterface $container
              * @return TabelaPedidosHelper
              */
             TabelaPedidosHelper::class => function ($container): TabelaPedidosHelper {
@@ -71,7 +72,7 @@ return [
             Adapter::class      => AdapterServiceFactory::class,
 
             /**
-             * @param \Psr\Container\ContainerInterface $container
+             * @param ContainerInterface $container
              * @return PedidoForm
              */
             PedidoForm::class => function ($container): PedidoForm {
