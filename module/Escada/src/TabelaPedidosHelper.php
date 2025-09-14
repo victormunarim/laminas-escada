@@ -9,14 +9,13 @@ use Laminas\View\Helper\AbstractHelper;
 
 class TabelaPedidosHelper extends AbstractHelper
 {
-    public function __invoke($pedidos)
+    /**
+     * @param ResultSet|array<int, object|array<string, mixed>> $pedidos
+     */
+    public function __invoke(ResultSet|array $pedidos): string
     {
         if ($pedidos instanceof ResultSet) {
-            $pedidosArray = [];
-            foreach ($pedidos as $pedido) {
-                $pedidosArray[] = $pedido;
-            }
-            $pedidos = $pedidosArray;
+            $pedidos = iterator_to_array($pedidos);
         }
 
         if (count($pedidos) === 0) {
@@ -28,48 +27,40 @@ class TabelaPedidosHelper extends AbstractHelper
 
         $html = '<div class="table-responsive">';
         $html .= '<table class="table table-striped table-hover">';
+        $html .= '<thead class="thead-dark"><tr>';
 
-        $html .= '<thead class="thead-dark">';
-        $html .= '<tr>';
         foreach ($colunas as $coluna) {
             $html .= '<th>' . $this->formatarNomeColuna($coluna) . '</th>';
         }
-        $html .= '<th>Ações</th>';
-        $html .= '</tr>';
-        $html .= '</thead>';
 
-        $html .= '<tbody>';
+        $html .= '<th>Ações</th></tr></thead><tbody>';
 
         foreach ($pedidos as $pedido) {
             $html .= '<tr>';
-
             foreach ($colunas as $coluna) {
                 $valor = $this->getValorColuna($pedido, $coluna);
-                $html .= '<td>' . $this->getView()->escapeHtml($valor) . '</td>';
+                $html .= '<td>' . $this->getView()->escapeHtml((string) $valor) . '</td>';
             }
-
-            $html .= '<td>' . $this->renderAcoes($pedido) . '</td>';
-
-            $html .= '</tr>';
+            $html .= '<td>' . $this->renderAcoes($pedido) . '</td></tr>';
         }
 
-        $html .= '</tbody>';
-        $html .= '</table>';
-        $html .= '</div>';
+        $html .= '</tbody></table></div>';
 
         return $html;
     }
 
-    private function getColunasDisponiveis($pedido)
+    /**
+     * @param object|array<string, mixed> $pedido
+     * @return array<int, string>
+     */
+    private function getColunasDisponiveis(object|array $pedido): array
     {
         $colunasFixas = ['id', 'nome', 'idade'];
 
         if (is_object($pedido)) {
             $reflection = new \ReflectionClass($pedido);
-            $properties = $reflection->getProperties(\ReflectionProperty::IS_PUBLIC);
-
-            foreach ($properties as $property) {
-                if (!in_array($property->getName(), $colunasFixas)) {
+            foreach ($reflection->getProperties(\ReflectionProperty::IS_PUBLIC) as $property) {
+                if (!in_array($property->getName(), $colunasFixas, true)) {
                     $colunasFixas[] = $property->getName();
                 }
             }
@@ -80,21 +71,25 @@ class TabelaPedidosHelper extends AbstractHelper
         $colunasIgnorar = ['inputFilter'];
         $colunasFixas = array_diff($colunasFixas, $colunasIgnorar);
 
-        return array_unique(array_values($colunasFixas));
+        return array_values(array_unique($colunasFixas));
     }
 
-    private function formatarNomeColuna($coluna)
+    private function formatarNomeColuna(string $coluna): string
     {
         $mapaNomes = [
             'id' => 'ID',
             'nome' => 'Nome',
-            'idade' => 'Idade'
+            'idade' => 'Idade',
         ];
 
         return $mapaNomes[$coluna] ?? ucfirst($coluna);
     }
 
-    private function getValorColuna($pedido, $coluna)
+    /**
+     * @param object|array<string, mixed> $pedido
+     * @return mixed
+     */
+    private function getValorColuna(object|array $pedido, string $coluna): mixed
     {
         if (is_object($pedido)) {
             $getter = 'get' . ucfirst($coluna);
@@ -113,14 +108,17 @@ class TabelaPedidosHelper extends AbstractHelper
             return $pedido[$coluna];
         }
 
-        return '';
+        return null;
     }
 
-    private function renderAcoes($pedido)
+    /**
+     * @param object|array<string, mixed> $pedido
+     */
+    private function renderAcoes(object|array $pedido): string
     {
         $id = $this->getValorColuna($pedido, 'id');
 
-        if (! $id) {
+        if (!$id) {
             return '';
         }
 
@@ -129,11 +127,9 @@ class TabelaPedidosHelper extends AbstractHelper
 
         $html = '<div class="btn-group">';
         $html .= '<a href="' . $editUrl . '" class="btn btn-primary">';
-        $html .= '<i class="fas fa-edit"></i> Editar';
-        $html .= '</a>';
+        $html .= '<i class="fas fa-edit"></i> Editar</a>';
         $html .= '<a href="' . $deleteUrl . '" class="btn btn-danger">';
-        $html .= '<i class="fas fa-trash"></i> Excluir';
-        $html .= '</a>';
+        $html .= '<i class="fas fa-trash"></i> Excluir</a>';
         $html .= '</div>';
 
         return $html;

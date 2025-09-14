@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Escada;
 
+use Escada\Factory\Controller\PedidosControllerFactory;
 use Laminas\ModuleManager\Feature\ConfigProviderInterface;
 
 class Module implements ConfigProviderInterface
@@ -17,7 +18,7 @@ class Module implements ConfigProviderInterface
     {
         return [
             'factories' => [
-                Controller\PedidosController::class => Factory\PedidosControllerFactory::class,
+                Controller\PedidosController::class => PedidosControllerFactory::class,
             ],
         ];
     }

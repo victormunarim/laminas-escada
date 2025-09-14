@@ -7,21 +7,28 @@ namespace Escada\Model;
 use Laminas\InputFilter\InputFilterAwareInterface;
 use Laminas\InputFilter\InputFilterInterface;
 
-class Pedidos implements InputFilterAwareInterface
+class Pedidos extends \ArrayObject implements InputFilterAwareInterface
 {
-    public $id;
-    public $nome;
-    public $idade;
-    private $inputFilter;
+    private ?int $id = null;
+    private ?string $nome = null;
+    private ?int $idade = null;
+    private ?InputFilterInterface $inputFilter = null;
 
-    public function exchangeArray(array $array): void
+    /**
+     * @param array<string, mixed> $array
+     */
+    public function exchangeArray(array|object $array): array
     {
-        $this->id = ! empty($array['id']) ? $array['id'] : null;
-        $this->nome = ! empty($array['nome']) ? $array['nome'] : null;
-        $this->idade = ! empty($array['idade']) ? $array['idade'] : null;
+        $this->setId(! empty($array['id']) ? (int) $array['id'] : null);
+        $this->setNome(! empty($array['nome']) ? (string) $array['nome'] : null);
+        $this->setIdade(! empty($array['idade']) ? (int) $array['idade'] : null);
+        return parent::exchangeArray($array);
     }
 
-    public function getArrayCopy()
+    /**
+     * @return array<string, int|string|null>
+     */
+    public function getArrayCopy(): array
     {
         return [
             'id' => $this->id,
@@ -30,29 +37,43 @@ class Pedidos implements InputFilterAwareInterface
         ];
     }
 
-
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNome()
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getNome(): ?string
     {
         return $this->nome;
     }
 
-    public function getIdade()
+    public function setNome(?string $nome): void
+    {
+        $this->nome = $nome;
+    }
+
+    public function getIdade(): ?int
     {
         return $this->idade;
     }
 
-    public function setInputFilter(InputFilterInterface $inputFilter)
+    public function setIdade(?int $idade): void
     {
-        // TODO: Implement setInputFilter() method.
+        $this->idade = $idade;
     }
 
-    public function getInputFilter()
+    public function setInputFilter(InputFilterInterface $inputFilter): void
     {
-        // TODO: Implement getInputFilter() method.
+        $this->inputFilter = $inputFilter;
+    }
+
+    public function getInputFilter(): ?InputFilterInterface
+    {
+        return $this->inputFilter;
     }
 }

@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var array<string, mixed> $pedidos
+ * @var string|null $searchTerm
+ */
+
+$pedidos = $this->pedidos;
+$searchTerm = $this->searchTerm;
+
 $this->headTitle('Pedidos');
 
 echo '<h1 class="mb-4">Pedidos</h1>';
@@ -11,15 +20,15 @@ echo $this->barraPesquisa([
     'campos' => [
         'nome' => [
             'label' => 'Nome',
-            'placeholder' => 'Digite o nome...'
+            'placeholder' => 'Digite o nome...',
         ],
         'idade' => [
             'label' => 'Idade',
-            'placeholder' => 'Digite a idade...'
-        ]
-    ]
+            'placeholder' => 'Digite a idade...',
+        ],
+    ],
 ]);
 
-echo $this->tabelaPedidos($this->pedidos);
+echo $this->tabelaPedidos($pedidos);
 
-echo $this->mensagensAlert($this->pedidos, $this->searchTerm);
+echo $this->mensagensAlert($pedidos, $searchTerm);

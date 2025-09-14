@@ -12,10 +12,17 @@ use Psr\Container\ContainerInterface;
 
 class PedidosControllerFactory implements FactoryInterface
 {
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
+    /**
+     * @param ContainerInterface $container
+     * @param string $requestedName
+     * @param array<string,mixed>|null $options
+     * @return PedidosController
+     */
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): PedidosController
     {
         $table = $container->get(PedidosTable::class);
         $form = $container->get(PedidoForm::class);
+
         return new PedidosController($table, $form);
     }
 }

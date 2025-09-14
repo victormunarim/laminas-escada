@@ -23,16 +23,20 @@ return [
 
     'view_helpers' => [
         'factories' => [
-            TabelaPedidosHelper::class => function ($container) {
+            /**
+             * @param \Psr\Container\ContainerInterface $container
+             * @return TabelaPedidosHelper
+             */
+            TabelaPedidosHelper::class => function ($container): TabelaPedidosHelper {
                 return new TabelaPedidosHelper();
             },
             BarraPesquisaHelper::class => InvokableFactory::class,
             MensagensAlertHelper::class => InvokableFactory::class,
         ],
         'aliases' => [
-            'tabelaPedidos' => TabelaPedidosHelper::class,
-            'barraPesquisa' => BarraPesquisaHelper::class,
-            'mensagensAlert' => MensagensAlertHelper::class,
+            'tabelaPedidos'   => TabelaPedidosHelper::class,
+            'barraPesquisa'   => BarraPesquisaHelper::class,
+            'mensagensAlert'  => MensagensAlertHelper::class,
         ],
     ],
 
@@ -41,12 +45,12 @@ return [
             'escada' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route' => '/escada[/:action[/:id]]',
+                    'route'       => '/escada[/:action[/:id]]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id'     => '[0-9]+',
                     ],
-                    'defaults' => [
+                    'defaults'    => [
                         'controller' => Controller\PedidosController::class,
                         'action'     => 'index',
                     ],
@@ -64,11 +68,15 @@ return [
     'service_manager' => [
         'factories' => [
             PedidosTable::class => PedidosTableFactory::class,
-            Adapter::class => AdapterServiceFactory::class,
-            PedidoForm::class => function ($container) {
-                $form = new PedidoForm();
-                return $form;
-            }
-        ]
+            Adapter::class      => AdapterServiceFactory::class,
+
+            /**
+             * @param \Psr\Container\ContainerInterface $container
+             * @return PedidoForm
+             */
+            PedidoForm::class => function ($container): PedidoForm {
+                return new PedidoForm();
+            },
+        ],
     ],
 ];

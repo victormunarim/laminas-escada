@@ -5,28 +5,41 @@ declare(strict_types=1);
 namespace Escada\Model;
 
 use RuntimeException;
+use Laminas\Db\ResultSet\ResultSetInterface;
+use Laminas\Db\Sql\Select;
 use Laminas\Db\TableGateway\TableGatewayInterface;
 
 class PedidosTable
 {
-    private $tableGateway;
+    private TableGatewayInterface $tableGateway;
 
+    /**
+     * @param TableGatewayInterface $tableGateway
+     */
     public function __construct(TableGatewayInterface $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
 
-    public function fetchAll()
+    /**
+     * @return ResultSetInterface
+     */
+    public function fetchAll(): ResultSetInterface
     {
         return $this->tableGateway->select();
     }
 
-    public function getPedidos($id)
+    /**
+     * @param int $id
+     * @return Pedidos
+     * @throws RuntimeException
+     */
+    public function getPedidos(int $id): Pedidos
     {
-        $id = (int) $id;
         $rowset = $this->tableGateway->select(['id' => $id]);
         $row = $rowset->current();
-        if (! $row) {
+
+        if (! $row instanceof Pedidos) {
             throw new RuntimeException(sprintf(
                 'Could not find row with identifier %d',
                 $id
@@ -36,10 +49,15 @@ class PedidosTable
         return $row;
     }
 
-    public function savePedido(Pedidos $pedido)
+    /**
+     * @param Pedidos $pedido
+     * @throws RuntimeException
+     */
+    public function savePedido(Pedidos $pedido): void
     {
         $data = [
-            'nome' => $pedido->getNome(),
+            'nome'  => $pedido->getNome(),
+            'idade' => $pedido->getIdade(),
         ];
 
         $id = (int) $pedido->getId();
@@ -49,25 +67,27 @@ class PedidosTable
             return;
         }
 
-        if (! $this->getPedidos($id)) {
-            throw new RuntimeException(sprintf(
-                'Cannot update pedido with identifier %d; does not exist',
-                $id
-            ));
-        }
+        $this->getPedidos($id);
 
         $this->tableGateway->update($data, ['id' => $id]);
     }
 
-    public function deletePedido($id)
+    /**
+     * @param int $id
+     */
+    public function deletePedido(int $id): void
     {
-        $this->tableGateway->delete(['id' => (int) $id]);
+        $this->tableGateway->delete(['id' => $id]);
     }
 
-    public function procuraPedidos($filtros)
+    /**
+     * @param array<string, mixed> $filtros
+     * @return ResultSetInterface
+     */
+    public function procuraPedidos(array $filtros): ResultSetInterface
     {
+        /** @var Select $select */
         $select = $this->tableGateway->getSql()->select();
-
         $where = $select->where;
 
         foreach ($filtros as $campo => $valor) {
@@ -80,8 +100,6 @@ class PedidosTable
             }
         }
 
-        $resultSet = $this->tableGateway->selectWith($select);
-
-        return $resultSet;
+        return $this->tableGateway->selectWith($select);
     }
 }

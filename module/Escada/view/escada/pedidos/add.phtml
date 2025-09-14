@@ -1,32 +1,59 @@
 <?php
+declare(strict_types=1);
+
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Laminas\Form\Form $form
+ */
+
 $title = 'Adicionar Pedido';
 $this->headTitle($title);
-$form = $this->form;
-?>
-    <h1><?= $this->escapeHtml($title) ?></h1>
-<?php
-// This provides a default CSS class and placeholder text for the title element:
-$nome = $form->get('nome');
-$nome->setAttribute('class', 'form-control');
-$nome->setAttribute('placeholder', 'Nome');
 
-// This provides CSS classes for the submit button:
-$submit = $form->get('submit');
-$submit->setAttribute('class', 'btn btn-primary');
+$form = $this->form;
+
+foreach ($form as $element) {
+    $type = $element->getAttribute('type');
+
+    if ($type !== 'hidden' && $type !== 'submit') {
+        $element->setAttribute('class', 'form-control');
+        if (!$element->getAttribute('placeholder')) {
+            $element->setAttribute('placeholder', ucfirst($element->getName()));
+        }
+    }
+
+    if ($type === 'submit') {
+        $element->setAttribute('class', 'btn btn-primary');
+    }
+}
 
 $form->setAttribute('action', $this->url('escada', ['action' => 'add']));
 $form->prepare();
-
-echo $this->form()->openTag($form);
 ?>
+<h1><?= $this->escapeHtml($title) ?></h1>
 
-    <div class="form-group">
-        <?= $this->formLabel($nome) ?>
-        <?= $this->formElement($nome) ?>
-        <?= $this->formElementErrors()->render($nome, ['class' => 'help-block']) ?>
+<?= $this->form()->openTag($form) ?>
+
+<?php foreach ($form as $element): ?>
+    <?php if ($element->getAttribute('type') === 'hidden'): ?>
+        <?= $this->formElement($element) ?>
+        <?php continue; ?>
+    <?php endif; ?>
+
+    <?php if ($element->getAttribute('type') === 'submit'): ?>
+        <div class="mt-3">
+            <?= $this->formSubmit($element) ?>
+        </div>
+        <?php continue; ?>
+    <?php endif; ?>
+
+    <div class="form-group row mb-3">
+        <div class="col-sm-6 col-md-4">
+            <?= $this->formLabel($element) ?>
+            <?= $this->formElement($element) ?>
+            <?= $this->formElementErrors()->render($element, ['class' => 'help-block']) ?>
+        </div>
     </div>
+<?php endforeach; ?>
 
-<?php
-echo $this->formSubmit($submit);
-echo $this->formHidden($form->get('id'));
-echo $this->form()->closeTag();
+
+<?= $this->form()->closeTag() ?>

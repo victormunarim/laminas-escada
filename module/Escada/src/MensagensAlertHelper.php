@@ -4,26 +4,37 @@ declare(strict_types=1);
 
 namespace Escada;
 
+use Laminas\Db\ResultSet\ResultSet;
 use Laminas\View\Helper\AbstractHelper;
 
 class MensagensAlertHelper extends AbstractHelper
 {
-    public function __invoke($pedidos = [], $searchTerm = null, $routeName = 'escada')
-    {
+    /**
+     * @param ResultSet|array<int, mixed> $pedidos
+     */
+    public function __invoke(
+        ResultSet|array $pedidos = [],
+        ?string $searchTerm = null,
+        string $routeName = 'escada'
+    ): string {
+        $isEmpty = $pedidos instanceof ResultSet
+            ? $pedidos->count() === 0
+            : count($pedidos) === 0;
+
         $html = '';
 
-        if (! empty($searchTerm) && count($pedidos) === 0) {
+        if (! empty($searchTerm) && $isEmpty) {
             $html .= $this->renderAlertInfo($searchTerm, $routeName);
         }
 
-        if (empty($searchTerm) && count($pedidos) === 0) {
+        if ($searchTerm === null && $isEmpty) {
             $html .= $this->renderAlertWarning($routeName);
         }
 
         return $html;
     }
 
-    private function renderAlertInfo($searchTerm, $routeName)
+    private function renderAlertInfo(string $searchTerm, string $routeName): string
     {
         $url = $this->getView()->url($routeName);
         $termo = $this->getView()->escapeHtml($searchTerm);
@@ -37,7 +48,7 @@ class MensagensAlertHelper extends AbstractHelper
         return $html;
     }
 
-    private function renderAlertWarning($routeName)
+    private function renderAlertWarning(string $routeName): string
     {
         $url = $this->getView()->url($routeName, ['action' => 'add']);
 

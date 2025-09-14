@@ -1,34 +1,63 @@
 <?php
+
+declare(strict_types=1);
+
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Laminas\Form\Form $form
+ */
+
 $title = 'Editar Pedido';
 $this->headTitle($title);
-?>
-    <h1><?= $this->escapeHtml($title) ?></h1>
 
-<?php
 $form = $this->form;
-$nome = $form->get('nome');
-$nome->setAttribute('class', 'form-control');
-$nome->setAttribute('placeholder', 'Nome do Pedido');
 
-$submit = $form->get('submit');
-$submit->setAttribute('class', 'btn btn-primary');
-$submit->setAttribute('value', 'Salvar');
+foreach ($form as $element) {
+    $type = $element->getAttribute('type');
+
+    if ($type !== 'hidden' && $type !== 'submit') {
+        $element->setAttribute('class', 'form-control');
+        if (!$element->getAttribute('placeholder')) {
+            $element->setAttribute('placeholder', ucfirst($element->getName()));
+        }
+    }
+
+    if ($type === 'submit') {
+        $element->setAttribute('class', 'btn btn-primary');
+        $element->setAttribute('value', 'Salvar');
+    }
+}
 
 $form->setAttribute('action', $this->url('escada', [
         'action' => 'edit',
-        'id'     => $id,
+        'id'     => $this->id,
 ]));
 $form->prepare();
-
-echo $this->form()->openTag($form);
 ?>
-    <div class="form-group">
-        <?= $this->formLabel($nome) ?>
-        <?= $this->formElement($nome) ?>
-        <?= $this->formElementErrors()->render($nome, ['class' => 'help-block text-danger']) ?>
-    </div>
+<h1><?= $this->escapeHtml($title) ?></h1>
 
-<?php
-echo $this->formSubmit($submit);
-echo $this->formHidden($form->get('id'));
-echo $this->form()->closeTag();
+<?= $this->form()->openTag($form) ?>
+
+<?php foreach ($form as $element): ?>
+    <?php if ($element->getAttribute('type') === 'hidden'): ?>
+        <?= $this->formElement($element) ?>
+        <?php continue; ?>
+    <?php endif; ?>
+
+    <?php if ($element->getAttribute('type') === 'submit'): ?>
+        <div class="mt-3">
+            <?= $this->formSubmit($element) ?>
+        </div>
+        <?php continue; ?>
+    <?php endif; ?>
+
+    <div class="form-group row mb-3">
+        <div class="col-sm-6 col-md-4">
+            <?= $this->formLabel($element) ?>
+            <?= $this->formElement($element) ?>
+            <?= $this->formElementErrors()->render($element, ['class' => 'help-block text-danger']) ?>
+        </div>
+    </div>
+<?php endforeach; ?>
+
+<?= $this->form()->closeTag() ?>
