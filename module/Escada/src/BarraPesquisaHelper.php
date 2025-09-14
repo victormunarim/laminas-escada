@@ -1,28 +1,52 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Escada;
 
 use Laminas\View\Helper\AbstractHelper;
 
 class BarraPesquisaHelper extends AbstractHelper
 {
-    public function __invoke($searchTerm = null, $routeName = 'escada', $addButton = true, $title = null)
+    public function __invoke($opcoes = [])
     {
+        $padroes = [
+            'termoPesquisa' => null,
+            'nomeRota' => 'escada',
+            'mostrarBotaoAdicionar' => true,
+            'titulo' => null,
+            'campos' => [
+                'nome' => [
+                    'rotulo' => 'Nome',
+                    'placeholder' => 'Digite o nome...',
+                    'valor' => null
+                ],
+                'idade' => [
+                    'rotulo' => 'Idade',
+                    'placeholder' => 'Digite a idade...',
+                    'valor' => null
+                ]
+            ],
+            'textoBotaoAdicionar' => 'Novo Pedido'
+        ];
+
+        $opcoes = array_merge($padroes, $opcoes);
+
         $html = '';
 
-        if ($title !== null) {
-            $html .= '<h5>' . $this->getView()->escapeHtml($title) . '</h5>';
+        if ($opcoes['titulo'] !== null) {
+            $html .= '<h5 class="mb-3">' . $this->getView()->escapeHtml($opcoes['titulo']) . '</h5>';
         }
 
         $html .= '<div class="row mb-4">';
 
-        $html .= '<div class="' . ($addButton ? 'col-md-6' : 'col-md-12') . '">';
-        $html .= $this->renderSearchBar($searchTerm, $routeName);
+        $html .= '<div class="col-md-12">';
+        $html .= $this->renderizarCamposPesquisa($opcoes);
         $html .= '</div>';
 
-        if ($addButton) {
-            $html .= '<div class="col-md-6 text-right">';
-            $html .= $this->renderAddButton($routeName);
+        if ($opcoes['mostrarBotaoAdicionar']) {
+            $html .= '<div class="col-md-12 mt-3">';
+            $html .= $this->renderizarBotaoAdicionar($opcoes);
             $html .= '</div>';
         }
 
@@ -31,44 +55,75 @@ class BarraPesquisaHelper extends AbstractHelper
         return $html;
     }
 
-    private function renderSearchBar($searchTerm, $routeName)
+    private function renderizarCamposPesquisa($opcoes)
     {
-        $url = $this->getView()->url($routeName);
-        $searchValue = $this->getView()->escapeHtml($searchTerm ?? '');
+        $url = $this->getView()->url($opcoes['nomeRota']);
 
-        $html = '<form action="' . $url . '" method="get" class="form-inline">';
-        $html .= '<div class="input-group">';
-        $html .= '<input type="text"';
-        $html .= '       name="search"';
-        $html .= '       class="form-control"';
-        $html .= '       placeholder="Digite o nome do pedido..."';
-        $html .= '       value="' . $searchValue . '">';
-        $html .= '<div class="input-group-append">';
+        $html = '<form action="' . $url . '" method="get">';
+        $html .= '<div class="row g-3 align-items-end">';
+
+        foreach ($opcoes['campos'] as $nomeCampo => $configCampo) {
+            $html .= $this->renderizarCampo($nomeCampo, $configCampo, $opcoes);
+        }
+
+        $html .= '<div class="col-auto">';
+        $html .= '<div class="d-flex gap-2">';
         $html .= '<button type="submit" class="btn btn-primary">';
         $html .= '<i class="fas fa-search"></i> Pesquisar';
         $html .= '</button>';
 
-        // Botão limpar apenas se houver termo de pesquisa
-        if (!empty($searchTerm)) {
-            $html .= '<a href="' . $url . '" class="btn btn-secondary ml-2">';
+        if ($this->temValoresPesquisa($opcoes['campos'])) {
+            $html .= '<a href="' . $url . '" class="btn btn-secondary">';
             $html .= '<i class="fas fa-times"></i> Limpar';
             $html .= '</a>';
         }
 
-        $html .= '</div>'; // input-group-append
-        $html .= '</div>'; // input-group
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '</div>';
         $html .= '</form>';
 
         return $html;
     }
 
-    private function renderAddButton($routeName)
+    private function renderizarCampo($nomeCampo, $configCampo, $opcoes)
     {
-        $url = $this->getView()->url($routeName, ['action' => 'add']);
+        $valor = $configCampo['valor'] ?? $this->getView()->escapeHtml($opcoes['termoPesquisa'] ?? '');
 
-        $html = '<a href="' . $url . '" class="btn btn-success">';
-        $html .= '<i class="fas fa-plus"></i> Novo Pedido';
+        $html = '<div class="col-auto">';
+        $html .= '<label for="' . $nomeCampo . '" class="form-label">' .
+            $this->getView()->escapeHtml($configCampo['label']) . '</label>';
+        $html .= '<input type="text"';
+        $html .= '       id="' . $nomeCampo . '"';
+        $html .= '       name="' . $nomeCampo . '"';
+        $html .= '       class="form-control"';
+        $html .= '       placeholder="' . $this->getView()->escapeHtml($configCampo['placeholder']) . '"';
+        $html .= '       value="' . $valor . '">';
+        $html .= '</div>';
+
+        return $html;
+    }
+
+    private function temValoresPesquisa($campos)
+    {
+        foreach ($campos as $configCampo) {
+            if (!empty($configCampo['valor'])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private function renderizarBotaoAdicionar($opcoes)
+    {
+        $url = $this->getView()->url($opcoes['nomeRota'], ['action' => 'add']);
+
+        $html = '<div class="d-flex align-items-end h-100">';
+        $html .= '<a href="' . $url . '" class="btn btn-success">';
+        $html .= '<i class="fas fa-plus"></i> ' . $this->getView()->escapeHtml($opcoes['textoBotaoAdicionar']);
         $html .= '</a>';
+        $html .= '</div>';
 
         return $html;
     }

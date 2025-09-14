@@ -6,7 +6,19 @@ $this->headTitle('Pedidos');
 
 echo '<h1 class="mb-4">Pedidos</h1>';
 
-echo $this->barraPesquisa($this->searchTerm, 'escada', true, 'Nome');
+echo $this->barraPesquisa([
+    'showAddButton' => false,
+    'campos' => [
+        'nome' => [
+            'label' => 'Nome',
+            'placeholder' => 'Digite o nome...'
+        ],
+        'idade' => [
+            'label' => 'Idade',
+            'placeholder' => 'Digite a idade...'
+        ]
+    ]
+]);
 
 echo $this->tabelaPedidos($this->pedidos);
 

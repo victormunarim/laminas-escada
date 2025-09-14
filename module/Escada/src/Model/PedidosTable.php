@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Escada\Model;
 
 use RuntimeException;
@@ -62,12 +64,21 @@ class PedidosTable
         $this->tableGateway->delete(['id' => (int) $id]);
     }
 
-    public function procuraPedidos($searchTerm)
+    public function procuraPedidos($filtros)
     {
-        $searchTerm = '%' . $searchTerm . '%';
-
         $select = $this->tableGateway->getSql()->select();
-        $select->where->like('nome', $searchTerm);
+
+        $where = $select->where;
+
+        foreach ($filtros as $campo => $valor) {
+            if (! empty($valor)) {
+                if ($campo === 'idade') {
+                    $where->equalTo($campo, $valor);
+                } else {
+                    $where->like($campo, '%' . $valor . '%');
+                }
+            }
+        }
 
         $resultSet = $this->tableGateway->selectWith($select);
 

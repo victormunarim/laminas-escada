@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Escada\Factory\Controller;
 
 use Escada\Controller\PedidosController;

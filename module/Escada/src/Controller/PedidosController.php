@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Escada\Controller;
 
 use Escada\Form\PedidoForm;
@@ -21,19 +23,19 @@ class PedidosController extends AbstractActionController
 
     public function indexAction()
     {
-        $searchTerm = $this->params()->fromQuery('search', '');
+        $request = $this->getRequest();
+        $filters = [];
 
-        if (! empty($searchTerm)) {
-            $resultSet = $this->table->procuraPedidos($searchTerm);
-            $pedidos = iterator_to_array($resultSet);
-        } else {
-            $resultSet = $this->table->fetchAll();
-            $pedidos = iterator_to_array($resultSet);
+        if ($request->isGet()) {
+            $filters['nome'] = $this->params()->fromQuery('nome');
+            $filters['idade'] = $this->params()->fromQuery('idade');
         }
+
+        $pedidos = $this->table->procuraPedidos($filters);
 
         return new ViewModel([
             'pedidos' => $pedidos,
-            'searchTerm' => $searchTerm
+            'filters' => $filters
         ]);
     }
 

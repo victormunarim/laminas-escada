@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Escada;
 
 use Laminas\View\Helper\AbstractHelper;
@@ -10,7 +12,7 @@ class MensagensAlertHelper extends AbstractHelper
     {
         $html = '';
 
-        if (!empty($searchTerm) && count($pedidos) === 0) {
+        if (! empty($searchTerm) && count($pedidos) === 0) {
             $html .= $this->renderAlertInfo($searchTerm, $routeName);
         }
 
