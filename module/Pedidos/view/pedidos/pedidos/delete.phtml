@@ -1,13 +1,13 @@
 <?php
 
 /**
- * @var \Escada\Model\Pedidos $pedido
+ * @var \Pedidos\Model\Pedidos $pedido
  * @var int $id
  * @var \Laminas\View\Renderer\PhpRenderer $this
  */
 
 $title = 'Delete pedido';
-$url   = $this->url('escada', ['action' => 'delete', 'id' => $id]);
+$url   = $this->url('Pedidos', ['action' => 'delete', 'id' => $id]);
 
 $this->headTitle($title);
 ?>

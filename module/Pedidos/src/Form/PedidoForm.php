@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Escada\Form;
+namespace Pedidos\Form;
 
 use Laminas\Form\Element\Hidden;
 use Laminas\Form\Element\Number;

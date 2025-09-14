@@ -15,5 +15,5 @@ return [
     'Laminas\Router',
     'Laminas\Validator',
     'Application',
-    'Escada'
+    'Pedidos'
 ];

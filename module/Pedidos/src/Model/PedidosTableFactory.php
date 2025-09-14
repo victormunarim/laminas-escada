@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Escada\Model;
+namespace Pedidos\Model;
 
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\ResultSet\ResultSet;

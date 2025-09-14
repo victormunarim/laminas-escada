@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Application;
 
-use Escada\Controller\PedidosController;
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
 use Laminas\ServiceManager\Factory\InvokableFactory;
+use Pedidos\Controller\PedidosController;
 
 return [
     'router' => [

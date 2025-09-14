@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Escada\Factory\Controller;
+namespace Pedidos\Factory\Controller;
 
-use Escada\Controller\PedidosController;
-use Escada\Form\PedidoForm;
-use Escada\Model\PedidosTable;
+use Pedidos\Controller\PedidosController;
+use Pedidos\Form\PedidoForm;
+use Pedidos\Model\PedidosTable;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Psr\Container\ContainerInterface;
 

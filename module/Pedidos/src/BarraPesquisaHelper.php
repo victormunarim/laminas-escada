@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Escada;
+namespace Pedidos;
 
 use Application\View\Helper\BarraPesquisaHelperGenerica;
 
@@ -15,7 +15,7 @@ class BarraPesquisaHelper extends BarraPesquisaHelperGenerica
     {
         return [
             'termoPesquisa' => null,
-            'nomeRota' => 'escada',
+            'nomeRota' => 'Pedidos',
             'mostrarBotaoAdicionar' => true,
             'titulo' => null,
             'campos' => [

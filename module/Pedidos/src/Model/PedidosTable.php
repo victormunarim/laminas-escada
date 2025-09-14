@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Escada\Model;
+namespace Pedidos\Model;
 
 use RuntimeException;
 use Laminas\Db\ResultSet\ResultSetInterface;

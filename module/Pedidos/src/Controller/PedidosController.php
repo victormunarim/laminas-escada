@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Escada\Controller;
+namespace Pedidos\Controller;
 
-use Escada\Form\PedidoForm;
-use Escada\Model\Pedidos;
-use Escada\Model\PedidosTable;
+use Pedidos\Form\PedidoForm;
+use Pedidos\Model\Pedidos;
+use Pedidos\Model\PedidosTable;
 use Laminas\Http\PhpEnvironment\Request;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
@@ -69,7 +69,7 @@ class PedidosController extends AbstractActionController
 
         $this->table->savePedido($pedido);
 
-        return $this->redirect()->toRoute('escada');
+        return $this->redirect()->toRoute('Pedidos');
     }
 
     /**
@@ -80,13 +80,13 @@ class PedidosController extends AbstractActionController
         $id = (int) $this->params()->fromRoute('id', 0);
 
         if ($id === 0) {
-            return $this->redirect()->toRoute('escada', ['action' => 'add']);
+            return $this->redirect()->toRoute('Pedidos', ['action' => 'add']);
         }
 
         try {
             $pedido = $this->table->getPedidos($id);
         } catch (\Exception) {
-            return $this->redirect()->toRoute('escada', ['action' => 'index']);
+            return $this->redirect()->toRoute('Pedidos', ['action' => 'index']);
         }
 
         /** @var Request $request */
@@ -117,7 +117,7 @@ class PedidosController extends AbstractActionController
             error_log('Erro ao atualizar pedido: ' . $e->getMessage());
         }
 
-        return $this->redirect()->toRoute('escada', ['action' => 'index']);
+        return $this->redirect()->toRoute('Pedidos', ['action' => 'index']);
     }
 
     /**
@@ -128,13 +128,13 @@ class PedidosController extends AbstractActionController
         $id = (int) $this->params()->fromRoute('id', 0);
 
         if ($id === 0) {
-            return $this->redirect()->toRoute('escada');
+            return $this->redirect()->toRoute('Pedidos');
         }
 
         try {
             $pedido = $this->table->getPedidos($id);
         } catch (\Exception) {
-            return $this->redirect()->toRoute('escada', ['action' => 'index']);
+            return $this->redirect()->toRoute('Pedidos', ['action' => 'index']);
         }
 
         /** @var Request $request */
@@ -150,7 +150,7 @@ class PedidosController extends AbstractActionController
                 }
             }
 
-            return $this->redirect()->toRoute('escada');
+            return $this->redirect()->toRoute('Pedidos');
         }
 
         return [

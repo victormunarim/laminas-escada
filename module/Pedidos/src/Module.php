@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Escada;
+namespace Pedidos;
 
-use Escada\Factory\Controller\PedidosControllerFactory;
+use Pedidos\Factory\Controller\PedidosControllerFactory;
 use Laminas\ModuleManager\Feature\ConfigProviderInterface;
 
 class Module implements ConfigProviderInterface

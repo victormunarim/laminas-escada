@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Escada;
+namespace Pedidos;
 
 use Application\View\Helper\TabelaHelperGenerica;
 
@@ -35,8 +35,8 @@ class TabelaPedidosHelper extends TabelaHelperGenerica
             return '';
         }
 
-        $editUrl = $this->getView()->url('escada', ['action' => 'edit', 'id' => $id]);
-        $deleteUrl = $this->getView()->url('escada', ['action' => 'delete', 'id' => $id]);
+        $editUrl = $this->getView()->url('Pedidos', ['action' => 'edit', 'id' => $id]);
+        $deleteUrl = $this->getView()->url('Pedidos', ['action' => 'delete', 'id' => $id]);
 
         $html = '<div class="btn-group">';
         $html .= '<a href="' . $editUrl . '" class="btn btn-primary">';

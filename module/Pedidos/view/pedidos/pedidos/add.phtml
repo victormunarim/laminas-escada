@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -7,7 +6,7 @@ declare(strict_types=1);
  * @var \Laminas\Form\Form $form
  */
 
-$title = 'Editar Pedido';
+$title = 'Adicionar Pedido';
 $this->headTitle($title);
 
 $form = $this->form;
@@ -24,14 +23,10 @@ foreach ($form as $element) {
 
     if ($type === 'submit') {
         $element->setAttribute('class', 'btn btn-primary');
-        $element->setAttribute('value', 'Salvar');
     }
 }
 
-$form->setAttribute('action', $this->url('escada', [
-        'action' => 'edit',
-        'id'     => $this->id,
-]));
+$form->setAttribute('action', $this->url('Pedidos', ['action' => 'add']));
 $form->prepare();
 ?>
 <h1><?= $this->escapeHtml($title) ?></h1>
@@ -55,9 +50,10 @@ $form->prepare();
         <div class="col-sm-6 col-md-4">
             <?= $this->formLabel($element) ?>
             <?= $this->formElement($element) ?>
-            <?= $this->formElementErrors()->render($element, ['class' => 'help-block text-danger']) ?>
+            <?= $this->formElementErrors()->render($element, ['class' => 'help-block']) ?>
         </div>
     </div>
 <?php endforeach; ?>
+
 
 <?= $this->form()->closeTag() ?>

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Escada;
+namespace Pedidos;
 
 use Application\View\Helper\MensagensAlertHelperGenerica;
 

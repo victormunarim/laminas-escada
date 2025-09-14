@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Escada;
+namespace Pedidos;
 
-use Escada\Controller\PedidosController;
-use Escada\Factory\Controller\PedidosControllerFactory;
-use Escada\Form\PedidoForm;
-use Escada\Model\PedidosTable;
-use Escada\Model\PedidosTableFactory;
+use Pedidos\Controller\PedidosController;
+use Pedidos\Factory\Controller\PedidosControllerFactory;
+use Pedidos\Form\PedidoForm;
+use Pedidos\Model\PedidosTable;
+use Pedidos\Model\PedidosTableFactory;
 use Laminas\Db\Adapter\Adapter;
 use Laminas\Db\Adapter\AdapterServiceFactory;
 use Laminas\Router\Http\Segment;
@@ -43,10 +43,10 @@ return [
 
     'router' => [
         'routes' => [
-            'escada' => [
+            'Pedidos' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'       => '/escada[/:action[/:id]]',
+                    'route'       => '/Pedidos[/:action[/:id]]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id'     => '[0-9]+',
@@ -62,7 +62,7 @@ return [
 
     'view_manager' => [
         'template_path_stack' => [
-            'escada' => __DIR__ . '/../view',
+            'Pedidos' => __DIR__ . '/../view',
         ],
     ],
 
