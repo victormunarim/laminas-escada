@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Pedidos\Controller;
 
+use Laminas\Http\Response;
+use Pedidos\Constantes\ConstantesPedidos;
 use Pedidos\Form\PedidoForm;
 use Pedidos\Model\Pedidos;
 use Pedidos\Model\PedidosTable;
@@ -22,71 +24,68 @@ class PedidosController extends AbstractActionController
         $this->form  = $form;
     }
 
-    /**
-     * @return array<string, mixed>|ViewModel
-     */
-    public function indexAction(): array|ViewModel
+    public function indexAction(): ViewModel
     {
         /** @var Request $request */
         $request = $this->getRequest();
         $filters = [];
 
         if ($request->isGet()) {
-            $filters['nome']  = $this->params()->fromQuery('nome');
-            $filters['idade'] = $this->params()->fromQuery('idade');
+            $filters[ConstantesPedidos::NOME_NAME]  = $this->params()->fromQuery(ConstantesPedidos::NOME_NAME);
+            $filters[ConstantesPedidos::IDADE_NAME] = $this->params()->fromQuery(ConstantesPedidos::IDADE_NAME);
+            $filters[ConstantesPedidos::DATA_NAME]  = $this->params()->fromQuery(ConstantesPedidos::DATA_NAME);
         }
 
         $pedidos = $this->table->procuraPedidos($filters);
 
-        return new ViewModel([
-            'pedidos' => $pedidos,
-            'filters' => $filters,
-        ]);
+        return (new ViewModel([
+            'action'     => 'index',
+            'pedidos'    => $pedidos,
+            'filters'    => $filters,
+            'searchTerm' => $filters[ConstantesPedidos::NOME_NAME] ?? null,
+        ]))->setTemplate('pedidos/index');
     }
 
-    /**
-     * @return array<string, mixed>|ViewModel|\Laminas\Http\Response
-     */
-    public function addAction(): array|ViewModel|\Laminas\Http\Response
+    public function addAction(): ViewModel|Response
     {
         /** @var Request $request */
         $request = $this->getRequest();
 
         if (! $request->isPost()) {
-            return new ViewModel(['form' => $this->form]);
+            return (new ViewModel([
+                'action' => 'add',
+                'form'   => $this->form,
+            ]))->setTemplate('pedidos/index');
         }
 
         $this->form->setData($request->getPost());
 
         if (! $this->form->isValid()) {
-            return new ViewModel(['form' => $this->form]);
+            return (new ViewModel([
+                'action' => 'add',
+                'form'   => $this->form,
+            ]))->setTemplate('pedidos/index');
         }
 
-        $validatedData = $this->form->getData();
-
         $pedido = new Pedidos();
-        $pedido->exchangeArray($validatedData);
-
+        $pedido->exchangeArray($this->form->getData());
         $this->table->savePedido($pedido);
 
-        return $this->redirect()->toRoute('Pedidos');
+        return $this->redirect()->toRoute(ConstantesPedidos::ROUTE);
     }
 
-    /**
-     * @return array<string, mixed>|\Laminas\Http\Response
-     */
-    public function editAction(): array|\Laminas\Http\Response
+    public function editAction(): ViewModel|Response
     {
         $id = (int) $this->params()->fromRoute('id', 0);
 
         if ($id === 0) {
-            return $this->redirect()->toRoute('Pedidos', ['action' => 'add']);
+            return $this->redirect()->toRoute(ConstantesPedidos::ROUTE, ['action' => 'add']);
         }
 
         try {
             $pedido = $this->table->getPedidos($id);
         } catch (\Exception) {
-            return $this->redirect()->toRoute('Pedidos', ['action' => 'index']);
+            return $this->redirect()->toRoute(ConstantesPedidos::ROUTE, ['action' => 'index']);
         }
 
         /** @var Request $request */
@@ -96,45 +95,45 @@ class PedidosController extends AbstractActionController
             $this->form->bind($pedido);
             $this->form->get('submit')->setAttribute('value', 'Salvar Alterações');
 
-            return ['id' => $id, 'form' => $this->form];
+            return (new ViewModel([
+                'action' => 'edit',
+                'id'     => $id,
+                'form'   => $this->form,
+            ]))->setTemplate('pedidos/index');
         }
 
         $this->form->setData($request->getPost());
 
         if (! $this->form->isValid()) {
-            return ['id' => $id, 'form' => $this->form];
+            return (new ViewModel([
+                'action' => 'edit',
+                'id'     => $id,
+                'form'   => $this->form,
+            ]))->setTemplate('pedidos/index');
         }
 
-        try {
-            $validatedData       = $this->form->getData();
-            $validatedData['id'] = $id;
+        $pedidoAtualizado = new Pedidos();
+        $pedidoAtualizado->exchangeArray(array_merge(
+            $this->form->getData(),
+            ['id' => $id]
+        ));
+        $this->table->savePedido($pedidoAtualizado);
 
-            $pedidoAtualizado = new Pedidos();
-            $pedidoAtualizado->exchangeArray($validatedData);
-
-            $this->table->savePedido($pedidoAtualizado);
-        } catch (\Exception $e) {
-            error_log('Erro ao atualizar pedido: ' . $e->getMessage());
-        }
-
-        return $this->redirect()->toRoute('Pedidos', ['action' => 'index']);
+        return $this->redirect()->toRoute(ConstantesPedidos::ROUTE, ['action' => 'index']);
     }
 
-    /**
-     * @return array<string, mixed>|\Laminas\Http\Response
-     */
-    public function deleteAction(): array|\Laminas\Http\Response
+    public function deleteAction(): ViewModel|Response
     {
         $id = (int) $this->params()->fromRoute('id', 0);
 
         if ($id === 0) {
-            return $this->redirect()->toRoute('Pedidos');
+            return $this->redirect()->toRoute(ConstantesPedidos::ROUTE);
         }
 
         try {
             $pedido = $this->table->getPedidos($id);
         } catch (\Exception) {
-            return $this->redirect()->toRoute('Pedidos', ['action' => 'index']);
+            return $this->redirect()->toRoute(ConstantesPedidos::ROUTE, ['action' => 'index']);
         }
 
         /** @var Request $request */
@@ -144,18 +143,16 @@ class PedidosController extends AbstractActionController
             $del = $request->getPost('del', 'No');
 
             if ($del === 'Yes') {
-                try {
-                    $this->table->deletePedido($id);
-                } catch (\Exception) {
-                }
+                $this->table->deletePedido($id);
             }
 
-            return $this->redirect()->toRoute('Pedidos');
+            return $this->redirect()->toRoute(ConstantesPedidos::ROUTE);
         }
 
-        return [
+        return (new ViewModel([
+            'action' => 'delete',
             'id'     => $id,
             'pedido' => $pedido,
-        ];
+        ]))->setTemplate('pedidos/index');
     }
 }

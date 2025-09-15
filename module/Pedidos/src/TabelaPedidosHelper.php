@@ -5,12 +5,18 @@ declare(strict_types=1);
 namespace Pedidos;
 
 use Application\View\Helper\TabelaHelperGenerica;
+use Pedidos\Constantes\ConstantesPedidos;
 
 class TabelaPedidosHelper extends TabelaHelperGenerica
 {
     protected function getColunasFixas(): array
     {
-        return ['id', 'nome', 'idade'];
+        return [
+            ConstantesPedidos::ID_NAME,
+            ConstantesPedidos::NOME_NAME,
+            ConstantesPedidos::IDADE_NAME,
+            ConstantesPedidos::DATA_NAME
+        ];
     }
 
     protected function getColunasIgnorar(): array
@@ -21,9 +27,10 @@ class TabelaPedidosHelper extends TabelaHelperGenerica
     protected function getMapaNomesColunas(): array
     {
         return [
-            'id' => 'ID',
-            'nome' => 'Nome',
-            'idade' => 'Idade',
+            ConstantesPedidos::ID_NAME => ConstantesPedidos::ID_LABEL,
+            ConstantesPedidos::NOME_NAME => ConstantesPedidos::NOME_LABEL,
+            ConstantesPedidos::IDADE_NAME => ConstantesPedidos::IDADE_LABEL,
+            ConstantesPedidos::DATA_NAME => ConstantesPedidos::DATA_LABEL,
         ];
     }
 
@@ -35,8 +42,8 @@ class TabelaPedidosHelper extends TabelaHelperGenerica
             return '';
         }
 
-        $editUrl = $this->getView()->url('Pedidos', ['action' => 'edit', 'id' => $id]);
-        $deleteUrl = $this->getView()->url('Pedidos', ['action' => 'delete', 'id' => $id]);
+        $editUrl = $this->getView()->url(ConstantesPedidos::ROUTE, ['action' => 'edit', 'id' => $id]);
+        $deleteUrl = $this->getView()->url(ConstantesPedidos::ROUTE, ['action' => 'delete', 'id' => $id]);
 
         $html = '<div class="btn-group">';
         $html .= '<a href="' . $editUrl . '" class="btn btn-primary">';

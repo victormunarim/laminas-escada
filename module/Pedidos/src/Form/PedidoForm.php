@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Pedidos\Form;
 
+use Laminas\Form\Element\Date;
 use Laminas\Form\Element\Hidden;
 use Laminas\Form\Element\Number;
 use Laminas\Form\Element\Submit;
 use Laminas\Form\Element\Text;
 use Laminas\Form\Form;
+use Pedidos\Constantes\ConstantesPedidos;
 
 class PedidoForm extends Form
 {
@@ -17,26 +19,34 @@ class PedidoForm extends Form
      */
     public function __construct(?string $name = null)
     {
-        parent::__construct('Pedidos');
+        parent::__construct(ConstantesPedidos::ROUTE);
 
         $this->add([
-            'name' => 'id',
+            'name' => ConstantesPedidos::ID_NAME,
             'type' => Hidden::class,
         ]);
 
         $this->add([
-            'name' => 'nome',
+            'name' => ConstantesPedidos::NOME_NAME,
             'type' => Text::class,
             'options' => [
-                'label' => 'Nome',
+                'label' => ConstantesPedidos::NOME_LABEL,
             ],
         ]);
 
         $this->add([
-            'name' => 'idade',
+            'name' => ConstantesPedidos::IDADE_NAME,
             'type' => Number::class,
             'options' => [
-                'label' => 'Idade',
+                'label' => ConstantesPedidos::IDADE_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::DATA_NAME,
+            'type' => Date::class,
+            'options' => [
+                'label' => ConstantesPedidos::DATA_LABEL,
             ],
         ]);
 

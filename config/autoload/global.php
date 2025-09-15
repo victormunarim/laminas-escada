@@ -17,8 +17,8 @@ return [
         'driver' => 'Pdo_Mysql',
         'database' => 'escada',
         'hostname' => 'localhost',
-        'username'       => 'root',
-        'password'       => '20202020Vi',
+        'username' => 'root',
+        'password' => '20202020Vi',
         'charset'  => 'utf8',
     ],
     'service_manager' => [

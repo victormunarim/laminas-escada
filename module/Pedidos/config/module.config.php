@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pedidos;
 
+use Pedidos\Constantes\ConstantesPedidos;
 use Pedidos\Controller\PedidosController;
 use Pedidos\Factory\Controller\PedidosControllerFactory;
 use Pedidos\Form\PedidoForm;
@@ -33,20 +34,26 @@ return [
             },
             BarraPesquisaHelper::class => InvokableFactory::class,
             MensagensAlertHelper::class => InvokableFactory::class,
+            FormEditPedidosHelper::class => InvokableFactory::class,
+            FormAddPedidosHelper::class => InvokableFactory::class,
+            FormDeletePedidosHelper::class => InvokableFactory::class,
         ],
         'aliases' => [
             'tabelaPedidos'   => TabelaPedidosHelper::class,
             'barraPesquisa'   => BarraPesquisaHelper::class,
             'mensagensAlert'  => MensagensAlertHelper::class,
+            'formEditPedidos'  => FormEditPedidosHelper::class,
+            'formAddPedidos'  => FormAddPedidosHelper::class,
+            'formDeletePedidos'  => FormDeletePedidosHelper::class,
         ],
     ],
 
     'router' => [
         'routes' => [
-            'Pedidos' => [
+            ConstantesPedidos::ROUTE => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'       => '/Pedidos[/:action[/:id]]',
+                    'route'       => '/' . ConstantesPedidos::ROUTE . '[/:action[/:id]]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id'     => '[0-9]+',
@@ -62,7 +69,7 @@ return [
 
     'view_manager' => [
         'template_path_stack' => [
-            'Pedidos' => __DIR__ . '/../view',
+            ConstantesPedidos::ROUTE => __DIR__ . '/../view',
         ],
     ],
 

@@ -2,23 +2,52 @@
 
 declare(strict_types=1);
 
+use Laminas\Form\Form;
 use Laminas\View\Renderer\PhpRenderer;
+use Pedidos\Constantes\ConstantesPedidos;
+use Pedidos\Model\Pedidos;
 
 /**
  * @var PhpRenderer $this
+ * @var Form|null $form
+ * @var Pedidos|null $pedido
  * @var array<string, mixed> $pedidos
  * @var string|null $searchTerm
+ * @var string $action
+ * @var int|null $id
  */
 
-$pedidos = $this->pedidos;
-$searchTerm = $this->searchTerm;
+if ($this->action === 'edit') {
+    echo $this->formEditPedidos(
+        $this->form,
+        'Editar Pedido',
+        ConstantesPedidos::ROUTE,
+        $this->id
+    );
+} elseif ($this->action === 'add') {
+    echo $this->formAddPedidos(
+        $this->form,
+        'Adicionar Pedido',
+        ConstantesPedidos::ROUTE
+    );
+} elseif ($this->action === 'delete' && $this->pedido) {
+    echo $this->formDeletePedidos(
+        'Excluir Pedido',
+        ConstantesPedidos::ROUTE,
+        $this->pedido->getId(),
+        sprintf('o pedido "%s"', $this->pedido->getNome())
+    );
+} else {
+    $pedidos = $this->pedidos;
+    $searchTerm = $this->searchTerm;
 
-$this->headTitle('Pedidos');
+    $this->headTitle('Pedidos');
 
-echo '<h1 class="mb-4">Pedidos</h1>';
+    echo '<h1 class="mb-4">Pedidos</h1>';
 
-echo $this->barraPesquisa();
+    echo $this->barraPesquisa();
 
-echo $this->tabelaPedidos($pedidos);
+    echo $this->tabelaPedidos($pedidos);
 
-echo $this->mensagensAlert($pedidos, $searchTerm);
+    echo $this->mensagensAlert($pedidos, $searchTerm);
+}

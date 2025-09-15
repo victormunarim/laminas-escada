@@ -15,7 +15,7 @@ abstract class MensagensAlertHelperGenerica extends AbstractHelper
     public function __invoke(
         ResultSet|array $dados = [],
         ?string $searchTerm = null,
-        string $routeName = ''
+        string $routeName = 'Pedidos'
     ): string {
         $isEmpty = $dados instanceof ResultSet
             ? $dados->count() === 0

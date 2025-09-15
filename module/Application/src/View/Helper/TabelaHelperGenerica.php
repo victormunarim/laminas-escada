@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Application\View\Helper;
 
+use Application\DataHelper;
 use Laminas\Db\ResultSet\ResultSet;
 use Laminas\View\Helper\AbstractHelper;
 
@@ -39,6 +40,9 @@ abstract class TabelaHelperGenerica extends AbstractHelper
             $html .= '<tr>';
             foreach ($colunas as $coluna) {
                 $valor = $this->getValorColuna($linha, $coluna);
+                if ($coluna === 'data') {
+                    $valor = DataHelper::formatarParaBrasileiro($this->getValorColuna($linha, $coluna));
+                }
                 $html .= '<td>' . $this->getView()->escapeHtml((string) $valor) . '</td>';
             }
             $html .= '<td>' . $this->renderAcoes($linha) . '</td></tr>';
@@ -60,7 +64,7 @@ abstract class TabelaHelperGenerica extends AbstractHelper
         if (is_object($linha)) {
             $reflection = new \ReflectionClass($linha);
             foreach ($reflection->getProperties(\ReflectionProperty::IS_PUBLIC) as $property) {
-                if (!in_array($property->getName(), $colunasFixas, true)) {
+                if (! in_array($property->getName(), $colunasFixas, true)) {
                     $colunasFixas[] = $property->getName();
                 }
             }

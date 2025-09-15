@@ -47,7 +47,10 @@ abstract class BarraPesquisaHelperGenerica extends AbstractHelper
      */
     protected function renderizarCamposPesquisa(array $opcoes): string
     {
-        $url = $this->getView()->url($opcoes['nomeRota']);
+        $url = ! empty($opcoes['nomeRota'])
+            ? $this->getView()->url($opcoes['nomeRota'])
+            : '#';
+
 
         $html = '<form action="' . $url . '" method="get">';
         $html .= '<div class="row g-3 align-items-end">';
@@ -89,7 +92,9 @@ abstract class BarraPesquisaHelperGenerica extends AbstractHelper
         $html .= ' id="' . $nomeCampo . '"';
         $html .= ' name="' . $nomeCampo . '"';
         $html .= ' class="form-control"';
-        $html .= ' placeholder="' . $this->getView()->escapeHtml($configCampo['placeholder']) . '"';
+        $html .= isset($configCampo['placeholder'])
+            ? ' placeholder="' . $this->getView()->escapeHtml($configCampo['placeholder'])  . '"'
+            : ' placeholder=""';
         $html .= ' value="' . $valor . '">';
         $html .= '</div>';
 

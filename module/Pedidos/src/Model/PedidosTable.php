@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pedidos\Model;
 
+use Pedidos\Constantes\ConstantesPedidos;
 use RuntimeException;
 use Laminas\Db\ResultSet\ResultSetInterface;
 use Laminas\Db\Sql\Select;
@@ -56,8 +57,9 @@ class PedidosTable
     public function savePedido(Pedidos $pedido): void
     {
         $data = [
-            'nome'  => $pedido->getNome(),
-            'idade' => $pedido->getIdade(),
+            ConstantesPedidos::NOME_NAME  => $pedido->getNome(),
+            ConstantesPedidos::IDADE_NAME => $pedido->getIdade(),
+            ConstantesPedidos::DATA_NAME => $pedido->getData(),
         ];
 
         $id = (int) $pedido->getId();
@@ -93,6 +95,8 @@ class PedidosTable
         foreach ($filtros as $campo => $valor) {
             if (! empty($valor)) {
                 if ($campo === 'idade') {
+                    $where->equalTo($campo, $valor);
+                } elseif ($campo === 'data') {
                     $where->equalTo($campo, $valor);
                 } else {
                     $where->like($campo, '%' . $valor . '%');
