@@ -79,6 +79,7 @@ abstract class BarraPesquisaHelperGenerica extends AbstractHelper
      * @param string $nomeCampo
      * @param array<string, mixed> $configCampo
      * @param array<string, mixed> $opcoes
+     * @return string
      */
     protected function renderizarCampo(string $nomeCampo, array $configCampo, array $opcoes): string
     {

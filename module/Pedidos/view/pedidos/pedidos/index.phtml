@@ -15,6 +15,13 @@ use Pedidos\Model\Pedidos;
  * @var string|null $searchTerm
  * @var string $action
  * @var int|null $id
+ *
+ * @method string formEditPedidos(?Form $form, string $titulo, string $rota, ?int $id = null)
+ * @method string formAddPedidos(?Form $form, string $titulo, string $rota)
+ * @method string formDeletePedidos(string $titulo, string $rota, int $id, string $descricao)
+ * @method string barraPesquisa()
+ * @method string tabelaPedidos(array $pedidos)
+ * @method string mensagensAlert(array $pedidos, ?string $searchTerm = null)
  */
 
 if ($this->action === 'edit') {

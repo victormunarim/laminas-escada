@@ -16,7 +16,6 @@ class FormDeleteHelperGenerico extends AbstractHelper
     ): string {
         $view = $this->getView();
 
-        // URL da action delete
         $url = $view->url($route, ['action' => 'delete', 'id' => $id]);
 
         $html  = '<h1>' . $view->escapeHtml($title) . '</h1>';

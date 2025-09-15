@@ -6,17 +6,17 @@ namespace Pedidos\Constantes;
 
 class ConstantesPedidos
 {
-    public const ROUTE = 'Pedidos';
+    public const string ROUTE = 'Pedidos';
 
-    public const ID_NAME = 'id';
-    public const ID_LABEL = 'ID';
+    public const string ID_NAME = 'id';
+    public const string ID_LABEL = 'ID';
 
-    public const NOME_NAME = 'nome';
-    public const NOME_LABEL = 'Name';
+    public const string NOME_NAME = 'nome';
+    public const string NOME_LABEL = 'Name';
 
-    public const IDADE_NAME = 'idade';
-    public const IDADE_LABEL = 'Idade';
+    public const string IDADE_NAME = 'idade';
+    public const string IDADE_LABEL = 'Idade';
 
-    public const DATA_NAME = 'data';
-    public const DATA_LABEL = 'Data';
+    public const string DATA_NAME = 'data';
+    public const string DATA_LABEL = 'Data';
 }

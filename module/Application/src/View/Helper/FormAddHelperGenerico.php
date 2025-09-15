@@ -16,10 +16,8 @@ class FormAddHelperGenerico extends AbstractHelper
     ): string {
         $view = $this->getView();
 
-        // Define action para adicionar
         $form->setAttribute('action', $view->url($route, ['action' => 'add']));
 
-        // Ajusta atributos de cada elemento
         foreach ($form as $element) {
             $type = $element->getAttribute('type');
 
@@ -40,7 +38,6 @@ class FormAddHelperGenerico extends AbstractHelper
 
         $form->prepare();
 
-        // Renderização
         $html = '<h1>' . $view->escapeHtml($title) . '</h1>';
         $html .= $view->form()->openTag($form);
 

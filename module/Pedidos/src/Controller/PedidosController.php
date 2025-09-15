@@ -117,9 +117,19 @@ class PedidosController extends AbstractActionController
                 $this->form->get('data')->setValue($dataValue);
             }
 
-            error_log('DEBUG editAction: pedido->getData() = ' . var_export(method_exists($pedido, 'getData') ? $pedido->getData() : null, true));
+            error_log(
+                'DEBUG editAction: pedido->getData() = ' . var_export(
+                    method_exists($pedido, 'getData') ? $pedido->getData() : null,
+                    true
+                )
+            );
             if ($this->form->has('data')) {
-                error_log('DEBUG editAction: form->get(data)->getValue() = ' . var_export($this->form->get('data')->getValue(), true));
+                error_log(
+                    'DEBUG editAction: form->get(data)->getValue() = ' . var_export(
+                        $this->form->get('data')->getValue(),
+                        true
+                    )
+                );
             }
 
             return (new ViewModel([
