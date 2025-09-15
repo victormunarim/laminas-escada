@@ -80,11 +80,12 @@ abstract class BarraPesquisaHelperGenerica extends AbstractHelper
     protected function renderizarCampo(string $nomeCampo, array $configCampo, array $opcoes): string
     {
         $valor = $configCampo['valor'] ?? $this->getView()->escapeHtml($opcoes['termoPesquisa'] ?? '');
+        $tipo = $configCampo['type'] ?? 'text'; // agora pode vir 'number', 'email', etc.
 
         $html = '<div class="col-auto">';
         $html .= '<label for="' . $nomeCampo . '" class="form-label">' .
             $this->getView()->escapeHtml($configCampo['label']) . '</label>';
-        $html .= '<input type="text"';
+        $html .= '<input type="' . $tipo . '"';
         $html .= ' id="' . $nomeCampo . '"';
         $html .= ' name="' . $nomeCampo . '"';
         $html .= ' class="form-control"';
@@ -94,6 +95,7 @@ abstract class BarraPesquisaHelperGenerica extends AbstractHelper
 
         return $html;
     }
+
 
     /**
      * @param array<string, array<string, mixed>> $campos

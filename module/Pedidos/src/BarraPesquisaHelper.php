@@ -23,11 +23,13 @@ class BarraPesquisaHelper extends BarraPesquisaHelperGenerica
                     'label' => 'Nome',
                     'placeholder' => 'Digite o nome...',
                     'valor' => null,
+                    'type' => 'text',
                 ],
                 'idade' => [
                     'label' => 'Idade',
                     'placeholder' => 'Digite a idade...',
                     'valor' => null,
+                    'type' => 'number',
                 ],
             ],
             'textoBotaoAdicionar' => 'Novo Pedido',
