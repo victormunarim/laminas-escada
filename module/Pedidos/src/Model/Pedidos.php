@@ -13,7 +13,7 @@ class Pedidos extends \ArrayObject implements InputFilterAwareInterface
     private ?int $id = null;
     private ?string $nome = null;
     private ?int $idade = null;
-    private ?string $data = null;
+    private ?\DateTime $data = null;
     private ?InputFilterInterface $inputFilter = null;
 
     /**
@@ -85,12 +85,22 @@ class Pedidos extends \ArrayObject implements InputFilterAwareInterface
 
     public function getData(): ?string
     {
-        return $this->data;
+        return $this->data?->format('Y-m-d');
     }
 
-    public function setData(?string $data): void
+    public function setData($value): void
     {
-        $this->data = $data;
+        if ($value instanceof \DateTimeInterface) {
+            $this->data = $value;
+            return;
+        }
+
+        if (is_string($value) && $value !== '') {
+            $this->data = new \DateTime($value);
+            return;
+        }
+
+        $this->data = null;
     }
 
     public function setInputFilter(InputFilterInterface $inputFilter): void

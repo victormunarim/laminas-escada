@@ -56,7 +56,7 @@ class FormEditHelperGenerico extends AbstractHelper
     {
         $form->setAttribute('action', $this->getView()->url($route, [
             'action' => 'edit',
-            'id'     => $id,
+            'id' => $id,
         ]));
         $form->prepare();
     }
