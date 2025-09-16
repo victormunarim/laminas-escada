@@ -57,9 +57,20 @@ class PedidosTable
     public function savePedido(Pedidos $pedido): void
     {
         $data = [
-            ConstantesPedidos::NOME_NAME  => $pedido->getNome(),
-            ConstantesPedidos::IDADE_NAME => $pedido->getIdade(),
-            ConstantesPedidos::DATA_NAME => $pedido->getData(),
+            ConstantesPedidos::NUMERO_PEDIDO_NAME => $pedido->getNumeroPedido(),
+            ConstantesPedidos::CLIENTE_ID_NAME => $pedido->getClienteId(),
+            ConstantesPedidos::CPF_NAME => $pedido->getCpf(),
+            ConstantesPedidos::RG_NAME => $pedido->getRg(),
+            ConstantesPedidos::PROFISSAO_NAME => $pedido->getProfissao(),
+            ConstantesPedidos::CNPJ_NAME => $pedido->getCnpj(),
+            ConstantesPedidos::EMAIL_NAME => $pedido->getEmail(),
+            ConstantesPedidos::ADM_OBRA_NAME => $pedido->getAdmObra(),
+            ConstantesPedidos::TELEFONE_NAME => $pedido->getTelefone(),
+            ConstantesPedidos::TELEFONE_FIXO_NAME => $pedido->getTelefoneFixo(),
+            ConstantesPedidos::DESCRICAO_NAME => $pedido->getDescricao(),
+            ConstantesPedidos::REVESTIMENTO_NAME => $pedido->getRevestimento(),
+            ConstantesPedidos::VALOR_TOTAL_NAME => $pedido->getValorTotal(),
+            ConstantesPedidos::PRAZO_MONTAGEM_NAME => $pedido->getPrazoMontagem(),
         ];
 
         $id = (int) $pedido->getId();

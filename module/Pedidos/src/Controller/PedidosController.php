@@ -32,9 +32,40 @@ class PedidosController extends AbstractActionController
         $filters = [];
 
         if ($request->isGet()) {
-            $filters[ConstantesPedidos::NOME_NAME]  = $this->params()->fromQuery(ConstantesPedidos::NOME_NAME);
-            $filters[ConstantesPedidos::IDADE_NAME] = $this->params()->fromQuery(ConstantesPedidos::IDADE_NAME);
-            $filters[ConstantesPedidos::DATA_NAME]  = $this->params()->fromQuery(ConstantesPedidos::DATA_NAME);
+            $filters[ConstantesPedidos::ID_NAME] = $this->params()->fromQuery(ConstantesPedidos::ID_NAME);
+            $filters[
+                ConstantesPedidos::NUMERO_PEDIDO_NAME
+            ] = $this->params()->fromQuery(ConstantesPedidos::NUMERO_PEDIDO_NAME);
+            $filters[
+                ConstantesPedidos::CLIENTE_ID_NAME
+            ] = $this->params()->fromQuery(ConstantesPedidos::CLIENTE_ID_NAME);
+            $filters[ConstantesPedidos::CPF_NAME] = $this->params()->fromQuery(ConstantesPedidos::CPF_NAME);
+            $filters[ConstantesPedidos::RG_NAME] = $this->params()->fromQuery(ConstantesPedidos::RG_NAME);
+            $filters[
+                ConstantesPedidos::PROFISSAO_NAME
+            ] = $this->params()->fromQuery(ConstantesPedidos::PROFISSAO_NAME);
+            $filters[ConstantesPedidos::CNPJ_NAME] = $this->params()->fromQuery(ConstantesPedidos::CNPJ_NAME);
+            $filters[ConstantesPedidos::EMAIL_NAME] = $this->params()->fromQuery(ConstantesPedidos::EMAIL_NAME);
+            $filters[
+                ConstantesPedidos::ADM_OBRA_NAME
+            ] = $this->params()->fromQuery(ConstantesPedidos::ADM_OBRA_NAME);
+            $filters[
+                ConstantesPedidos::TELEFONE_NAME] = $this->params()->fromQuery(ConstantesPedidos::TELEFONE_NAME);
+            $filters[
+                ConstantesPedidos::TELEFONE_FIXO_NAME
+            ] = $this->params()->fromQuery(ConstantesPedidos::TELEFONE_FIXO_NAME);
+            $filters[
+                ConstantesPedidos::DESCRICAO_NAME
+            ] = $this->params()->fromQuery(ConstantesPedidos::DESCRICAO_NAME);
+            $filters[
+                ConstantesPedidos::REVESTIMENTO_NAME
+            ] = $this->params()->fromQuery(ConstantesPedidos::REVESTIMENTO_NAME);
+            $filters[
+                ConstantesPedidos::VALOR_TOTAL_NAME
+            ] = $this->params()->fromQuery(ConstantesPedidos::VALOR_TOTAL_NAME);
+            $filters[
+                ConstantesPedidos::PRAZO_MONTAGEM_NAME
+            ] = $this->params()->fromQuery(ConstantesPedidos::PRAZO_MONTAGEM_NAME);
         }
 
         $pedidos = $this->table->procuraPedidos($filters);
@@ -43,7 +74,7 @@ class PedidosController extends AbstractActionController
             'action'     => 'index',
             'pedidos'    => $pedidos,
             'filters'    => $filters,
-            'searchTerm' => $filters[ConstantesPedidos::NOME_NAME] ?? null,
+            'searchTerm' => $filters[ConstantesPedidos::ID_NAME] ?? null,
         ]))->setTemplate('pedidos/index');
     }
 
