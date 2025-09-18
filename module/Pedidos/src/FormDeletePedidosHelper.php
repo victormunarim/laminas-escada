@@ -8,13 +8,13 @@ use Application\View\Helper\FormDeleteHelperGenerico;
 
 class FormDeletePedidosHelper extends FormDeleteHelperGenerico
 {
-    public function __invoke(string $title, string $route, int $id, string $itemName): string
+    public function __invoke(string $title, string $route, int $id, string $nomeCliente): string
     {
         return parent::__invoke(
             $title,
             $route,
             $id,
-            $itemName
+            $nomeCliente
         );
     }
 }

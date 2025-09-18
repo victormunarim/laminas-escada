@@ -5,128 +5,44 @@ declare(strict_types=1);
 namespace Application\View\Helper;
 
 use Laminas\View\Helper\AbstractHelper;
+use Pedidos\Form\PesquisaForm;
 
-abstract class BarraPesquisaHelperGenerica extends AbstractHelper
+class BarraPesquisaHelperGenerica extends AbstractHelper
 {
     /**
      * @param array<string, mixed> $opcoes
      */
-    public function __invoke(array $opcoes = []): string
+    public function __invoke(PesquisaForm $pesquisaForm): string
     {
-        $opcoes = array_merge($this->getPadroes(), $opcoes);
+        $view = $this->getView();
 
-        $html = '';
+        foreach ($pesquisaForm as $element) {
+            $type = $element->getAttribute('type');
 
-        if ($opcoes['titulo'] !== null) {
-            $html .= '<h5 class="mb-3">' . $this->getView()->escapeHtml($opcoes['titulo']) . '</h5>';
+            if ($type !== 'hidden' && $type !== 'submit') {
+                $element->setAttribute('class', 'form-control');
+            }
         }
 
-        $html .= '<div class="row mb-4">';
-        $html .= '<div class="col-md-12">';
-        $html .= $this->renderizarCamposPesquisa($opcoes);
-        $html .= '</div>';
+        $pesquisaForm->prepare();
 
-        if ($opcoes['mostrarBotaoAdicionar']) {
-            $html .= '<div class="col-md-12 mt-3">';
-            $html .= $this->renderizarBotaoAdicionar($opcoes);
+        $html = $view->form()->openTag($pesquisaForm);
+
+        $html .= '<div class="d-flex flex-wrap gap-4 align-items-end">';
+
+        foreach ($pesquisaForm as $element) {
+            $html .= '<div>';
+            $html .= '<h6 style="font-family: var(--bs-body-font-family); font-weight: bold;">'
+                . $element->getLabel()
+                . '</h6>'
+            ;
+            $html .= $view->formElement($element);
+            $html .= $view->formElementErrors()->render($element, ['class' => 'help-block']);
             $html .= '</div>';
         }
 
         $html .= '</div>';
-
-        return $html;
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    abstract protected function getPadroes(): array;
-
-    /**
-     * @param array<string, mixed> $opcoes
-     */
-    protected function renderizarCamposPesquisa(array $opcoes): string
-    {
-        $url = ! empty($opcoes['nomeRota'])
-            ? $this->getView()->url($opcoes['nomeRota'])
-            : '#';
-
-
-        $html = '<form action="' . $url . '" method="get">';
-        $html .= '<div class="row g-3 align-items-end">';
-
-        foreach ($opcoes['campos'] as $nomeCampo => $configCampo) {
-            $html .= $this->renderizarCampo($nomeCampo, $configCampo, $opcoes);
-        }
-
-        $html .= '<div class="col-auto">';
-        $html .= '<div class="d-flex gap-2">';
-        $html .= '<button type="submit" class="btn btn-primary">';
-        $html .= '<i class="fas fa-search"></i> Pesquisar</button>';
-
-        if ($this->temValoresPesquisa($opcoes['campos'])) {
-            $html .= '<a href="' . $url . '" class="btn btn-secondary">';
-            $html .= '<i class="fas fa-times"></i> Limpar</a>';
-        }
-
-        $html .= '</div></div>';
-        $html .= '</div></form>';
-
-        return $html;
-    }
-
-    /**
-     * @param string $nomeCampo
-     * @param array<string, mixed> $configCampo
-     * @param array<string, mixed> $opcoes
-     * @return string
-     */
-    protected function renderizarCampo(string $nomeCampo, array $configCampo, array $opcoes): string
-    {
-        $valor = $configCampo['valor'] ?? $this->getView()->escapeHtml($opcoes['termoPesquisa'] ?? '');
-        $tipo = $configCampo['type'] ?? 'text'; // agora pode vir 'number', 'email', etc.
-
-        $html = '<div class="col-auto">';
-        $html .= '<label for="' . $nomeCampo . '" class="form-label">' .
-            $this->getView()->escapeHtml($configCampo['label']) . '</label>';
-        $html .= '<input type="' . $tipo . '"';
-        $html .= ' id="' . $nomeCampo . '"';
-        $html .= ' name="' . $nomeCampo . '"';
-        $html .= ' class="form-control"';
-        $html .= isset($configCampo['placeholder'])
-            ? ' placeholder="' . $this->getView()->escapeHtml($configCampo['placeholder'])  . '"'
-            : ' placeholder=""';
-        $html .= ' value="' . $valor . '">';
-        $html .= '</div>';
-
-        return $html;
-    }
-
-
-    /**
-     * @param array<string, array<string, mixed>> $campos
-     */
-    protected function temValoresPesquisa(array $campos): bool
-    {
-        foreach ($campos as $configCampo) {
-            if (! empty($configCampo['valor'])) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * @param array<string, mixed> $opcoes
-     */
-    protected function renderizarBotaoAdicionar(array $opcoes): string
-    {
-        $url = $this->getView()->url($opcoes['nomeRota'], ['action' => 'add']);
-
-        $html = '<div class="d-flex align-items-end h-100">';
-        $html .= '<a href="' . $url . '" class="btn btn-success">';
-        $html .= '<i class="fas fa-plus"></i> ' . $this->getView()->escapeHtml($opcoes['textoBotaoAdicionar']);
-        $html .= '</a></div>';
+        $html .= $view->form()->closeTag();
 
         return $html;
     }

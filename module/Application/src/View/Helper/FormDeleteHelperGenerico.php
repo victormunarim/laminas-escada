@@ -12,14 +12,14 @@ class FormDeleteHelperGenerico extends AbstractHelper
         string $title,
         string $route,
         int $id,
-        string $itemName
+        string $nomeCliente
     ): string {
         $view = $this->getView();
 
         $url = $view->url($route, ['action' => 'delete', 'id' => $id]);
 
         $html  = '<h1>' . $view->escapeHtml($title) . '</h1>';
-        $html .= '<p>Tem certeza que deseja excluir ' . $view->escapeHtml($itemName) . '?</p>';
+        $html .= '<p>Tem certeza que deseja excluir o pedido de ' . $nomeCliente . '?</p>';
         $html .= '<form action="' . $url . '" method="post">';
         $html .= '  <div class="form-group">';
         $html .= '    <input type="hidden" name="id" value="' . (int) $id . '" />';

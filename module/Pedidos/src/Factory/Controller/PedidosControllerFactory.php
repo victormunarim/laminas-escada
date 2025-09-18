@@ -6,6 +6,8 @@ namespace Pedidos\Factory\Controller;
 
 use Pedidos\Controller\PedidosController;
 use Pedidos\Form\PedidoForm;
+use Pedidos\Form\PesquisaForm;
+use Pedidos\Model\ClientesTable;
 use Pedidos\Model\PedidosTable;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Psr\Container\ContainerExceptionInterface;
@@ -26,7 +28,9 @@ class PedidosControllerFactory implements FactoryInterface
     {
         $table = $container->get(PedidosTable::class);
         $form = $container->get(PedidoForm::class);
+        $pesquisaForm = $container->get(PesquisaForm::class);
+        $clienteTable = $container->get(ClientesTable::class);
 
-        return new PedidosController($table, $form);
+        return new PedidosController($table, $form, $pesquisaForm, $clienteTable);
     }
 }

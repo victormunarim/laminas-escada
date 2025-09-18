@@ -4,10 +4,18 @@ declare(strict_types=1);
 
 namespace Pedidos;
 
+use Application\View\Helper\BarraPesquisaHelperGenerica;
+use Application\View\Helper\FormAddHelperGenerico;
+use Laminas\Db\ResultSet\ResultSet;
+use Laminas\Db\TableGateway\TableGateway;
 use Pedidos\Constantes\ConstantesPedidos;
 use Pedidos\Controller\PedidosController;
 use Pedidos\Factory\Controller\PedidosControllerFactory;
 use Pedidos\Form\PedidoForm;
+use Pedidos\Form\PesquisaForm;
+use Pedidos\Model\ClientesTable;
+use Pedidos\Model\ClientesTableFactory;
+use Pedidos\Model\Pedidos;
 use Pedidos\Model\PedidosTable;
 use Pedidos\Model\PedidosTableFactory;
 use Laminas\Db\Adapter\Adapter;
@@ -29,21 +37,23 @@ return [
              * @param ContainerInterface $container
              * @return TabelaPedidosHelper
              */
-            TabelaPedidosHelper::class => function ($container): TabelaPedidosHelper {
-                return new TabelaPedidosHelper();
+            TabelaPedidosHelper::class => function ($container) {
+                return new TabelaPedidosHelper(
+                    $container->get(PedidosTable::class)
+                );
             },
-            BarraPesquisaHelper::class => InvokableFactory::class,
+            BarraPesquisaHelperGenerica::class => InvokableFactory::class,
             MensagensAlertHelper::class => InvokableFactory::class,
             FormEditPedidosHelper::class => InvokableFactory::class,
-            FormAddPedidosHelper::class => InvokableFactory::class,
+            FormAddHelperGenerico::class => InvokableFactory::class,
             FormDeletePedidosHelper::class => InvokableFactory::class,
         ],
         'aliases' => [
             'tabelaPedidos'   => TabelaPedidosHelper::class,
-            'barraPesquisa'   => BarraPesquisaHelper::class,
+            'barraPesquisa'   => BarraPesquisaHelperGenerica::class,
             'mensagensAlert'  => MensagensAlertHelper::class,
             'formEditPedidos'  => FormEditPedidosHelper::class,
-            'formAddPedidos'  => FormAddPedidosHelper::class,
+            'formAddPedidos'  => FormAddHelperGenerico::class,
             'formDeletePedidos'  => FormDeletePedidosHelper::class,
         ],
     ],
@@ -53,10 +63,10 @@ return [
             ConstantesPedidos::ROUTE => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'       => '/' . ConstantesPedidos::ROUTE . '[/:action[/:id]]',
+                    'route'       => '/' . ConstantesPedidos::ROUTE . '[/:action[/:id_pedido]]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'id'     => '[0-9]+',
+                        'id_pedido' => '[0-9]+',
                     ],
                     'defaults'    => [
                         'controller' => Controller\PedidosController::class,
@@ -75,8 +85,20 @@ return [
 
     'service_manager' => [
         'factories' => [
-            PedidosTable::class => PedidosTableFactory::class,
-            Adapter::class      => AdapterServiceFactory::class,
+            PedidosTable::class => function ($container) {
+                $tableGateway = $container->get('PedidosTableGateway');
+                $clientesTable = $container->get(ClientesTable::class);
+                return new PedidosTable($tableGateway, $clientesTable);
+            },
+            ClientesTable::class => ClientesTableFactory::class,
+            Adapter::class => AdapterServiceFactory::class,
+
+            'PedidosTableGateway' => function ($container) {
+                $dbAdapter = $container->get('Laminas\Db\Adapter\Adapter');
+                $resultSetPrototype = new ResultSet();
+                $resultSetPrototype->setArrayObjectPrototype(new Pedidos());
+                return new TableGateway('pedidos', $dbAdapter, null, $resultSetPrototype);
+            },
 
             /**
              * @param ContainerInterface $container
@@ -84,6 +106,9 @@ return [
              */
             PedidoForm::class => function ($container): PedidoForm {
                 return new PedidoForm();
+            },
+            PesquisaForm::class => function ($container): PesquisaForm {
+                return new PesquisaForm();
             },
         ],
     ],

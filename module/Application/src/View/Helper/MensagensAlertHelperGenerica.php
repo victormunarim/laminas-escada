@@ -6,6 +6,7 @@ namespace Application\View\Helper;
 
 use Laminas\Db\ResultSet\ResultSet;
 use Laminas\View\Helper\AbstractHelper;
+use Pedidos\Constantes\ConstantesPedidos;
 
 abstract class MensagensAlertHelperGenerica extends AbstractHelper
 {
@@ -14,8 +15,8 @@ abstract class MensagensAlertHelperGenerica extends AbstractHelper
      */
     public function __invoke(
         ResultSet|array $dados = [],
-        ?string $searchTerm = null,
-        string $routeName = 'Pedidos'
+        ?array $searchTerm = null,
+        string $routeName = ConstantesPedidos::ROUTE
     ): string {
         $isEmpty = $dados instanceof ResultSet
             ? $dados->count() === 0
@@ -23,26 +24,9 @@ abstract class MensagensAlertHelperGenerica extends AbstractHelper
 
         $html = '';
 
-        if (! empty($searchTerm) && $isEmpty) {
-            $html .= $this->renderAlertInfo($searchTerm, $routeName);
-        }
-
-        if ($searchTerm === null && $isEmpty) {
+        if ((! empty($searchTerm) || $searchTerm === null) && $isEmpty) {
             $html .= $this->renderAlertWarning($routeName);
         }
-
-        return $html;
-    }
-
-    protected function renderAlertInfo(string $searchTerm, string $routeName): string
-    {
-        $url = $this->getView()->url($routeName);
-        $termo = $this->getView()->escapeHtml($searchTerm);
-
-        $html = '<div class="alert alert-info mt-3">';
-        $html .= '<i class="fas fa-info-circle"></i> ';
-        $html .= $this->getMensagemInfo($termo, $url);
-        $html .= '</div>';
 
         return $html;
     }
@@ -58,8 +42,6 @@ abstract class MensagensAlertHelperGenerica extends AbstractHelper
 
         return $html;
     }
-
-    abstract protected function getMensagemInfo(string $termo, string $url): string;
 
     abstract protected function getMensagemWarning(string $url): string;
 }

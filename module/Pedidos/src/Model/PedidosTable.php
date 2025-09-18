@@ -12,13 +12,16 @@ use Laminas\Db\TableGateway\TableGatewayInterface;
 
 class PedidosTable
 {
+    private $clientesTable;
+
     private TableGatewayInterface $tableGateway;
 
     /**
      * @param TableGatewayInterface $tableGateway
      */
-    public function __construct(TableGatewayInterface $tableGateway)
+    public function __construct(TableGatewayInterface $tableGateway, ClientesTable $clientesTable)
     {
+        $this->clientesTable = $clientesTable;
         $this->tableGateway = $tableGateway;
     }
 
@@ -37,7 +40,7 @@ class PedidosTable
      */
     public function getPedidos(int $id): Pedidos
     {
-        $rowset = $this->tableGateway->select(['id' => $id]);
+        $rowset = $this->tableGateway->select(['id_pedido' => $id]);
         $row = $rowset->current();
 
         if (! $row instanceof Pedidos) {
@@ -68,9 +71,12 @@ class PedidosTable
             ConstantesPedidos::TELEFONE_NAME => $pedido->getTelefone(),
             ConstantesPedidos::TELEFONE_FIXO_NAME => $pedido->getTelefoneFixo(),
             ConstantesPedidos::DESCRICAO_NAME => $pedido->getDescricao(),
+            ConstantesPedidos::ACABAMENTO_NAME => $pedido->getAcabamento(),
+            ConstantesPedidos::TUBOS_NAME => $pedido->getTubos(),
             ConstantesPedidos::REVESTIMENTO_NAME => $pedido->getRevestimento(),
             ConstantesPedidos::VALOR_TOTAL_NAME => $pedido->getValorTotal(),
             ConstantesPedidos::PRAZO_MONTAGEM_NAME => $pedido->getPrazoMontagem(),
+            ConstantesPedidos::FLAG_OCULTO_NAME => $pedido->getFlagOculto(),
         ];
 
         $id = (int) $pedido->getId();
@@ -82,7 +88,7 @@ class PedidosTable
 
         $this->getPedidos($id);
 
-        $this->tableGateway->update($data, ['id' => $id]);
+        $this->tableGateway->update($data, ['id_pedido' => $id]);
     }
 
     /**
@@ -90,7 +96,7 @@ class PedidosTable
      */
     public function deletePedido(int $id): void
     {
-        $this->tableGateway->delete(['id' => $id]);
+        $this->tableGateway->delete(['id_pedido' => $id]);
     }
 
     /**
@@ -102,19 +108,31 @@ class PedidosTable
         /** @var Select $select */
         $select = $this->tableGateway->getSql()->select();
         $where = $select->where;
-
+        $where->equalTo(ConstantesPedidos::FLAG_OCULTO_NAME, 0);
         foreach ($filtros as $campo => $valor) {
-            if (! empty($valor)) {
-                if ($campo === 'idade') {
-                    $where->equalTo($campo, $valor);
-                } elseif ($campo === 'data') {
-                    $where->equalTo($campo, $valor);
+            if ($valor !== null && $valor !== '') {
+                if (
+                    $campo === 'revestimento'
+                    || $campo === 'id_pedido'
+                    || $campo === 'id_cliente'
+                    || $campo === 'cpf'
+                    || $campo === 'numero'
+                    || $campo === 'rg'
+                    || $campo === 'prazo_montagem'
+                ) {
+                    $where->equalTo($campo, (int) $valor);
                 } else {
                     $where->like($campo, '%' . $valor . '%');
                 }
             }
         }
 
+
         return $this->tableGateway->selectWith($select);
+    }
+
+    public function getNomeClientePorId(int $id): string
+    {
+        return (string)$this->clientesTable->getClientes($id)['nome'];
     }
 }

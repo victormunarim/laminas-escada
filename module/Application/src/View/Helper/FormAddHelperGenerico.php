@@ -23,12 +23,6 @@ class FormAddHelperGenerico extends AbstractHelper
 
             if ($type !== 'hidden' && $type !== 'submit') {
                 $element->setAttribute('class', 'form-control');
-                if (! $element->getAttribute('placeholder')) {
-                    $element->setAttribute(
-                        'placeholder',
-                        ucfirst($element->getName())
-                    );
-                }
             }
 
             if ($type === 'submit') {
@@ -58,7 +52,10 @@ class FormAddHelperGenerico extends AbstractHelper
 
             $html .= '<div class="form-group row mb-3">';
             $html .= '<div class="col-sm-6 col-md-4">';
-            $html .= $view->formLabel($element);
+            $html .= '<h6 style="font-family: var(--bs-body-font-family); font-weight: bold;">'
+                . $element->getLabel()
+                . '</h6>'
+            ;
             $html .= $view->formElement($element);
             $html .= $view->formElementErrors()->render($element, ['class' => 'help-block']);
             $html .= '</div></div>';

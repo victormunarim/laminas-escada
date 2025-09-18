@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Pedidos\Controller;
 
+use Laminas\Form\FormInterface;
 use Laminas\Http\Response;
-use Laminas\Hydrator\ClassMethodsHydrator;
 use Pedidos\Constantes\ConstantesPedidos;
 use Pedidos\Form\PedidoForm;
+use Pedidos\Form\PesquisaForm;
+use Pedidos\Model\ClientesTable;
 use Pedidos\Model\Pedidos;
 use Pedidos\Model\PedidosTable;
 use Laminas\Http\PhpEnvironment\Request;
@@ -17,70 +19,68 @@ use Laminas\View\Model\ViewModel;
 class PedidosController extends AbstractActionController
 {
     private PedidosTable $table;
+    private ClientesTable $tableClientes;
     private PedidoForm $form;
+    private PesquisaForm $pesquisaForm;
 
-    public function __construct(PedidosTable $table, PedidoForm $form)
-    {
+    public function __construct(
+        PedidosTable $table,
+        PedidoForm $form,
+        PesquisaForm $pesquisaForm,
+        ClientesTable $tableClientes
+    ) {
         $this->table = $table;
-        $this->form  = $form;
+        $this->form = $form;
+        $this->pesquisaForm = $pesquisaForm;
+        $this->tableClientes = $tableClientes;
     }
 
     public function indexAction(): ViewModel
     {
         /** @var Request $request */
         $request = $this->getRequest();
-        $filters = [];
 
+        $campos = [
+            ConstantesPedidos::ID_NAME,
+            ConstantesPedidos::NUMERO_PEDIDO_NAME,
+            ConstantesPedidos::CLIENTE_ID_NAME,
+            ConstantesPedidos::CPF_NAME,
+            ConstantesPedidos::RG_NAME,
+            ConstantesPedidos::PROFISSAO_NAME,
+            ConstantesPedidos::CNPJ_NAME,
+            ConstantesPedidos::EMAIL_NAME,
+            ConstantesPedidos::ADM_OBRA_NAME,
+            ConstantesPedidos::TELEFONE_NAME,
+            ConstantesPedidos::TELEFONE_FIXO_NAME,
+            ConstantesPedidos::DESCRICAO_NAME,
+            ConstantesPedidos::ACABAMENTO_NAME,
+            ConstantesPedidos::TUBOS_NAME,
+            ConstantesPedidos::REVESTIMENTO_NAME,
+            ConstantesPedidos::VALOR_TOTAL_NAME,
+            ConstantesPedidos::PRAZO_MONTAGEM_NAME,
+        ];
+
+        $filters = [];
         if ($request->isGet()) {
-            $filters[ConstantesPedidos::ID_NAME] = $this->params()->fromQuery(ConstantesPedidos::ID_NAME);
-            $filters[
-                ConstantesPedidos::NUMERO_PEDIDO_NAME
-            ] = $this->params()->fromQuery(ConstantesPedidos::NUMERO_PEDIDO_NAME);
-            $filters[
-                ConstantesPedidos::CLIENTE_ID_NAME
-            ] = $this->params()->fromQuery(ConstantesPedidos::CLIENTE_ID_NAME);
-            $filters[ConstantesPedidos::CPF_NAME] = $this->params()->fromQuery(ConstantesPedidos::CPF_NAME);
-            $filters[ConstantesPedidos::RG_NAME] = $this->params()->fromQuery(ConstantesPedidos::RG_NAME);
-            $filters[
-                ConstantesPedidos::PROFISSAO_NAME
-            ] = $this->params()->fromQuery(ConstantesPedidos::PROFISSAO_NAME);
-            $filters[ConstantesPedidos::CNPJ_NAME] = $this->params()->fromQuery(ConstantesPedidos::CNPJ_NAME);
-            $filters[ConstantesPedidos::EMAIL_NAME] = $this->params()->fromQuery(ConstantesPedidos::EMAIL_NAME);
-            $filters[
-                ConstantesPedidos::ADM_OBRA_NAME
-            ] = $this->params()->fromQuery(ConstantesPedidos::ADM_OBRA_NAME);
-            $filters[
-                ConstantesPedidos::TELEFONE_NAME] = $this->params()->fromQuery(ConstantesPedidos::TELEFONE_NAME);
-            $filters[
-                ConstantesPedidos::TELEFONE_FIXO_NAME
-            ] = $this->params()->fromQuery(ConstantesPedidos::TELEFONE_FIXO_NAME);
-            $filters[
-                ConstantesPedidos::DESCRICAO_NAME
-            ] = $this->params()->fromQuery(ConstantesPedidos::DESCRICAO_NAME);
-            $filters[
-                ConstantesPedidos::REVESTIMENTO_NAME
-            ] = $this->params()->fromQuery(ConstantesPedidos::REVESTIMENTO_NAME);
-            $filters[
-                ConstantesPedidos::VALOR_TOTAL_NAME
-            ] = $this->params()->fromQuery(ConstantesPedidos::VALOR_TOTAL_NAME);
-            $filters[
-                ConstantesPedidos::PRAZO_MONTAGEM_NAME
-            ] = $this->params()->fromQuery(ConstantesPedidos::PRAZO_MONTAGEM_NAME);
+            $filters = array_map(
+                fn($campo) => $this->params()->fromQuery($campo),
+                array_combine($campos, $campos)
+            );
         }
 
         $pedidos = $this->table->procuraPedidos($filters);
 
         return (new ViewModel([
-            'action'     => 'index',
-            'pedidos'    => $pedidos,
-            'filters'    => $filters,
-            'searchTerm' => $filters[ConstantesPedidos::ID_NAME] ?? null,
+            'action'       => 'index',
+            'pedidos'      => $pedidos,
+            'filters'      => $filters,
+            'searchTerm'   => $filters ?: null,
+            'pesquisaForm' => $this->pesquisaForm,
         ]))->setTemplate('pedidos/index');
     }
 
     public function addAction(): ViewModel|Response
     {
-        /** @var Request $request */
         $request = $this->getRequest();
 
         if (! $request->isPost()) {
@@ -108,9 +108,9 @@ class PedidosController extends AbstractActionController
 
     public function editAction(): ViewModel|Response
     {
-        $id = (int) $this->params()->fromRoute('id', 0);
+        $id = (int) $this->params()->fromRoute('id_pedido', 0);
         if ($id === 0) {
-            return $this->redirect()->toRoute(ConstantesPedidos::ROUTE, ['action' => 'add']);
+            return $this->redirect()->toRoute(ConstantesPedidos::ROUTE, ['action' => 'index']);
         }
 
         try {
@@ -119,54 +119,16 @@ class PedidosController extends AbstractActionController
             return $this->redirect()->toRoute(ConstantesPedidos::ROUTE, ['action' => 'index']);
         }
 
-        /** @var Request $request */
         $request = $this->getRequest();
 
         if (! $request->isPost()) {
-            if (! $this->form->getHydrator()) {
-                $this->form->setHydrator(new ClassMethodsHydrator());
-            }
-
-            $this->form->bind($pedido);
+            $this->form->setData($pedido->getArrayCopy());
             $this->form->get('submit')->setAttribute('value', 'Salvar Alterações');
 
-            $dataValue = null;
-            if (method_exists($pedido, 'getData')) {
-                $dataValue = $pedido->getData();
-            } elseif (property_exists($pedido, 'data')) {
-                $raw = $pedido->getData();
-                if ($raw instanceof \DateTimeInterface) {
-                    $dataValue = $raw->format('Y-m-d');
-                } elseif (is_string($raw)) {
-                    $dt = \DateTime::createFromFormat('Y-m-d', $raw)
-                        ?: \DateTime::createFromFormat('d/m/Y', $raw);
-                    $dataValue = $dt ? $dt->format('Y-m-d') : $raw;
-                }
-            }
-
-            if ($dataValue !== null && $this->form->has('data')) {
-                $this->form->get('data')->setValue($dataValue);
-            }
-
-            error_log(
-                'DEBUG editAction: pedido->getData() = ' . var_export(
-                    method_exists($pedido, 'getData') ? $pedido->getData() : null,
-                    true
-                )
-            );
-            if ($this->form->has('data')) {
-                error_log(
-                    'DEBUG editAction: form->get(data)->getValue() = ' . var_export(
-                        $this->form->get('data')->getValue(),
-                        true
-                    )
-                );
-            }
-
             return (new ViewModel([
-                'action' => 'edit',
-                'id'     => $id,
-                'form'   => $this->form,
+                'action'     => 'edit',
+                'id_pedido'  => $id,
+                'form'       => $this->form,
             ]))->setTemplate('pedidos/index');
         }
 
@@ -174,59 +136,39 @@ class PedidosController extends AbstractActionController
 
         if (! $this->form->isValid()) {
             return (new ViewModel([
-                'action' => 'edit',
-                'id'     => $id,
-                'form'   => $this->form,
+                'action'     => 'edit',
+                'id_pedido'  => $id,
+                'form'       => $this->form,
             ]))->setTemplate('pedidos/index');
         }
 
-        try {
-            $validatedData = $this->form->getData();
-            $validatedData['id'] = $id;
-
-            $pedidoAtualizado = new Pedidos();
-            $pedidoAtualizado->exchangeArray($validatedData);
-
-            $this->table->savePedido($pedidoAtualizado);
-        } catch (\Exception $e) {
-            error_log('Erro ao atualizar pedido: ' . $e->getMessage());
-        }
+        $data = $this->form->getData(FormInterface::VALUES_AS_ARRAY);
+        $pedidoAtualizado = new Pedidos();
+        $pedidoAtualizado->exchangeArray($data);
+        $pedidoAtualizado->setId($id);
+        $this->table->savePedido($pedidoAtualizado);
 
         return $this->redirect()->toRoute(ConstantesPedidos::ROUTE, ['action' => 'index']);
     }
 
-
     public function deleteAction(): ViewModel|Response
     {
-        $id = (int) $this->params()->fromRoute('id', 0);
+        $id = (int) $this->params()->fromRoute('id_pedido', 0);
 
         if ($id === 0) {
             return $this->redirect()->toRoute(ConstantesPedidos::ROUTE);
         }
 
-        try {
-            $pedido = $this->table->getPedidos($id);
-        } catch (\Exception) {
-            return $this->redirect()->toRoute(ConstantesPedidos::ROUTE, ['action' => 'index']);
-        }
+        $pedido = $this->table->getPedidos($id);
+        $pedido->setFlagOculto(1);
+        $this->table->savePedido($pedido);
 
-        /** @var Request $request */
-        $request = $this->getRequest();
-
-        if ($request->isPost()) {
-            $del = $request->getPost('del', 'No');
-
-            if ($del === 'Yes') {
-                $this->table->deletePedido($id);
-            }
-
-            return $this->redirect()->toRoute(ConstantesPedidos::ROUTE);
-        }
+        $nomeCliente = $this->tableClientes->getClientes($pedido->getClienteId())->getNome();
 
         return (new ViewModel([
-            'action' => 'delete',
-            'id'     => $id,
-            'pedido' => $pedido,
+            'action'      => 'delete',
+            'pedido'      => $pedido,
+            'nomeCliente' => $nomeCliente,
         ]))->setTemplate('pedidos/index');
     }
 }

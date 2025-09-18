@@ -22,7 +22,7 @@ if ($this->action === 'edit') {
         $this->form,
         'Editar Pedido',
         ConstantesPedidos::ROUTE,
-        $this->id
+        $this->id_pedido
     );
 } elseif ($this->action === 'add') {
     echo $this->formAddPedidos(
@@ -30,12 +30,12 @@ if ($this->action === 'edit') {
         'Adicionar Pedido',
         ConstantesPedidos::ROUTE
     );
-} elseif ($this->action === 'delete' && $this->pedido) {
+} elseif ($this->action === 'delete') {
     echo $this->formDeletePedidos(
         'Excluir Pedido',
         ConstantesPedidos::ROUTE,
         $this->pedido->getId(),
-        sprintf('o pedido "%s"', $this->pedido->getNome())
+        $this->nomeCliente
     );
 } else {
     $pedidos = $this->pedidos;
@@ -45,9 +45,9 @@ if ($this->action === 'edit') {
 
     echo '<h1 class="mb-4">Pedidos</h1>';
 
-    echo $this->barraPesquisa();
+    echo $this->barraPesquisa($this->pesquisaForm);
 
-    echo $this->tabelaPedidos($pedidos);
+    echo $this->tabelaPedidos($this->filters);
 
     echo $this->mensagensAlert($pedidos, $searchTerm);
 }

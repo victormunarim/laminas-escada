@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Pedidos\Form;
 
-use Laminas\Form\Element\Email;
-use Laminas\Form\Element\Hidden;
 use Laminas\Form\Element\Number;
 use Laminas\Form\Element\Select;
 use Laminas\Form\Element\Submit;
@@ -14,7 +12,7 @@ use Laminas\Form\Element\Text;
 use Laminas\Form\Form;
 use Pedidos\Constantes\ConstantesPedidos;
 
-class PedidoForm extends Form
+class PesquisaForm extends Form
 {
     /**
      * @param string|null $name
@@ -25,7 +23,10 @@ class PedidoForm extends Form
 
         $this->add([
             'name' => ConstantesPedidos::ID_NAME,
-            'type' => Hidden::class,
+            'type' => Number::class,
+            'options' => [
+                'label' => ConstantesPedidos::ID_LABEL,
+            ],
         ]);
 
         $this->add([
@@ -78,7 +79,7 @@ class PedidoForm extends Form
 
         $this->add([
             'name' => ConstantesPedidos::EMAIL_NAME,
-            'type' => Email::class,
+            'type' => Text::class,
             'options' => [
                 'label' => ConstantesPedidos::EMAIL_LABEL,
             ],
@@ -138,6 +139,7 @@ class PedidoForm extends Form
             'options' => [
                 'label' => ConstantesPedidos::REVESTIMENTO_LABEL,
                 'value_options' => [
+                    null => 'Todos',
                     true => 'Sim',
                     false => 'Não'
                 ]
@@ -164,9 +166,13 @@ class PedidoForm extends Form
             'name' => 'submit',
             'type' => Submit::class,
             'attributes' => [
-                'value' => 'Gravar',
+                'value' => 'Pesquisar',
                 'id'    => 'submitbutton',
+                'class' => 'btn btn-primary'
             ],
         ]);
+
+        $this->setAttribute('method', 'GET');
+        $this->setAttribute('action', '/' . ConstantesPedidos::ROUTE);
     }
 }

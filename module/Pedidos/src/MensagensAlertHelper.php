@@ -8,11 +8,6 @@ use Application\View\Helper\MensagensAlertHelperGenerica;
 
 class MensagensAlertHelper extends MensagensAlertHelperGenerica
 {
-    protected function getMensagemInfo(string $termo, string $url): string
-    {
-        return 'Nenhum pedido encontrado para "' . $termo . '". ' .
-            '<a href="' . $url . '" class="alert-link">Ver todos os pedidos</a>';
-    }
 
     protected function getMensagemWarning(string $url): string
     {
