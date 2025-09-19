@@ -25,4 +25,23 @@ class ClientesTable
 
         return $row;
     }
+
+    public function pegaClienteIdPeloNome(string $nome): int
+    {
+        $sql = $this->tableGateway->getSql();
+        $select = $sql->select();
+        $select->where->like('nome', $nome);
+
+        $resultSet = $this->tableGateway->selectWith($select);
+        $row = $resultSet->current();
+
+        return $row ? (int) $row->getId() : 0;
+    }
+
+    public function pegaTodosClientes()
+    {
+        $select = $this->tableGateway->getSql()->select();
+
+        return $this->tableGateway->selectWith($select);
+    }
 }

@@ -12,6 +12,7 @@ class ConstantesPedidos
     public const string ID_VALUE = 'id';
     public const string ID_LABEL = 'ID';
 
+    public const string CLIENTE_NOME_NAME = 'cliente_nome';
     public const string CLIENTE_NOME_LABEL = 'Nome do cliente';
     public const string CLIENTE_NOME_VALUE = 'clienteNome';
 

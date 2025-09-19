@@ -43,9 +43,14 @@ class Clientes extends \ArrayObject implements InputFilterAwareInterface
         return $this->nome;
     }
 
-    private function setId(?int $id)
+    public function setId(?int $id)
     {
         $this->id = $id;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     public function setInputFilter(InputFilterInterface $inputFilter)

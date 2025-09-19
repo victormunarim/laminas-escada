@@ -55,7 +55,7 @@ abstract class TabelaHelperGenerica extends AbstractHelper
             foreach ($colunas as $coluna) {
                 $valor = $this->getValorColuna($linha, $coluna);
                 if ($coluna === ConstantesPedidos::CLIENTE_ID_VALUE) {
-                    $valor = $this->pedidosTable->getNomeClientePorId(1);
+                    $valor = $this->pedidosTable->getNomeClientePorId($valor);
                 }
 
                 if ($coluna === 'revestimento') {

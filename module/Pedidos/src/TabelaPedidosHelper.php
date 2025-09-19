@@ -76,9 +76,15 @@ class TabelaPedidosHelper extends TabelaHelperGenerica
             'id_pedido' => $id,
         ]);
 
+        $pdfUrl = $this->getView()->url(ConstantesPedidos::ROUTE, [
+            'action'    => 'pdf',
+            'id_pedido' => $id,
+        ]);
+
         return '<div class="btn-group">'
             . '<a href="' . $editUrl . '" class="btn btn-primary">Editar</a>'
             . '<a href="' . $deleteUrl . '" class="btn btn-danger">Excluir</a>'
+            . '<a href="' . $pdfUrl . '" class="btn btn-secondary">PDF</a>'
             . '</div>';
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pedidos\Controller;
 
+use Dompdf\Dompdf;
 use Laminas\Form\FormInterface;
 use Laminas\Http\Response;
 use Pedidos\Constantes\ConstantesPedidos;
@@ -146,6 +147,7 @@ class PedidosController extends AbstractActionController
         $pedidoAtualizado = new Pedidos();
         $pedidoAtualizado->exchangeArray($data);
         $pedidoAtualizado->setId($id);
+
         $this->table->savePedido($pedidoAtualizado);
 
         return $this->redirect()->toRoute(ConstantesPedidos::ROUTE, ['action' => 'index']);
@@ -159,16 +161,42 @@ class PedidosController extends AbstractActionController
             return $this->redirect()->toRoute(ConstantesPedidos::ROUTE);
         }
 
-        $pedido = $this->table->getPedidos($id);
-        $pedido->setFlagOculto(1);
-        $this->table->savePedido($pedido);
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $deleteStatus = (bool) $request->getPost('deleteStatus', false);
 
+            if ($deleteStatus) {
+                $pedido = $this->table->getPedidos($id);
+                $pedido->setFlagOculto(1);
+                $this->table->savePedido($pedido);
+            }
+
+            return $this->redirect()->toRoute(ConstantesPedidos::ROUTE);
+        }
+
+        $pedido = $this->table->getPedidos($id);
         $nomeCliente = $this->tableClientes->getClientes($pedido->getClienteId())->getNome();
 
         return (new ViewModel([
             'action'      => 'delete',
             'pedido'      => $pedido,
             'nomeCliente' => $nomeCliente,
+        ]))->setTemplate('pedidos/index');
+    }
+
+    public function pdfAction(): Response|ViewModel
+    {
+        $id = (int) $this->params()->fromRoute('id_pedido', 0);
+
+        if ($id === 0) {
+            return $this->redirect()->toRoute(ConstantesPedidos::ROUTE);
+        }
+
+        $pedido = $this->table->getPedidos($id);
+
+        return (new ViewModel([
+            'action' => 'pdf',
+            'pedido' => $pedido,
         ]))->setTemplate('pedidos/index');
     }
 }

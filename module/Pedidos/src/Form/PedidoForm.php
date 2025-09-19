@@ -13,14 +13,18 @@ use Laminas\Form\Element\Tel;
 use Laminas\Form\Element\Text;
 use Laminas\Form\Form;
 use Pedidos\Constantes\ConstantesPedidos;
+use Pedidos\Model\ClientesTable;
 
 class PedidoForm extends Form
 {
+    private $clientesTable;
+
     /**
      * @param string|null $name
      */
-    public function __construct(?string $name = null)
+    public function __construct(ClientesTable $clientesTable)
     {
+        $this->clientesTable = $clientesTable;
         parent::__construct(ConstantesPedidos::ROUTE);
 
         $this->add([
@@ -36,11 +40,17 @@ class PedidoForm extends Form
             ],
         ]);
 
+        $clientes = $this->clientesTable->pegaTodosClientes();
+        $clientesNomes = [];
+        foreach ($clientes as $cliente) {
+            $clientesNomes[$cliente->getId()] = $cliente->getNome();
+        }
         $this->add([
             'name' => ConstantesPedidos::CLIENTE_ID_NAME,
-            'type' => Number::class,
+            'type' => Select::class,
             'options' => [
-                'label' => ConstantesPedidos::CLIENTE_ID_LABEL,
+                'label' => ConstantesPedidos::CLIENTE_NOME_LABEL,
+                'value_options' => $clientesNomes
             ],
         ]);
 

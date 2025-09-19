@@ -38,10 +38,10 @@ class PesquisaForm extends Form
         ]);
 
         $this->add([
-            'name' => ConstantesPedidos::CLIENTE_ID_NAME,
-            'type' => Number::class,
+            'name' => ConstantesPedidos::CLIENTE_NOME_NAME,
+            'type' => Text::class,
             'options' => [
-                'label' => ConstantesPedidos::CLIENTE_ID_LABEL,
+                'label' => ConstantesPedidos::CLIENTE_NOME_LABEL,
             ],
         ]);
 

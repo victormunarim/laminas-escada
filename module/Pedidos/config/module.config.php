@@ -13,11 +13,11 @@ use Pedidos\Controller\PedidosController;
 use Pedidos\Factory\Controller\PedidosControllerFactory;
 use Pedidos\Form\PedidoForm;
 use Pedidos\Form\PesquisaForm;
+use Pedidos\GeraPdf\GeraPdf;
 use Pedidos\Model\ClientesTable;
 use Pedidos\Model\ClientesTableFactory;
 use Pedidos\Model\Pedidos;
 use Pedidos\Model\PedidosTable;
-use Pedidos\Model\PedidosTableFactory;
 use Laminas\Db\Adapter\Adapter;
 use Laminas\Db\Adapter\AdapterServiceFactory;
 use Laminas\Router\Http\Segment;
@@ -47,6 +47,7 @@ return [
             FormEditPedidosHelper::class => InvokableFactory::class,
             FormAddHelperGenerico::class => InvokableFactory::class,
             FormDeletePedidosHelper::class => InvokableFactory::class,
+            GeraPdf::class => InvokableFactory::class,
         ],
         'aliases' => [
             'tabelaPedidos'   => TabelaPedidosHelper::class,
@@ -55,6 +56,7 @@ return [
             'formEditPedidos'  => FormEditPedidosHelper::class,
             'formAddPedidos'  => FormAddHelperGenerico::class,
             'formDeletePedidos'  => FormDeletePedidosHelper::class,
+            'geraPdf'  => GeraPdf::class,
         ],
     ],
 
@@ -105,7 +107,8 @@ return [
              * @return PedidoForm
              */
             PedidoForm::class => function ($container): PedidoForm {
-                return new PedidoForm();
+                $clientesTable = $container->get(ClientesTable::class);
+                return new PedidoForm($clientesTable);
             },
             PesquisaForm::class => function ($container): PesquisaForm {
                 return new PesquisaForm();

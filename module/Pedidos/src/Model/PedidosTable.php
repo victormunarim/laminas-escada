@@ -73,7 +73,7 @@ class PedidosTable
             ConstantesPedidos::DESCRICAO_NAME => $pedido->getDescricao(),
             ConstantesPedidos::ACABAMENTO_NAME => $pedido->getAcabamento(),
             ConstantesPedidos::TUBOS_NAME => $pedido->getTubos(),
-            ConstantesPedidos::REVESTIMENTO_NAME => $pedido->getRevestimento(),
+            ConstantesPedidos::REVESTIMENTO_NAME => $pedido->getRevestimento() ? 1 : 0,
             ConstantesPedidos::VALOR_TOTAL_NAME => $pedido->getValorTotal(),
             ConstantesPedidos::PRAZO_MONTAGEM_NAME => $pedido->getPrazoMontagem(),
             ConstantesPedidos::FLAG_OCULTO_NAME => $pedido->getFlagOculto(),
@@ -85,8 +85,6 @@ class PedidosTable
             $this->tableGateway->insert($data);
             return;
         }
-
-        $this->getPedidos($id);
 
         $this->tableGateway->update($data, ['id_pedido' => $id]);
     }
@@ -114,7 +112,6 @@ class PedidosTable
                 if (
                     $campo === 'revestimento'
                     || $campo === 'id_pedido'
-                    || $campo === 'id_cliente'
                     || $campo === 'cpf'
                     || $campo === 'numero'
                     || $campo === 'rg'
