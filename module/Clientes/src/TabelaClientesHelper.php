@@ -9,7 +9,6 @@ use Clientes\Constantes\ConstantesClientes;
 use Clientes\Model\Clientes;
 use Clientes\Model\ClientesTable;
 use Laminas\Db\ResultSet\ResultSetInterface;
-use Pedidos\Constantes\ConstantesPedidos;
 
 class TabelaClientesHelper extends TabelaHelperGenerica
 {
@@ -18,6 +17,11 @@ class TabelaClientesHelper extends TabelaHelperGenerica
     public function __construct(ClientesTable $clientesTable)
     {
         $this->clientesTable = $clientesTable;
+    }
+
+    protected function pegaRoute(): string
+    {
+        return ConstantesClientes::ROUTE;
     }
 
     protected function pegaDados($filtros): ResultSetInterface
@@ -38,8 +42,12 @@ class TabelaClientesHelper extends TabelaHelperGenerica
     protected function getMapaNomesColunas(): array
     {
         return [
-            ConstantesClientes::EC_ID_VALUE => ConstantesClientes::EC_ID_LABEL,
+            ConstantesClientes::CLIENTE_ID_VALUE => ConstantesClientes::CLIENTE_ID_LABEL,
             ConstantesClientes::CLIENTE_NOME_VALUE => ConstantesClientes::CLIENTE_NOME_LABEL,
+            ConstantesClientes::CPF_VALUE => ConstantesClientes::CPF_LABEL,
+            ConstantesClientes::RG_VALUE => ConstantesClientes::RG_LABEL,
+            ConstantesClientes::CNPJ_VALUE => ConstantesClientes::CNPJ_LABEL,
+            ConstantesClientes::SS_VALUE => ConstantesClientes::SS_LABEL,
             ConstantesClientes::NUMERO_VALUE => ConstantesClientes::NUMERO_LABEL,
             ConstantesClientes::BAIRRO_VALUE => ConstantesClientes::BAIRRO_LABEL,
             ConstantesClientes::CIDADE_VALUE => ConstantesClientes::CIDADE_LABEL,

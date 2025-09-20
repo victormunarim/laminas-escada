@@ -13,7 +13,7 @@ class ConstantesPedidos
     public const string ID_LABEL = 'ID';
 
     public const string CLIENTE_NOME_NAME = 'cliente_nome';
-    public const string CLIENTE_NOME_LABEL = 'Nome do cliente';
+    public const string CLIENTE_NOME_LABEL = 'Cliente';
     public const string CLIENTE_NOME_VALUE = 'clienteNome';
 
     public const string NUMERO_PEDIDO_NAME = 'numero_pedido';
@@ -22,23 +22,10 @@ class ConstantesPedidos
 
     public const string CLIENTE_ID_NAME = 'cliente_id';
     public const string CLIENTE_ID_VALUE = 'clienteId';
-    public const string CLIENTE_ID_LABEL = 'ID do cliente';
-
-    public const string CPF_NAME = 'cpf';
-    public const string CPF_VALUE = 'cpf';
-    public const string CPF_LABEL = 'CPF';
-
-    public const string RG_NAME = 'rg';
-    public const string RG_VALUE = 'rg';
-    public const string RG_LABEL = 'RG';
 
     public const string PROFISSAO_NAME = 'profissao';
     public const string PROFISSAO_VALUE = 'profissao';
     public const string PROFISSAO_LABEL = 'Profissão';
-
-    public const string CNPJ_NAME = 'cnpj';
-    public const string CNPJ_VALUE = 'cnpj';
-    public const string CNPJ_LABEL = 'CNPJ';
 
     public const string EMAIL_NAME = 'email';
     public const string EMAIL_VALUE = 'email';
@@ -74,12 +61,32 @@ class ConstantesPedidos
 
     public const string VALOR_TOTAL_NAME = 'valor_total';
     public const string VALOR_TOTAL_VALUE = 'valorTotal';
-    public const string VALOR_TOTAL_LABEL = 'Valor total';
+    public const string VALOR_TOTAL_LABEL = 'Valor';
 
     public const string PRAZO_MONTAGEM_NAME = 'prazo_montagem';
     public const string PRAZO_MONTAGEM_VALUE = 'prazoMontagem';
-    public const string PRAZO_MONTAGEM_LABEL = 'Prazo de montagem';
+    public const string PRAZO_MONTAGEM_LABEL = 'Prazo';
 
     public const string FLAG_OCULTO_NAME = 'flag_oculto';
     public const string FLAG_OCULTO_VALUE = 'flagOculto';
+
+    public const string NUMERO_NAME = 'numero';
+    public const string NUMERO_LABEL = 'Número de endereço';
+    public const string NUMERO_VALUE = 'numero';
+
+    public const string BAIRRO_NAME = 'bairro';
+    public const string BAIRRO_LABEL = 'Bairro';
+    public const string BAIRRO_VALUE = 'bairro';
+
+    public const string CIDADE_NAME = 'cidade';
+    public const string CIDADE_LABEL = 'Cidade';
+    public const string CIDADE_VALUE = 'cidade';
+
+    public const string CEP_NAME = 'cep';
+    public const string CEP_LABEL = 'CEP';
+    public const string CEP_VALUE = 'cep';
+
+    public const string REFERENCIA_NAME = 'referencia';
+    public const string REFERENCIA_LABEL = 'Referência';
+    public const string REFERENCIA_VALUE = 'referencia';
 }

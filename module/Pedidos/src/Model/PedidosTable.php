@@ -62,11 +62,7 @@ class PedidosTable
     {
         $data = [
             ConstantesPedidos::NUMERO_PEDIDO_NAME => $pedido->getNumeroPedido(),
-            ConstantesPedidos::CLIENTE_ID_NAME => $pedido->getClienteId(),
-            ConstantesPedidos::CPF_NAME => $pedido->getCpf(),
-            ConstantesPedidos::RG_NAME => $pedido->getRg(),
             ConstantesPedidos::PROFISSAO_NAME => $pedido->getProfissao(),
-            ConstantesPedidos::CNPJ_NAME => $pedido->getCnpj(),
             ConstantesPedidos::EMAIL_NAME => $pedido->getEmail(),
             ConstantesPedidos::ADM_OBRA_NAME => $pedido->getAdmObra(),
             ConstantesPedidos::TELEFONE_NAME => $pedido->getTelefone(),
@@ -77,17 +73,16 @@ class PedidosTable
             ConstantesPedidos::REVESTIMENTO_NAME => $pedido->getRevestimento() ? 1 : 0,
             ConstantesPedidos::VALOR_TOTAL_NAME => $pedido->getValorTotal(),
             ConstantesPedidos::PRAZO_MONTAGEM_NAME => $pedido->getPrazoMontagem(),
-            ConstantesPedidos::FLAG_OCULTO_NAME => $pedido->getFlagOculto(),
         ];
 
-        $id = (int) $pedido->getId();
+        $id = (int) $pedido->getId() ?? 0;
 
         if ($id === 0) {
             $this->tableGateway->insert($data);
             return;
         }
 
-        $this->tableGateway->update($data, ['id_pedido' => $id]);
+        $this->tableGateway->update($data, ['cliente_id' => $id]);
     }
 
     /**
@@ -113,10 +108,9 @@ class PedidosTable
                 if (
                     $campo === 'revestimento'
                     || $campo === 'id_pedido'
-                    || $campo === 'cpf'
-                    || $campo === 'numero'
-                    || $campo === 'rg'
+                    || $campo === 'numero_pedido'
                     || $campo === 'prazo_montagem'
+                    || $campo === 'numero'
                 ) {
                     $where->equalTo($campo, (int) $valor);
                 } else {
@@ -129,8 +123,8 @@ class PedidosTable
         return $this->tableGateway->selectWith($select);
     }
 
-    public function getNomeClientePorId(int $id): string
+    public function getNomeClientePorId(int $id): ?string
     {
-        return (string)$this->clientesTable->getClientes($id)['nome'];
+        return $this->clientesTable->getClientes($id)->getNome();
     }
 }

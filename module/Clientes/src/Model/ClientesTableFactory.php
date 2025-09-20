@@ -22,7 +22,8 @@ class ClientesTableFactory
         $resultSetPrototype->setArrayObjectPrototype(new Clientes());
 
         $tableGateway = new TableGateway('clientes', $dbAdapter, null, $resultSetPrototype);
+        $tableEndereco = new TableGateway('endereco_cliente', $dbAdapter, null, $resultSetPrototype);
 
-        return new ClientesTable($tableGateway);
+        return new ClientesTable($tableGateway, $tableEndereco);
     }
 }

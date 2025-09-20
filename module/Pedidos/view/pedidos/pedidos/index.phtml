@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Knp\Snappy\Pdf;
 use Laminas\Form\Form;
 use Laminas\View\Renderer\PhpRenderer;
 use Pedidos\Constantes\ConstantesPedidos;
@@ -39,7 +38,7 @@ if ($this->action === 'edit') {
         $this->nomeCliente
     );
 } elseif ($this->action === 'pdf') {
-    $this->geraPdf($this->pedido);
+    $this->geraPdf($this->pedido, $this->cliente);
 } else {
     $pedidos = $this->pedidos;
     $searchTerm = $this->searchTerm;

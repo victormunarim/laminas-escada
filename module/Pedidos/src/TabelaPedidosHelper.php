@@ -20,6 +20,11 @@ class TabelaPedidosHelper extends TabelaHelperGenerica
         $this->pedidosTable = $pedidosTable;
     }
 
+    protected function pegaRoute(): string
+    {
+        return ConstantesPedidos::ROUTE;
+    }
+
     protected function pegaDados($filtros): ResultSetInterface
     {
         return $this->pedidosTable->procuraPedidos($filtros);
@@ -45,10 +50,7 @@ class TabelaPedidosHelper extends TabelaHelperGenerica
             ConstantesPedidos::ID_VALUE => ConstantesPedidos::ID_LABEL,
             ConstantesPedidos::NUMERO_PEDIDO_VALUE => ConstantesPedidos::NUMERO_PEDIDO_LABEL,
             ConstantesPedidos::CLIENTE_ID_VALUE => ConstantesPedidos::CLIENTE_NOME_LABEL,
-            ConstantesPedidos::CPF_VALUE => ConstantesPedidos::CPF_LABEL,
-            ConstantesPedidos::RG_VALUE => ConstantesPedidos::RG_LABEL,
             ConstantesPedidos::PROFISSAO_VALUE => ConstantesPedidos::PROFISSAO_LABEL,
-            ConstantesPedidos::CNPJ_VALUE => ConstantesPedidos::CNPJ_LABEL,
             ConstantesPedidos::EMAIL_VALUE => ConstantesPedidos::EMAIL_LABEL,
             ConstantesPedidos::ADM_OBRA_VALUE => ConstantesPedidos::ADM_OBRA_LABEL,
             ConstantesPedidos::TELEFONE_VALUE => ConstantesPedidos::TELEFONE_LABEL,
@@ -59,6 +61,12 @@ class TabelaPedidosHelper extends TabelaHelperGenerica
             ConstantesPedidos::REVESTIMENTO_VALUE => ConstantesPedidos::REVESTIMENTO_LABEL,
             ConstantesPedidos::VALOR_TOTAL_VALUE => ConstantesPedidos::VALOR_TOTAL_LABEL,
             ConstantesPedidos::PRAZO_MONTAGEM_VALUE => ConstantesPedidos::PRAZO_MONTAGEM_LABEL,
+            ConstantesPedidos::NUMERO_VALUE => ConstantesPedidos::NUMERO_LABEL,
+            ConstantesPedidos::BAIRRO_VALUE => ConstantesPedidos::BAIRRO_LABEL,
+            ConstantesPedidos::CIDADE_VALUE => ConstantesPedidos::CIDADE_LABEL,
+            ConstantesPedidos::CEP_VALUE => ConstantesPedidos::CEP_LABEL,
+            ConstantesPedidos::REFERENCIA_VALUE => ConstantesPedidos::REFERENCIA_LABEL,
+
         ];
     }
 

@@ -46,34 +46,10 @@ class PesquisaForm extends Form
         ]);
 
         $this->add([
-            'name' => ConstantesPedidos::CPF_NAME,
-            'type' => Number::class,
-            'options' => [
-                'label' => ConstantesPedidos::CPF_LABEL,
-            ],
-        ]);
-
-        $this->add([
-            'name' => ConstantesPedidos::RG_NAME,
-            'type' => Number::class,
-            'options' => [
-                'label' => ConstantesPedidos::RG_LABEL,
-            ],
-        ]);
-
-        $this->add([
             'name' => ConstantesPedidos::PROFISSAO_NAME,
             'type' => Text::class,
             'options' => [
                 'label' => ConstantesPedidos::PROFISSAO_LABEL,
-            ],
-        ]);
-
-        $this->add([
-            'name' => ConstantesPedidos::CNPJ_NAME,
-            'type' => Text::class,
-            'options' => [
-                'label' => ConstantesPedidos::CNPJ_LABEL,
             ],
         ]);
 
@@ -134,19 +110,6 @@ class PesquisaForm extends Form
         ]);
 
         $this->add([
-            'name' => ConstantesPedidos::REVESTIMENTO_NAME,
-            'type' => Select::class,
-            'options' => [
-                'label' => ConstantesPedidos::REVESTIMENTO_LABEL,
-                'value_options' => [
-                    null => 'Todos',
-                    true => 'Sim',
-                    false => 'Não'
-                ]
-            ],
-        ]);
-
-        $this->add([
             'name' => ConstantesPedidos::VALOR_TOTAL_NAME,
             'type' => Number::class,
             'options' => [
@@ -159,6 +122,59 @@ class PesquisaForm extends Form
             'type' => Number::class,
             'options' => [
                 'label' => ConstantesPedidos::PRAZO_MONTAGEM_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::NUMERO_NAME,
+            'type' => Number::class,
+            'options' => [
+                'label' => ConstantesPedidos::NUMERO_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::BAIRRO_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::BAIRRO_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::CIDADE_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::CIDADE_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::CEP_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::CEP_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::REFERENCIA_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::REFERENCIA_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::REVESTIMENTO_NAME,
+            'type' => Select::class,
+            'options' => [
+                'label' => ConstantesPedidos::REVESTIMENTO_LABEL,
+                'value_options' => [
+                    null => 'Todos',
+                    true => 'Sim',
+                    false => 'Não'
+                ]
             ],
         ]);
 

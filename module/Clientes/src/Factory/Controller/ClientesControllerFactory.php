@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Clientes\Factory\Controller;
 
 use Clientes\Controller\ClientesController;
+use Clientes\Form\ClienteForm;
 use Clientes\Form\PesquisaForm;
 use Clientes\Model\ClientesTable;
 use Laminas\ServiceManager\Factory\FactoryInterface;
@@ -16,6 +17,7 @@ class ClientesControllerFactory implements FactoryInterface
     {
         $clienteTable = $container->get(ClientesTable::class);
         $pesquisaForm = $container->get(PesquisaForm::class);
-        return new ClientesController($clienteTable, $pesquisaForm);
+        $clienteForm = $container->get(ClienteForm::class);
+        return new ClientesController($clienteTable, $pesquisaForm, $clienteForm);
     }
 }

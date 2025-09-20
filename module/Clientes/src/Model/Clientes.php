@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Clientes\Model;
 
+use Clientes\Constantes\ConstantesClientes;
 use Laminas\InputFilter\InputFilterAwareInterface;
 use Laminas\InputFilter\InputFilterInterface;
 
@@ -13,6 +14,13 @@ class Clientes extends \ArrayObject implements InputFilterAwareInterface
 
     private ?string $nome = null;
 
+    private ?int $cpf = null;
+
+    private ?int $rg = null;
+
+    private ?string $cnpj = null;
+
+    private ?int $ss = null;
 
     private ?string $numero = null;
 
@@ -32,20 +40,38 @@ class Clientes extends \ArrayObject implements InputFilterAwareInterface
     public function getArrayCopy(): array
     {
         return [
-            'cliente_id' => $this->id,
-            'nome' => $this->nome
+            ConstantesClientes::CLIENTE_ID_NAME => $this->id,
+            ConstantesClientes::CLIENTE_NOME_NAME => $this->nome,
+            ConstantesClientes::CPF_NAME => $this->nome,
+            ConstantesClientes::CNPJ_NAME => $this->nome,
+            ConstantesClientes::RG_NAME => $this->nome,
+            ConstantesClientes::SS_NAME => $this->nome,
         ];
     }
 
     public function exchangeArray(array|object $array): array
     {
-        $this->setId(! empty($array['cliente_id']) ? (int)$array['cliente_id'] : null);
+        $this->id = ! empty($array['cliente_id']) ? (int)$array['cliente_id'] : null;
 
-        $this->setNome(
-            ! empty($array['nome'])
+        $this->nome = ! empty($array['nome'])
                 ? (string) $array['nome']
-                : null
-        );
+                : null;
+
+        $this->cpf = ! empty($array[ConstantesClientes::CPF_NAME])
+            ? (int) $array[ConstantesClientes::CPF_NAME]
+            : null;
+
+        $this->rg = ! empty($array[ConstantesClientes::RG_NAME])
+            ? (int) $array[ConstantesClientes::RG_NAME]
+            : null;
+
+        $this->cnpj = ! empty($array[ConstantesClientes::CNPJ_NAME])
+            ? (string) $array[ConstantesClientes::CNPJ_NAME]
+            : null;
+
+        $this->ss = ! empty($array[ConstantesClientes::SS_NAME])
+            ? (int) $array[ConstantesClientes::SS_NAME]
+            : null;
 
         $this->setNumero(
             ! empty($array['numero'])
@@ -85,7 +111,7 @@ class Clientes extends \ArrayObject implements InputFilterAwareInterface
         $this->nome = $nome;
     }
 
-    public function getNome(): string
+    public function getNome(): ?string
     {
         return $this->nome;
     }
@@ -95,9 +121,49 @@ class Clientes extends \ArrayObject implements InputFilterAwareInterface
         $this->id = $id;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getCpf(): ?int
+    {
+        return $this->cpf;
+    }
+
+    public function setCpf(?int $cpf): void
+    {
+        $this->cpf = $cpf;
+    }
+
+    public function getRg(): ?int
+    {
+        return $this->rg;
+    }
+
+    public function setRg(?int $rg): void
+    {
+        $this->rg = $rg;
+    }
+
+    public function getCnpj(): ?string
+    {
+        return $this->cnpj;
+    }
+
+    public function setCnpj(?string $cnpj): void
+    {
+        $this->cnpj = $cnpj;
+    }
+
+    public function getSS(): ?int
+    {
+        return $this->ss;
+    }
+
+    public function setSS(?int $ss): void
+    {
+        $this->ss = $ss;
     }
 
     public function getNumero(): ?string

@@ -44,10 +44,7 @@ class PedidosController extends AbstractActionController
             ConstantesPedidos::ID_NAME,
             ConstantesPedidos::NUMERO_PEDIDO_NAME,
             ConstantesPedidos::CLIENTE_ID_NAME,
-            ConstantesPedidos::CPF_NAME,
-            ConstantesPedidos::RG_NAME,
             ConstantesPedidos::PROFISSAO_NAME,
-            ConstantesPedidos::CNPJ_NAME,
             ConstantesPedidos::EMAIL_NAME,
             ConstantesPedidos::ADM_OBRA_NAME,
             ConstantesPedidos::TELEFONE_NAME,
@@ -58,6 +55,11 @@ class PedidosController extends AbstractActionController
             ConstantesPedidos::REVESTIMENTO_NAME,
             ConstantesPedidos::VALOR_TOTAL_NAME,
             ConstantesPedidos::PRAZO_MONTAGEM_NAME,
+            ConstantesPedidos::NUMERO_NAME,
+            ConstantesPedidos::BAIRRO_NAME,
+            ConstantesPedidos::CIDADE_NAME,
+            ConstantesPedidos::CEP_NAME,
+            ConstantesPedidos::REFERENCIA_NAME,
         ];
 
         $filters = [];
@@ -192,10 +194,12 @@ class PedidosController extends AbstractActionController
         }
 
         $pedido = $this->table->getPedidos($id);
+        $cliente = $this->tableClientes->getEnderecoPeloIdpedido($id);
 
         return (new ViewModel([
             'action' => 'pdf',
             'pedido' => $pedido,
+            'cliente' => $cliente,
         ]))->setTemplate('pedidos/index');
     }
 }

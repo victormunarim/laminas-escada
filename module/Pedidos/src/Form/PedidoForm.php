@@ -55,34 +55,10 @@ class PedidoForm extends Form
         ]);
 
         $this->add([
-            'name' => ConstantesPedidos::CPF_NAME,
-            'type' => Number::class,
-            'options' => [
-                'label' => ConstantesPedidos::CPF_LABEL,
-            ],
-        ]);
-
-        $this->add([
-            'name' => ConstantesPedidos::RG_NAME,
-            'type' => Number::class,
-            'options' => [
-                'label' => ConstantesPedidos::RG_LABEL,
-            ],
-        ]);
-
-        $this->add([
             'name' => ConstantesPedidos::PROFISSAO_NAME,
             'type' => Text::class,
             'options' => [
                 'label' => ConstantesPedidos::PROFISSAO_LABEL,
-            ],
-        ]);
-
-        $this->add([
-            'name' => ConstantesPedidos::CNPJ_NAME,
-            'type' => Text::class,
-            'options' => [
-                'label' => ConstantesPedidos::CNPJ_LABEL,
             ],
         ]);
 

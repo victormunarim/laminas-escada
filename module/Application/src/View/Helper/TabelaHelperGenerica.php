@@ -23,6 +23,8 @@ abstract class TabelaHelperGenerica extends AbstractHelper
 
     abstract protected function pegaDados($filtros): ResultSetInterface;
 
+    abstract protected function pegaRoute(): string;
+
     public function __invoke($filtros): string
     {
         $dados = $this->pegaDados($filtros);
@@ -38,7 +40,7 @@ abstract class TabelaHelperGenerica extends AbstractHelper
         $primeiro = $dados[0];
         $colunas = $this->getColunasDisponiveis($primeiro);
 
-        $url = $this->getView()->url(ConstantesPedidos::ROUTE, ['action' => 'add']);
+        $url = $this->getView()->url($this->pegaRoute(), ['action' => 'add']);
 
         $html  = '<div class="d-flex justify-content-start mt-5">';
         $html .= '<a href="' . $url . '" class="btn btn-success">';

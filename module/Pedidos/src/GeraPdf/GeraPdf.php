@@ -9,10 +9,11 @@ use Laminas\View\Helper\AbstractHelper;
 
 class GeraPdf extends AbstractHelper
 {
-    public function __invoke($pedido)
+    public function __invoke($pedido, $cliente)
     {
         ob_start();
         $pedidoObj = $pedido;
+        $cliente = $cliente[0];
         include __DIR__ . "/pedidoPDF.html";
         $html = ob_get_clean();
 

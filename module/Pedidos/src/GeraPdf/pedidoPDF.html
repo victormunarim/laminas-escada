@@ -89,22 +89,24 @@
         <div class="d-flex justify-content-between align-items-center">
             <div class="text-end">
                 <div><strong>Data:</strong> <?= (new DateTime())->format('d/m/Y') ?></div>
-                <div><strong>Pedido Nº:</strong> <?= $pedidoObj->getNumeroPedido() ?></div>
             </div>
         </div>
 
         <h5>Dados do Cliente</h5>
         <div class="linha">
-            <div class="campo"><strong>Cliente:</strong> <?= $pedidoObj->getClienteId() ?></div>
-            <div class="campo"><strong>CPF:</strong> <?= $pedidoObj->getCpf() ?></div>
+            <div class="campo"><strong>Cliente:</strong></div>
+            <div class="campo"><strong>CPF:</strong> <?= $cliente['cpf'] ?></div>
         </div>
         <div class="linha">
-            <div class="campo"><strong>RG:</strong> <?= $pedidoObj->getRg() ?></div>
+            <div class="campo"><strong>RG:</strong> <?= $cliente['rg'] ?></div>
             <div class="campo"><strong>Profissão:</strong> <?= $pedidoObj->getProfissao() ?></div>
         </div>
         <div class="linha">
-            <div class="campo"><strong>CNPJ:</strong> <?= $pedidoObj->getCnpj() ?></div>
+            <div class="campo"><strong>CNPJ:</strong> <?= $cliente['cnpj'] ?></div>
             <div class="campo"><strong>Email:</strong> <?= $pedidoObj->getEmail() ?></div>
+        </div>
+        <div class="linha">
+            <div class="campo"><strong>Serviço social:</strong> <?= $cliente['servico_social'] ?></div>
         </div>
         <div class="linha">
             <div class="campo"><strong>Adm. Obra:</strong> <?= $pedidoObj->getAdmObra() ?></div>
@@ -117,30 +119,28 @@
 
         <h5>Endereço da Obra</h5>
         <div class="linha">
-            <div class="campo"><strong>Endereço:</strong></div>
-            <div class="campo"><strong>Bairro:</strong></div>
+            <div class="campo"><strong>Bairro:</strong><?= $pedidoObj->getBairro() ?></div>
+            <div class="campo"><strong>Cidade:</strong><?= $pedidoObj->getCidade() ?></div>
         </div>
         <div class="linha">
-            <div class="campo"><strong>Cidade:</strong></div>
-            <div class="campo"><strong>CEP:</strong></div>
+            <div class="campo"><strong>CEP:</strong><?= $pedidoObj->getCep() ?></div>
+            <div class="campo"><strong>Nº:</strong><?= $pedidoObj->getNumero() ?></div>
         </div>
         <div class="linha">
-            <div class="campo"><strong>Nº:</strong></div>
-            <div class="campo"></div>
+            <div class="campo"><strong>Referência:</strong></div>
         </div>
 
         <h5>Endereço do Cliente</h5>
         <div class="linha">
-            <div class="campo"><strong>Endereço:</strong></div>
-            <div class="campo"><strong>Bairro:</strong></div>
+            <div class="campo"><strong>Bairro:</strong> <?= $cliente['bairro'] ?></div>
+            <div class="campo"><strong>Cidade:</strong> <?= $cliente['cidade'] ?></div>
         </div>
         <div class="linha">
-            <div class="campo"><strong>Cidade:</strong></div>
-            <div class="campo"><strong>CEP:</strong></div>
+            <div class="campo"><strong>CEP:</strong> <?= $cliente['cep'] ?></div>
+            <div class="campo"><strong>Nº:</strong> <?= $cliente['numero'] ?></div>
         </div>
         <div class="linha">
-            <div class="campo"><strong>Nº:</strong></div>
-            <div class="campo"></div>
+            <div class="campo"><strong>Referência:</strong> <?= $cliente['referencia'] ?></div>
         </div>
 
         <h5>Detalhes do Pedido</h5>

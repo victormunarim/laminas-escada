@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Clientes;
 
 use Application\View\Helper\BarraPesquisaHelperGenerica;
+use Application\View\Helper\FormAddHelperGenerico;
 use Clientes\Controller\ClientesController;
 use Clientes\Factory\Controller\ClientesControllerFactory;
+use Clientes\Form\ClienteForm;
 use Clientes\Model\ClientesTable;
 use Laminas\Router\Http\Segment;
 use Laminas\ServiceManager\Factory\InvokableFactory;
@@ -31,11 +33,13 @@ return [
                 );
             },
             BarraPesquisaHelperGenerica::class => InvokableFactory::class,
+            FormAddHelperGenerico::class => InvokableFactory::class,
         ],
 
         'aliases' => [
             'tabelaClientes' => TabelaClientesHelper::class,
             'barraPesquisa'   => BarraPesquisaHelperGenerica::class,
+            'formAddClientes'  => FormAddHelperGenerico::class,
         ]
     ],
 
@@ -68,6 +72,9 @@ return [
         'factories' => [
             PesquisaForm::class => function ($container): PesquisaForm {
                 return new PesquisaForm();
+            },
+            ClienteForm::class => function ($container): ClienteForm {
+                return new ClienteForm();
             },
         ]
     ]

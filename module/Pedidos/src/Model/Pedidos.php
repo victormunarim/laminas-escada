@@ -13,10 +13,7 @@ class Pedidos implements InputFilterAwareInterface
     private ?int $id = null;
     private ?int $numeroPedido = null;
     private ?int $clienteId = null;
-    private ?int $cpf = null;
-    private ?int $rg = null;
     private ?string $profissao = null;
-    private ?string $cnpj = null;
     private ?string $email = null;
     private ?string $admObra = null;
     private ?int $telefone = null;
@@ -29,6 +26,11 @@ class Pedidos implements InputFilterAwareInterface
     private ?int $prazoMontagem = null;
     private ?int $flagOculto = null;
     private ?string $clienteNome = null;
+    private ?int $numero = null;
+    private ?string $bairro = null;
+    private ?string $cidade = null;
+    private ?string $cep = null;
+    private ?string $referencia = null;
 
     /**
      * @param array<string,mixed> $array
@@ -47,20 +49,8 @@ class Pedidos implements InputFilterAwareInterface
             ? (int) $array[ConstantesPedidos::CLIENTE_ID_NAME]
             : null;
 
-        $this->cpf = ! empty($array[ConstantesPedidos::CPF_NAME])
-            ? (int) $array[ConstantesPedidos::CPF_NAME]
-            : null;
-
-        $this->rg = ! empty($array[ConstantesPedidos::RG_NAME])
-            ? (int) $array[ConstantesPedidos::RG_NAME]
-            : null;
-
         $this->profissao = ! empty($array[ConstantesPedidos::PROFISSAO_NAME])
             ? (string) $array[ConstantesPedidos::PROFISSAO_NAME]
-            : null;
-
-        $this->cnpj = ! empty($array[ConstantesPedidos::CNPJ_NAME])
-            ? (string) $array[ConstantesPedidos::CNPJ_NAME]
             : null;
 
         $this->email = ! empty($array[ConstantesPedidos::EMAIL_NAME])
@@ -106,6 +96,26 @@ class Pedidos implements InputFilterAwareInterface
         $this->flagOculto = ! empty($array[ConstantesPedidos::FLAG_OCULTO_NAME])
             ? (int) $array[ConstantesPedidos::FLAG_OCULTO_NAME]
             : 0;
+
+        $this->numero = ! empty($array[ConstantesPedidos::NUMERO_NAME])
+            ? (int)$array[ConstantesPedidos::NUMERO_NAME]
+            : null;
+
+        $this->bairro = ! empty($array[ConstantesPedidos::BAIRRO_NAME])
+            ? (string)$array[ConstantesPedidos::BAIRRO_NAME]
+            : null;
+
+        $this->cidade = ! empty($array[ConstantesPedidos::CIDADE_NAME])
+            ? (string)$array[ConstantesPedidos::CIDADE_NAME]
+            : null;
+
+        $this->cep = ! empty($array[ConstantesPedidos::CEP_NAME])
+            ? (string)$array[ConstantesPedidos::CEP_NAME]
+            : null;
+
+        $this->referencia = ! empty($array[ConstantesPedidos::REFERENCIA_NAME])
+            ? (string)$array[ConstantesPedidos::REFERENCIA_NAME]
+            : null;
     }
 
     /**
@@ -117,10 +127,7 @@ class Pedidos implements InputFilterAwareInterface
             ConstantesPedidos::ID_NAME => $this->id,
             ConstantesPedidos::NUMERO_PEDIDO_NAME => $this->numeroPedido,
             ConstantesPedidos::CLIENTE_ID_NAME => $this->clienteId,
-            ConstantesPedidos::CPF_NAME => $this->cpf,
-            ConstantesPedidos::RG_NAME => $this->rg,
             ConstantesPedidos::PROFISSAO_NAME => $this->profissao,
-            ConstantesPedidos::CNPJ_NAME => $this->cnpj,
             ConstantesPedidos::EMAIL_NAME => $this->email,
             ConstantesPedidos::ADM_OBRA_NAME => $this->admObra,
             ConstantesPedidos::TELEFONE_NAME => $this->telefone,
@@ -132,6 +139,11 @@ class Pedidos implements InputFilterAwareInterface
             ConstantesPedidos::VALOR_TOTAL_NAME => $this->valorTotal,
             ConstantesPedidos::PRAZO_MONTAGEM_NAME => $this->prazoMontagem,
             ConstantesPedidos::FLAG_OCULTO_NAME => $this->flagOculto,
+            ConstantesPedidos::NUMERO_NAME => $this->numero,
+            ConstantesPedidos::BAIRRO_NAME => $this->bairro,
+            ConstantesPedidos::CIDADE_NAME => $this->cidade,
+            ConstantesPedidos::CEP_NAME => $this->cep,
+            ConstantesPedidos::REFERENCIA_NAME => $this->referencia
         ];
     }
 
@@ -159,22 +171,6 @@ class Pedidos implements InputFilterAwareInterface
     {
         $this->clienteId = $clienteId;
     }
-    public function getCpf(): ?int
-    {
-        return $this->cpf;
-    }
-    public function setCpf(?int $cpf): void
-    {
-        $this->cpf = $cpf;
-    }
-    public function getRg(): ?int
-    {
-        return $this->rg;
-    }
-    public function setRg(?int $rg): void
-    {
-        $this->rg = $rg;
-    }
     public function getProfissao(): ?string
     {
         return $this->profissao;
@@ -182,14 +178,6 @@ class Pedidos implements InputFilterAwareInterface
     public function setProfissao(?string $profissao): void
     {
         $this->profissao = $profissao;
-    }
-    public function getCnpj(): ?string
-    {
-        return $this->cnpj;
-    }
-    public function setCnpj(?string $cnpj): void
-    {
-        $this->cnpj = $cnpj;
     }
     public function getEmail(): ?string
     {
@@ -286,6 +274,61 @@ class Pedidos implements InputFilterAwareInterface
     public function setClienteNome(?string $nome): void
     {
         $this->clienteNome = $nome;
+    }
+
+    public function getNumero(): ?int
+    {
+        return $this->numero;
+    }
+
+    public function setNumero(?int $numero): self
+    {
+        $this->numero = $numero;
+        return $this;
+    }
+
+    public function getBairro(): ?string
+    {
+        return $this->bairro;
+    }
+
+    public function setBairro(?string $bairro): self
+    {
+        $this->bairro = $bairro;
+        return $this;
+    }
+
+    public function getCidade(): ?string
+    {
+        return $this->cidade;
+    }
+
+    public function setCidade(?string $cidade): self
+    {
+        $this->cidade = $cidade;
+        return $this;
+    }
+
+    public function getCep(): ?string
+    {
+        return $this->cep;
+    }
+
+    public function setCep(?string $cep): self
+    {
+        $this->cep = $cep;
+        return $this;
+    }
+
+    public function getReferencia(): ?string
+    {
+        return $this->referencia;
+    }
+
+    public function setReferencia(?string $referencia): self
+    {
+        $this->referencia = $referencia;
+        return $this;
     }
 
     public function setInputFilter(InputFilterInterface $inputFilter): void
