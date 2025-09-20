@@ -6,22 +6,22 @@ namespace Pedidos;
 
 use Application\View\Helper\BarraPesquisaHelperGenerica;
 use Application\View\Helper\FormAddHelperGenerico;
+use Clientes\Model\ClientesTable;
+use Clientes\Model\ClientesTableFactory;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\AdapterServiceFactory;
 use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\TableGateway\TableGateway;
+use Laminas\Router\Http\Segment;
+use Laminas\ServiceManager\Factory\InvokableFactory;
 use Pedidos\Constantes\ConstantesPedidos;
 use Pedidos\Controller\PedidosController;
 use Pedidos\Factory\Controller\PedidosControllerFactory;
 use Pedidos\Form\PedidoForm;
 use Pedidos\Form\PesquisaForm;
 use Pedidos\GeraPdf\GeraPdf;
-use Pedidos\Model\ClientesTable;
-use Pedidos\Model\ClientesTableFactory;
 use Pedidos\Model\Pedidos;
 use Pedidos\Model\PedidosTable;
-use Laminas\Db\Adapter\Adapter;
-use Laminas\Db\Adapter\AdapterServiceFactory;
-use Laminas\Router\Http\Segment;
-use Laminas\ServiceManager\Factory\InvokableFactory;
 use Psr\Container\ContainerInterface;
 
 return [
@@ -63,7 +63,7 @@ return [
     'router' => [
         'routes' => [
             ConstantesPedidos::ROUTE => [
-                'type'    => Segment::class,
+                'type' => Segment::class,
                 'options' => [
                     'route'       => '/' . ConstantesPedidos::ROUTE . '[/:action[/:id_pedido]]',
                     'constraints' => [

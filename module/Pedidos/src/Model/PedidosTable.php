@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Pedidos\Model;
 
-use Pedidos\Constantes\ConstantesPedidos;
-use RuntimeException;
+use Clientes\Model\ClientesTable;
 use Laminas\Db\ResultSet\ResultSetInterface;
 use Laminas\Db\Sql\Select;
 use Laminas\Db\TableGateway\TableGatewayInterface;
+use Pedidos\Constantes\ConstantesPedidos;
+use RuntimeException;
 
 class PedidosTable
 {

@@ -5,11 +5,26 @@ declare(strict_types=1);
 namespace Pedidos;
 
 use Application\View\Helper\TabelaHelperGenerica;
+use Laminas\Db\ResultSet\ResultSetInterface;
 use Pedidos\Constantes\ConstantesPedidos;
 use Pedidos\Model\Pedidos;
+use Pedidos\Model\PedidosTable;
 
 class TabelaPedidosHelper extends TabelaHelperGenerica
 {
+    private PedidosTable $pedidosTable;
+
+    public function __construct(PedidosTable $pedidosTable)
+    {
+        parent::__construct($pedidosTable);
+        $this->pedidosTable = $pedidosTable;
+    }
+
+    protected function pegaDados($filtros): ResultSetInterface
+    {
+        return $this->pedidosTable->procuraPedidos($filtros);
+    }
+
     protected function getColunasFixas(): array
     {
         return [];

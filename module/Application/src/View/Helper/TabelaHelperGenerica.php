@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Application\View\Helper;
 
-use Application\DataHelper;
+use Clientes\Model\Clientes;
 use Laminas\Db\ResultSet\ResultSet;
+use Laminas\Db\ResultSet\ResultSetInterface;
 use Laminas\View\Helper\AbstractHelper;
 use Pedidos\Constantes\ConstantesPedidos;
 use Pedidos\Model\Pedidos;
@@ -13,14 +14,18 @@ use Pedidos\Model\PedidosTable;
 
 abstract class TabelaHelperGenerica extends AbstractHelper
 {
-    public function __construct(
-        private PedidosTable $pedidosTable
-    ) {
+    private PedidosTable $pedidosTable;
+
+    public function __construct(PedidosTable $pedidosTable)
+    {
+        $this->pedidosTable = $pedidosTable;
     }
+
+    abstract protected function pegaDados($filtros): ResultSetInterface;
 
     public function __invoke($filtros): string
     {
-        $dados = $this->pedidosTable->procuraPedidos($filtros);
+        $dados = $this->pegaDados($filtros);
 
         if ($dados instanceof ResultSet) {
             $dados = iterator_to_array($dados);
@@ -75,7 +80,7 @@ abstract class TabelaHelperGenerica extends AbstractHelper
      * @param object|array<string, mixed> $linha
      * @return array<int, string>
      */
-    private function getColunasDisponiveis(Pedidos $linha): array
+    private function getColunasDisponiveis(Pedidos|Clientes $linha): array
     {
         $colunasFixas = $this->getColunasFixas();
 
@@ -100,7 +105,7 @@ abstract class TabelaHelperGenerica extends AbstractHelper
      * @param object|array<string, mixed> $linha
      * @return mixed
      */
-    private function getValorColuna(Pedidos $linha, string $coluna): mixed
+    private function getValorColuna(Pedidos|Clientes $linha, string $coluna): mixed
     {
         $getter = 'get' . ucfirst($coluna);
 
@@ -143,6 +148,4 @@ abstract class TabelaHelperGenerica extends AbstractHelper
      * @param \Pedidos\Model\Pedidos|array<string,mixed> $linha
      */
     abstract protected function renderizarAcoes(Pedidos|array $linha): string;
-
-
 }

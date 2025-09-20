@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pedidos\Form;
 
+use Clientes\Model\ClientesTable;
 use Laminas\Form\Element\Email;
 use Laminas\Form\Element\Hidden;
 use Laminas\Form\Element\Number;
@@ -13,7 +14,6 @@ use Laminas\Form\Element\Tel;
 use Laminas\Form\Element\Text;
 use Laminas\Form\Form;
 use Pedidos\Constantes\ConstantesPedidos;
-use Pedidos\Model\ClientesTable;
 
 class PedidoForm extends Form
 {

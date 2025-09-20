@@ -4,70 +4,97 @@
  */
 ?>
 <?= $this->doctype() ?>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <?= $this->headTitle('Escadas Munarim')->setSeparator(' - ')->setAutoEscape(false) ?>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <?= $this->headTitle('Escadas Munarim')->setSeparator(' - ')->setAutoEscape(false) ?>
 
-        <?= $this->headMeta()
+    <?= $this->headMeta()
             ->appendName('viewport', 'width=device-width, initial-scale=1.0')
             ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
-        ?>
+    ?>
 
-        <!-- Styles -->
-        <?= $this->headLink([
-                'rel' => 'shortcut icon',
-                'type' => 'image/vnd.microsoft.icon',
-                'href' => $this->basePath() . '/img/favicon.ico'
-            ])
+    <!-- Styles -->
+    <?= $this->headLink([
+            'rel' => 'shortcut icon',
+            'type' => 'image/vnd.microsoft.icon',
+            'href' => $this->basePath() . '/img/favicon.ico'
+    ])
+            ->prependStylesheet('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css')
             ->prependStylesheet($this->basePath('css/style.css'))
             ->prependStylesheet($this->basePath('css/bootstrap.min.css')) ?>
 
-        <!-- Scripts -->
-        <?= $this->headScript() ?>
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-md navbar-dark mb-4" role="navigation">
-            <div class="container">
-                <a class="navbar-brand" href="<?= $this->url('home') ?>">
-                    <h1>ESCADAS MUNARIM</h1>
-                </a>
-                <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a
-                                class="nav-link active"
-                                aria-current="page"
-                                href="<?= $this->url('home') ?>"
-                            >Home
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <div class="container">
-            <?= $this->content ?>
-            <hr>
-            <footer>
-                <p>
-                    &copy; <?= date('Y') ?>
-                    <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
-                </p>
-            </footer>
+    <!-- Scripts -->
+    <?= $this->headScript() ?>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark" role="navigation">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="<?= $this->url('home') ?>">
+            <h1>ESCADAS MUNARIM</h1>
+        </a>
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a
+                        class="nav-link active"
+                        aria-current="page"
+                        href="<?= $this->url('home') ?>"
+                    >Home</a>
+                </li>
+            </ul>
         </div>
-        <?= $this->inlineScript()
-            ->prependFile($this->basePath('js/bootstrap.min.js')) ?>
-    </body>
+    </div>
+</nav>
+
+<!-- Layout principal: menu lateral + conteúdo -->
+<div class="d-flex">
+    <!-- Sidebar lateral -->
+    <nav class="navbar d-flex flex-column align-items-center py-3"
+         style="width:70px; min-height:calc(100vh - 56px); flex-shrink:0; align-items:center; justify-content:flex-start;">
+        <?php foreach ($this->navigation('Laminas\Navigation\Default')->getContainer() as $page): ?>
+            <a href="<?= $page->getHref() ?>"
+               class="nav-link text-light my-3<?= $page->isActive() ? 'active' : '' ?>"
+               data-bs-toggle="tooltip"
+               data-bs-placement="right"
+               title="<?= $this->escapeHtml($page->getLabel()) ?>">
+                <i class="<?= $page->get('icon') ?> fa-lg"></i>
+            </a>
+        <?php endforeach; ?>
+    </nav>
+
+
+    <!-- Conteúdo -->
+    <div class="container-xll py-3" style="margin-left: auto; margin-right: auto;">
+        <?= $this->content ?>
+        <hr>
+        <footer>
+            <p>
+                &copy; <?= date('Y') ?>
+                <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+            </p>
+        </footer>
+    </div>
+</div>
+
+<?= $this->inlineScript()
+        ->prependFile($this->basePath('js/bootstrap.min.js')) ?>
+
+<script>
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    tooltipTriggerList.forEach(el => new bootstrap.Tooltip(el))
+</script>
+</body>
 </html>

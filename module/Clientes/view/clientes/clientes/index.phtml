@@ -1,0 +1,16 @@
+<?php
+
+declare(strict_types=1);
+
+$clientes = $this->pedidos;
+$searchTerm = $this->searchTerm;
+
+$this->headTitle('Clientes');
+
+echo '<h1 class="mb-4">Clientes</h1>';
+
+echo $this->barraPesquisa($this->pesquisaForm);
+
+echo $this->tabelaClientes($this->filters);
+
+//echo $this->mensagensAlert($clientes, $searchTerm);

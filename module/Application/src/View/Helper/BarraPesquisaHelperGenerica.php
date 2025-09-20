@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace Application\View\Helper;
 
 use Laminas\View\Helper\AbstractHelper;
-use Pedidos\Form\PesquisaForm;
+use Pedidos\Form\PesquisaForm as PesquisaFormPedidos;
+use Clientes\Form\PesquisaForm as PesquisaFormClientes;
 
 class BarraPesquisaHelperGenerica extends AbstractHelper
 {
-    /**
-     * @param array<string, mixed> $opcoes
-     */
-    public function __invoke(PesquisaForm $pesquisaForm): string
+    public function __invoke(PesquisaFormPedidos|PesquisaFormClientes $pesquisaForm): string
     {
         $view = $this->getView();
 

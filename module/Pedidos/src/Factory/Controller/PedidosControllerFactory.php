@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Pedidos\Factory\Controller;
 
+use Clientes\Model\ClientesTable;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Pedidos\Controller\PedidosController;
 use Pedidos\Form\PedidoForm;
 use Pedidos\Form\PesquisaForm;
-use Pedidos\Model\ClientesTable;
 use Pedidos\Model\PedidosTable;
-use Laminas\ServiceManager\Factory\FactoryInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;

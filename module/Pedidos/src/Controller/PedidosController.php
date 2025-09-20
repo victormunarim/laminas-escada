@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace Pedidos\Controller;
 
-use Dompdf\Dompdf;
+use Clientes\Model\ClientesTable;
 use Laminas\Form\FormInterface;
+use Laminas\Http\PhpEnvironment\Request;
 use Laminas\Http\Response;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
 use Pedidos\Constantes\ConstantesPedidos;
 use Pedidos\Form\PedidoForm;
 use Pedidos\Form\PesquisaForm;
-use Pedidos\Model\ClientesTable;
 use Pedidos\Model\Pedidos;
 use Pedidos\Model\PedidosTable;
-use Laminas\Http\PhpEnvironment\Request;
-use Laminas\Mvc\Controller\AbstractActionController;
-use Laminas\View\Model\ViewModel;
 
 class PedidosController extends AbstractActionController
 {

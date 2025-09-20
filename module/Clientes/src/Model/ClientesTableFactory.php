@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Pedidos\Model;
+namespace Clientes\Model;
 
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\TableGateway\TableGateway;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 class ClientesTableFactory
 {

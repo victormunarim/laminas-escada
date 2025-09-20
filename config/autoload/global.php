@@ -17,4 +17,18 @@ return [
             },
         ],
     ],
+    'navigation' => [
+        'default' => [
+            [
+                'label' => 'Home',
+                'route' => 'home',
+                'icon'  => 'fa-solid fa-house',
+            ],
+            [
+                'label' => 'Clientes',
+                'route' => 'clientes',
+                'icon' => 'fa-solid fa-person'
+            ]
+        ],
+    ],
 ];
