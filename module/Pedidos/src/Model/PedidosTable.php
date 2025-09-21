@@ -71,7 +71,13 @@ class PedidosTable
             ConstantesPedidos::TUBOS_NAME => $pedido->getTubos() ?? '',
             ConstantesPedidos::REVESTIMENTO_NAME => $pedido->getRevestimento() ? 1 : 0,
             ConstantesPedidos::VALOR_TOTAL_NAME => $pedido->getValorTotal() ?? 0,
-            ConstantesPedidos::PRAZO_MONTAGEM_NAME => $pedido->getPrazoMontagem() ?? 0  ,
+            ConstantesPedidos::PRAZO_MONTAGEM_NAME => $pedido->getPrazoMontagem() ?? 0,
+            ConstantesPedidos::CLIENTE_ID_NAME => $pedido->getClienteId() ?? 0,
+            ConstantesPedidos::NUMERO_NAME => $pedido->getNumero() ?? 0,
+            ConstantesPedidos::BAIRRO_NAME => $pedido->getBairro() ?? '',
+            ConstantesPedidos::CIDADE_NAME => $pedido->getCidade() ?? '',
+            ConstantesPedidos::CEP_NAME => $pedido->getCep() ?? 0,
+            ConstantesPedidos::REFERENCIA_NAME => $pedido->getReferencia() ?? '',
         ];
 
         $id = (int) $pedido->getId() ?? 0;

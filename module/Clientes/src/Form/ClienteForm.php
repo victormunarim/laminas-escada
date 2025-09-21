@@ -13,6 +13,9 @@ use Laminas\Form\Element\Text;
 use Laminas\Form\Form;
 use Laminas\Validator\Callback;
 use Laminas\InputFilter\InputFilterProviderInterface;
+use Laminas\Validator\EmailAddress;
+use Laminas\Validator\Hostname;
+use Laminas\Validator\NotEmpty;
 
 class ClienteForm extends Form implements InputFilterProviderInterface
 {
@@ -130,6 +133,43 @@ class ClienteForm extends Form implements InputFilterProviderInterface
     public function getInputFilterSpecification(): array
     {
         return [
+            'nome' => [
+                'required' => true,
+                'filters'  => [
+                    ['name' => 'StringTrim'],
+                    ['name' => 'StripTags'],
+                ],
+                'validators' => [
+                    [
+                        'name' => NotEmpty::class,
+                        'options' => [
+                            'messages' => [
+                                NotEmpty::IS_EMPTY => 'O nome do cliente é obrigatório',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+
+            'email' => [
+                'required' => false,
+                'allow_empty' => true,
+                'validators' => [
+                    [
+                        'name' => EmailAddress::class,
+                        'options' => [
+                            'useMxCheck' => false,
+                            'allow' => Hostname::ALLOW_DNS,
+                            'messages' => [
+                                EmailAddress::INVALID_FORMAT => 'E-mail inválido',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+
+
+
             'cpf' => [
                 'required' => false,
                 'validators' => [[

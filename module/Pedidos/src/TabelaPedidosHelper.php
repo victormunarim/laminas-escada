@@ -32,14 +32,14 @@ class TabelaPedidosHelper extends TabelaHelperGenerica
 
     protected function getColunasFixas(): array
     {
-        return [];
+        return [ConstantesPedidos::ID_VALUE, ConstantesPedidos::CLIENTE_NOME_VALUE];
     }
 
     protected function getColunasIgnorar(): array
     {
         return [
             ConstantesPedidos::FLAG_OCULTO_VALUE,
-            ConstantesPedidos::CLIENTE_NOME_VALUE,
+            ConstantesPedidos::CLIENTE_ID_VALUE,
         ];
     }
 
@@ -49,7 +49,7 @@ class TabelaPedidosHelper extends TabelaHelperGenerica
         return [
             ConstantesPedidos::ID_VALUE => ConstantesPedidos::ID_LABEL,
             ConstantesPedidos::NUMERO_PEDIDO_VALUE => ConstantesPedidos::NUMERO_PEDIDO_LABEL,
-            ConstantesPedidos::CLIENTE_ID_VALUE => ConstantesPedidos::CLIENTE_NOME_LABEL,
+            ConstantesPedidos::CLIENTE_NOME_VALUE => ConstantesPedidos::CLIENTE_NOME_LABEL,
             ConstantesPedidos::PROFISSAO_VALUE => ConstantesPedidos::PROFISSAO_LABEL,
             ConstantesPedidos::ADM_OBRA_VALUE => ConstantesPedidos::ADM_OBRA_LABEL,
             ConstantesPedidos::TELEFONE_VALUE => ConstantesPedidos::TELEFONE_LABEL,

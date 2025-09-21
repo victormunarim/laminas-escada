@@ -37,6 +37,11 @@ abstract class TabelaHelperGenerica extends AbstractHelper
             return '';
         }
 
+        foreach ($dados as $dado) {
+            if ($dado instanceof Pedidos) {
+                $dado->setClienteNome($this->pedidosTable->getNomeClientePorId($dado->getClienteId()));
+            }
+        }
         $primeiro = $dados[0];
         $colunas = $this->getColunasDisponiveis($primeiro);
 
@@ -61,8 +66,8 @@ abstract class TabelaHelperGenerica extends AbstractHelper
             $html .= '<tr>';
             foreach ($colunas as $coluna) {
                 $valor = $this->getValorColuna($linha, $coluna);
-                if ($coluna === ConstantesPedidos::CLIENTE_ID_VALUE) {
-                    $valor = $this->pedidosTable->getNomeClientePorId($valor);
+                if ($coluna === ConstantesPedidos::CLIENTE_NOME_VALUE) {
+                    $valor = $linha->getClienteNome();
                 }
 
                 if ($coluna === 'revestimento') {

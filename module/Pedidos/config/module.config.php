@@ -17,6 +17,7 @@ use Laminas\ServiceManager\Factory\InvokableFactory;
 use Pedidos\Constantes\ConstantesPedidos;
 use Pedidos\Controller\PedidosController;
 use Pedidos\Factory\Controller\PedidosControllerFactory;
+use Pedidos\Form\NotEmptyNumber;
 use Pedidos\Form\PedidoForm;
 use Pedidos\Form\PesquisaForm;
 use Pedidos\GeraPdf\GeraPdf;
@@ -115,4 +116,11 @@ return [
             },
         ],
     ],
+
+    'validators' => [
+        'factories' => [
+            NotEmptyNumber::class => InvokableFactory::class,
+        ],
+    ],
+
 ];

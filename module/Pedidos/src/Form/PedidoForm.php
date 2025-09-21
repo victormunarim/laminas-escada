@@ -12,9 +12,10 @@ use Laminas\Form\Element\Submit;
 use Laminas\Form\Element\Tel;
 use Laminas\Form\Element\Text;
 use Laminas\Form\Form;
+use Laminas\InputFilter\InputFilterProviderInterface;
 use Pedidos\Constantes\ConstantesPedidos;
 
-class PedidoForm extends Form
+class PedidoForm extends Form implements InputFilterProviderInterface
 {
     private $clientesTable;
 
@@ -185,5 +186,35 @@ class PedidoForm extends Form
                 'id'    => 'submitbutton',
             ],
         ]);
+    }
+
+    public function getInputFilterSpecification(): array
+    {
+        return [
+            'numero' => [
+                'required'    => false,
+                'allow_empty' => true,
+            ],
+            'telefone' => [
+                'required'    => false,
+                'allow_empty' => true,
+            ],
+            'telefone_fixo' => [
+                'required'    => false,
+                'allow_empty' => true,
+            ],
+            'valor_total' => [
+                'required'    => false,
+                'allow_empty' => true,
+            ],
+            'cep' => [
+                'required'    => false,
+                'allow_empty' => true,
+            ],
+            'prazo_montagem' => [
+                'required'    => false,
+                'allow_empty' => true,
+            ],
+        ];
     }
 }

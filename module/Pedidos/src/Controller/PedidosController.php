@@ -176,6 +176,7 @@ class PedidosController extends AbstractActionController
 
         $pedido = $this->table->getPedidos($id);
         $nomeCliente = $this->tableClientes->getClientes($pedido->getClienteId())->getNome();
+        $nomeCliente = empty($nomeCliente) ? '[nome do cliente não informado]' : $nomeCliente;
 
         return (new ViewModel([
             'action'      => 'delete',
