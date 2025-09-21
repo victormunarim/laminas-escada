@@ -34,12 +34,16 @@ return [
             },
             BarraPesquisaHelperGenerica::class => InvokableFactory::class,
             FormAddHelperGenerico::class => InvokableFactory::class,
+            EditClientesHelper::class => InvokableFactory::class,
+            HelperDeleteClientes::class => InvokableFactory::class
         ],
 
         'aliases' => [
             'tabelaClientes' => TabelaClientesHelper::class,
             'barraPesquisa'   => BarraPesquisaHelperGenerica::class,
             'formAddClientes'  => FormAddHelperGenerico::class,
+            'formEditClientes'  => EditClientesHelper::class,
+            'helperDeleteClientes'  => HelperDeleteClientes::class,
         ]
     ],
 
@@ -48,10 +52,10 @@ return [
             'clientes' => [
                 'type' => Segment::class,
                 'options' => [
-                    'route' => '/' . 'clientes' . '[/:action[/:id_cliente]]',
+                    'route' => '/' . 'clientes' . '[/:action[/:cliente_id]]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'id_pedido' => '[0-9]+',
+                        'cliente_id' => '[0-9]+',
                     ],
                     'defaults' => [
                         'controller' => ClientesController::class,

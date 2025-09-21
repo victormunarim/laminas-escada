@@ -13,12 +13,9 @@ class ClientesTable
 {
     private TableGatewayInterface $tableGateway;
 
-    private TableGatewayInterface $tableEndereco;
-
-    public function __construct(TableGatewayInterface $tableGateway, TableGatewayInterface $tableEndereco)
+    public function __construct(TableGatewayInterface $tableGateway)
     {
         $this->tableGateway = $tableGateway;
-        $this->tableEndereco = $tableEndereco;
     }
 
     public function getClientes(int $id): Clientes
@@ -33,10 +30,6 @@ class ClientesTable
         $select = $this->tableGateway->getSql()->select();
 
         $select->join(
-            'endereco_cliente',
-            'endereco_cliente.cliente_id = clientes.cliente_id',
-            ['*']
-        )->join(
             'pedidos',
             'pedidos.cliente_id = clientes.cliente_id',
             ['id_pedido']
@@ -57,29 +50,28 @@ class ClientesTable
     public function saveCliente(Clientes $cliente): void
     {
         $data = [
-            ConstantesClientes::CLIENTE_NOME_NAME => $cliente->getNome(),
-        ];
-
-        $dataEndereco = [
-            ConstantesClientes::NUMERO_NAME => $cliente->getNumero(),
-            ConstantesClientes::BAIRRO_NAME => $cliente->getBairro(),
-            ConstantesClientes::CIDADE_NAME => $cliente->getCidade(),
-            ConstantesClientes::CEP_NAME => $cliente->getCep(),
-            ConstantesClientes::REFERENCIA_NAME => $cliente->getReferencia(),
+            ConstantesClientes::CLIENTE_NOME_NAME => $cliente->getNome() ?? '',
+            ConstantesClientes::EMAIL_NAME => $cliente->getEmail() ?? '',
+            ConstantesClientes::NUMERO_NAME => $cliente->getNumero() ?? 0,
+            ConstantesClientes::BAIRRO_NAME => $cliente->getBairro() ?? '',
+            ConstantesClientes::CIDADE_NAME => $cliente->getCidade() ?? '',
+            ConstantesClientes::CEP_NAME => $cliente->getCep() ?? 0,
+            ConstantesClientes::REFERENCIA_NAME => $cliente->getReferencia() ?? '',
+            ConstantesClientes::CPF_NAME => $cliente->getCpf() ?? '',
+            ConstantesClientes::RG_NAME => $cliente->getRg() ?? '',
+            ConstantesClientes::CNPJ_NAME => $cliente->getCnpj() ?? '',
+            ConstantesClientes::SS_NAME => $cliente->getSS() ?? '',
+            ConstantesClientes::FLAG_OCULTO_NAME => $cliente->getFlagOculto() ?? 0,
         ];
 
         $id = $cliente->getId() ?? 0;
 
         if ($id === 0) {
             $this->tableGateway->insert($data);
-            $id = (int) $this->tableGateway->getLastInsertValue();
-            $dataEndereco[ConstantesClientes::CLIENTE_ID_NAME] = $id;
-            $this->tableEndereco->insert($dataEndereco);
             return;
         }
 
         $this->tableGateway->update($data, ['cliente_id' => $id]);
-        $this->tableEndereco->update($dataEndereco, ['cliente_id' => $id]);
     }
 
     public function pegaClienteIdPeloNome(string $nome): int
@@ -101,17 +93,13 @@ class ClientesTable
         return $this->tableGateway->selectWith($select);
     }
 
-    public function procuraClientesEEnderecos(array $filtros): ResultSet
+    public function procuraClientes(array $filtros): ResultSet
     {
         /** @var Select $select */
-        $select = $this->tableGateway->getSql()->select()->join(
-            'endereco_cliente',
-            'endereco_cliente.cliente_id = clientes.cliente_id',
-            ['*']
-        );
+        $select = $this->tableGateway->getSql()->select();
 
         $where = $select->where;
-        $where->equalTo('clientes.' . ConstantesClientes::FLAG_OCULTO_NAME, 0);
+        $where->equalTo(ConstantesClientes::FLAG_OCULTO_NAME, 0);
         foreach ($filtros as $campo => $valor) {
             if ($valor !== null && $valor !== '') {
                 if (

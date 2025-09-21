@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace Clientes\Form;
 
 use Clientes\Constantes\ConstantesClientes;
+use Laminas\Form\Element\Email;
 use Laminas\Form\Element\Hidden;
 use Laminas\Form\Element\Number;
 use Laminas\Form\Element\Submit;
 use Laminas\Form\Element\Text;
 use Laminas\Form\Form;
+use Laminas\Validator\Callback;
+use Laminas\InputFilter\InputFilterProviderInterface;
 
-class ClienteForm extends Form
+class ClienteForm extends Form implements InputFilterProviderInterface
 {
     /**
      * @param string|null $name
@@ -26,6 +29,38 @@ class ClienteForm extends Form
         ]);
 
         $this->add([
+            'name' => ConstantesClientes::CLIENTE_NOME_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesClientes::CLIENTE_NOME_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesClientes::EMAIL_NAME,
+            'type' => Email::class,
+            'options' => [
+                'label' => ConstantesClientes::EMAIL_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesClientes::CPF_NAME,
+            'type' => Text::class,
+            'required' => false,
+            'options' => [
+                'label' => ConstantesClientes::CPF_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesClientes::RG_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesClientes::RG_LABEL,
+            ],
+        ]);
+        $this->add([
             'name' => ConstantesClientes::CNPJ_NAME,
             'type' => Text::class,
             'options' => [
@@ -34,34 +69,11 @@ class ClienteForm extends Form
         ]);
 
         $this->add([
-            'name' => ConstantesClientes::CPF_NAME,
-            'type' => Number::class,
-            'options' => [
-                'label' => ConstantesClientes::CPF_LABEL,
-            ],
-        ]);
-
-        $this->add([
-            'name' => ConstantesClientes::RG_NAME,
-            'type' => Number::class,
-            'options' => [
-                'label' => ConstantesClientes::RG_LABEL,
-            ],
-        ]);
-
-        $this->add([
             'name' => ConstantesClientes::SS_NAME,
-            'type' => Number::class,
+            'type' => Text::class,
+            'required' => false,
             'options' => [
                 'label' => ConstantesClientes::SS_LABEL,
-            ],
-        ]);
-
-        $this->add([
-            'name' => ConstantesClientes::CLIENTE_NOME_NAME,
-            'type' => Text::class,
-            'options' => [
-                'label' => ConstantesClientes::CLIENTE_NOME_LABEL,
             ],
         ]);
 
@@ -113,5 +125,96 @@ class ClienteForm extends Form
                 'id' => 'submitbutton',
             ],
         ]);
+    }
+
+    public function getInputFilterSpecification(): array
+    {
+        return [
+            'cpf' => [
+                'required' => false,
+                'validators' => [[
+                    'name' => Callback::class,
+                    'options' => [
+                        'messages' => [
+                            Callback::INVALID_VALUE =>
+                                'CPF só pode ser preenchido se CNPJ e SS estiverem vazios.',
+                        ],
+                        'callback' => function ($value, $context = []) {
+                            if (! empty($value)) {
+                                return empty($context['cnpj'])
+                                    && empty($context[ConstantesClientes::SS_NAME]);
+                            }
+                            return true;
+                        },
+                    ],
+                ]],
+            ],
+            'rg' => [
+                'required' => false,
+                'validators' => [[
+                    'name' => Callback::class,
+                    'options' => [
+                        'messages' => [
+                            Callback::INVALID_VALUE =>
+                                'RG só pode ser preenchido se CNPJ e SS estiverem vazios.',
+                        ],
+                        'callback' => function ($value, $context = []) {
+                            if (! empty($value)) {
+                                return empty($context['cnpj'])
+                                    && empty($context[ConstantesClientes::SS_NAME]);
+                            }
+                            return true;
+                        },
+                    ],
+                ]],
+            ],
+            'cnpj' => [
+                'required' => false,
+                'validators' => [[
+                    'name' => Callback::class,
+                    'options' => [
+                        'messages' => [
+                            Callback::INVALID_VALUE =>
+                                'CNPJ só pode ser preenchido se CPF e RG estiverem vazios.',
+                        ],
+                        'callback' => function ($value, $context = []) {
+                            if (! empty($value)) {
+                                return empty($context['cpf'])
+                                    && empty($context['rg']);
+                            }
+                            return true;
+                        },
+                    ],
+                ]],
+            ],
+            ConstantesClientes::SS_NAME => [
+                'required' => false,
+                'validators' => [[
+                    'name' => Callback::class,
+                    'options' => [
+                        'messages' => [
+                            Callback::INVALID_VALUE =>
+                                'Serviço Social só pode ser preenchido se CPF e RG estiverem vazios.',
+                        ],
+                        'callback' => function ($value, $context = []) {
+                            if (! empty($value)) {
+                                return empty($context['cpf'])
+                                    && empty($context['rg']);
+                            }
+                            return true;
+                        },
+                    ],
+                ]],
+            ],
+
+            'numero' => [
+                'required'    => false,
+                'allow_empty' => true,
+            ],
+            'cep' => [
+                'required'    => false,
+                'allow_empty' => true,
+            ],
+        ];
     }
 }

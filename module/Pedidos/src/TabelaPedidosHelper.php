@@ -51,7 +51,6 @@ class TabelaPedidosHelper extends TabelaHelperGenerica
             ConstantesPedidos::NUMERO_PEDIDO_VALUE => ConstantesPedidos::NUMERO_PEDIDO_LABEL,
             ConstantesPedidos::CLIENTE_ID_VALUE => ConstantesPedidos::CLIENTE_NOME_LABEL,
             ConstantesPedidos::PROFISSAO_VALUE => ConstantesPedidos::PROFISSAO_LABEL,
-            ConstantesPedidos::EMAIL_VALUE => ConstantesPedidos::EMAIL_LABEL,
             ConstantesPedidos::ADM_OBRA_VALUE => ConstantesPedidos::ADM_OBRA_LABEL,
             ConstantesPedidos::TELEFONE_VALUE => ConstantesPedidos::TELEFONE_LABEL,
             ConstantesPedidos::TELEFONE_FIXO_VALUE => ConstantesPedidos::TELEFONE_FIXO_LABEL,

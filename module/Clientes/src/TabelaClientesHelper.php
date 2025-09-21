@@ -26,7 +26,7 @@ class TabelaClientesHelper extends TabelaHelperGenerica
 
     protected function pegaDados($filtros): ResultSetInterface
     {
-        return $this->clientesTable->procuraClientesEEnderecos($filtros);
+        return $this->clientesTable->procuraClientes($filtros);
     }
 
     protected function getColunasFixas(): array
@@ -36,7 +36,7 @@ class TabelaClientesHelper extends TabelaHelperGenerica
 
     protected function getColunasIgnorar(): array
     {
-        return [ConstantesClientes::CLIENTE_ID_NAME];
+        return [ConstantesClientes::CLIENTE_ID_VALUE, ConstantesClientes::FLAG_OCULTO_VALUE];
     }
 
     protected function getMapaNomesColunas(): array
@@ -44,6 +44,7 @@ class TabelaClientesHelper extends TabelaHelperGenerica
         return [
             ConstantesClientes::CLIENTE_ID_VALUE => ConstantesClientes::CLIENTE_ID_LABEL,
             ConstantesClientes::CLIENTE_NOME_VALUE => ConstantesClientes::CLIENTE_NOME_LABEL,
+            ConstantesClientes::EMAIL_VALUE => ConstantesClientes::EMAIL_LABEL,
             ConstantesClientes::CPF_VALUE => ConstantesClientes::CPF_LABEL,
             ConstantesClientes::RG_VALUE => ConstantesClientes::RG_LABEL,
             ConstantesClientes::CNPJ_VALUE => ConstantesClientes::CNPJ_LABEL,
@@ -73,12 +74,12 @@ class TabelaClientesHelper extends TabelaHelperGenerica
         $id = $this->getView()->escapeHtml((string) $id);
 
         $editUrl = $this->getView()->url('clientes', [
-            'action'    => 'edit',
+            'action' => 'edit',
             'cliente_id' => $id,
         ]);
 
         $deleteUrl = $this->getView()->url('clientes', [
-            'action'    => 'delete',
+            'action' => 'delete',
             'cliente_id' => $id,
         ]);
 

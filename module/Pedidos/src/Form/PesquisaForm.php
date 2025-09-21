@@ -54,14 +54,6 @@ class PesquisaForm extends Form
         ]);
 
         $this->add([
-            'name' => ConstantesPedidos::EMAIL_NAME,
-            'type' => Text::class,
-            'options' => [
-                'label' => ConstantesPedidos::EMAIL_LABEL,
-            ],
-        ]);
-
-        $this->add([
             'name' => ConstantesPedidos::ADM_OBRA_NAME,
             'type' => Text::class,
             'options' => [

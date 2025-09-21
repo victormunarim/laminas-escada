@@ -14,7 +14,6 @@ class Pedidos implements InputFilterAwareInterface
     private ?int $numeroPedido = null;
     private ?int $clienteId = null;
     private ?string $profissao = null;
-    private ?string $email = null;
     private ?string $admObra = null;
     private ?int $telefone = null;
     private ?int $telefoneFixo = null;
@@ -51,10 +50,6 @@ class Pedidos implements InputFilterAwareInterface
 
         $this->profissao = ! empty($array[ConstantesPedidos::PROFISSAO_NAME])
             ? (string) $array[ConstantesPedidos::PROFISSAO_NAME]
-            : null;
-
-        $this->email = ! empty($array[ConstantesPedidos::EMAIL_NAME])
-            ? (string) $array[ConstantesPedidos::EMAIL_NAME]
             : null;
 
         $this->admObra = ! empty($array[ConstantesPedidos::ADM_OBRA_NAME])
@@ -128,7 +123,6 @@ class Pedidos implements InputFilterAwareInterface
             ConstantesPedidos::NUMERO_PEDIDO_NAME => $this->numeroPedido,
             ConstantesPedidos::CLIENTE_ID_NAME => $this->clienteId,
             ConstantesPedidos::PROFISSAO_NAME => $this->profissao,
-            ConstantesPedidos::EMAIL_NAME => $this->email,
             ConstantesPedidos::ADM_OBRA_NAME => $this->admObra,
             ConstantesPedidos::TELEFONE_NAME => $this->telefone,
             ConstantesPedidos::TELEFONE_FIXO_NAME => $this->telefoneFixo,
@@ -178,14 +172,6 @@ class Pedidos implements InputFilterAwareInterface
     public function setProfissao(?string $profissao): void
     {
         $this->profissao = $profissao;
-    }
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-    public function setEmail(?string $email): void
-    {
-        $this->email = $email;
     }
     public function getAdmObra(): ?string
     {

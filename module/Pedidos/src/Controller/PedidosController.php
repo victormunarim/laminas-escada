@@ -45,7 +45,6 @@ class PedidosController extends AbstractActionController
             ConstantesPedidos::NUMERO_PEDIDO_NAME,
             ConstantesPedidos::CLIENTE_ID_NAME,
             ConstantesPedidos::PROFISSAO_NAME,
-            ConstantesPedidos::EMAIL_NAME,
             ConstantesPedidos::ADM_OBRA_NAME,
             ConstantesPedidos::TELEFONE_NAME,
             ConstantesPedidos::TELEFONE_FIXO_NAME,

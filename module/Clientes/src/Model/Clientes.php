@@ -14,15 +14,17 @@ class Clientes extends \ArrayObject implements InputFilterAwareInterface
 
     private ?string $nome = null;
 
-    private ?int $cpf = null;
+    private ?string $email = null;
 
-    private ?int $rg = null;
+    private ?string $cpf = null;
+
+    private ?string $rg = null;
 
     private ?string $cnpj = null;
 
-    private ?int $ss = null;
+    private ?string $ss = null;
 
-    private ?string $numero = null;
+    private ?int $numero = null;
 
 
     private ?string $bairro = null;
@@ -36,16 +38,24 @@ class Clientes extends \ArrayObject implements InputFilterAwareInterface
 
     private ?string $referencia = null;
 
+    private ?int $flagOculto = null;
+
 
     public function getArrayCopy(): array
     {
         return [
             ConstantesClientes::CLIENTE_ID_NAME => $this->id,
             ConstantesClientes::CLIENTE_NOME_NAME => $this->nome,
-            ConstantesClientes::CPF_NAME => $this->nome,
-            ConstantesClientes::CNPJ_NAME => $this->nome,
-            ConstantesClientes::RG_NAME => $this->nome,
-            ConstantesClientes::SS_NAME => $this->nome,
+            ConstantesClientes::EMAIL_NAME => $this->email,
+            ConstantesClientes::CPF_NAME => $this->cpf,
+            ConstantesClientes::CNPJ_NAME => $this->cnpj,
+            ConstantesClientes::RG_NAME => $this->rg,
+            ConstantesClientes::SS_NAME => $this->ss,
+            ConstantesClientes::NUMERO_NAME => $this->numero,
+            ConstantesClientes::CIDADE_NAME => $this->cidade,
+            ConstantesClientes::BAIRRO_NAME => $this->bairro,
+            ConstantesClientes::CEP_NAME => $this->cep,
+            ConstantesClientes::REFERENCIA_NAME => $this->referencia,
         ];
     }
 
@@ -58,11 +68,15 @@ class Clientes extends \ArrayObject implements InputFilterAwareInterface
                 : null;
 
         $this->cpf = ! empty($array[ConstantesClientes::CPF_NAME])
-            ? (int) $array[ConstantesClientes::CPF_NAME]
+            ? (string) $array[ConstantesClientes::CPF_NAME]
+            : null;
+
+        $this->email = ! empty($array[ConstantesClientes::EMAIL_NAME])
+            ? (string) $array[ConstantesClientes::EMAIL_NAME]
             : null;
 
         $this->rg = ! empty($array[ConstantesClientes::RG_NAME])
-            ? (int) $array[ConstantesClientes::RG_NAME]
+            ? (string) $array[ConstantesClientes::RG_NAME]
             : null;
 
         $this->cnpj = ! empty($array[ConstantesClientes::CNPJ_NAME])
@@ -70,12 +84,12 @@ class Clientes extends \ArrayObject implements InputFilterAwareInterface
             : null;
 
         $this->ss = ! empty($array[ConstantesClientes::SS_NAME])
-            ? (int) $array[ConstantesClientes::SS_NAME]
+            ? (string) $array[ConstantesClientes::SS_NAME]
             : null;
 
         $this->setNumero(
             ! empty($array['numero'])
-                ? (string) $array['numero']
+                ? (int) $array['numero']
                 : null
         );
 
@@ -126,22 +140,22 @@ class Clientes extends \ArrayObject implements InputFilterAwareInterface
         return $this->id;
     }
 
-    public function getCpf(): ?int
+    public function getCpf(): ?string
     {
         return $this->cpf;
     }
 
-    public function setCpf(?int $cpf): void
+    public function setCpf(?string $cpf): void
     {
         $this->cpf = $cpf;
     }
 
-    public function getRg(): ?int
+    public function getRg(): ?string
     {
         return $this->rg;
     }
 
-    public function setRg(?int $rg): void
+    public function setRg(?string $rg): void
     {
         $this->rg = $rg;
     }
@@ -156,22 +170,22 @@ class Clientes extends \ArrayObject implements InputFilterAwareInterface
         $this->cnpj = $cnpj;
     }
 
-    public function getSS(): ?int
+    public function getSS(): ?string
     {
         return $this->ss;
     }
 
-    public function setSS(?int $ss): void
+    public function setSS(?string $ss): void
     {
         $this->ss = $ss;
     }
 
-    public function getNumero(): ?string
+    public function getNumero(): ?int
     {
         return $this->numero;
     }
 
-    public function setNumero(?string $numero): self
+    public function setNumero(?int $numero): self
     {
         $this->numero = $numero;
         return $this;
@@ -221,6 +235,26 @@ class Clientes extends \ArrayObject implements InputFilterAwareInterface
         return $this;
     }
 
+    public function getFlagOculto(): ?int
+    {
+        return $this->flagOculto;
+    }
+
+    public function setFlagOculto(?int $valor): self
+    {
+        $this->flagOculto = $valor;
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): void
+    {
+        $this->email = $email;
+    }
 
     public function setInputFilter(InputFilterInterface $inputFilter)
     {

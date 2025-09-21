@@ -27,10 +27,6 @@ class ConstantesPedidos
     public const string PROFISSAO_VALUE = 'profissao';
     public const string PROFISSAO_LABEL = 'Profissão';
 
-    public const string EMAIL_NAME = 'email';
-    public const string EMAIL_VALUE = 'email';
-    public const string EMAIL_LABEL = 'E-mail';
-
     public const string ADM_OBRA_NAME = 'adm_obra';
     public const string ADM_OBRA_VALUE = 'admObra';
     public const string ADM_OBRA_LABEL = 'ADM da obra';

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Pedidos\Form;
 
 use Clientes\Model\ClientesTable;
-use Laminas\Form\Element\Email;
 use Laminas\Form\Element\Hidden;
 use Laminas\Form\Element\Number;
 use Laminas\Form\Element\Select;
@@ -59,14 +58,6 @@ class PedidoForm extends Form
             'type' => Text::class,
             'options' => [
                 'label' => ConstantesPedidos::PROFISSAO_LABEL,
-            ],
-        ]);
-
-        $this->add([
-            'name' => ConstantesPedidos::EMAIL_NAME,
-            'type' => Email::class,
-            'options' => [
-                'label' => ConstantesPedidos::EMAIL_LABEL,
             ],
         ]);
 
@@ -143,6 +134,46 @@ class PedidoForm extends Form
             'type' => Number::class,
             'options' => [
                 'label' => ConstantesPedidos::PRAZO_MONTAGEM_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::NUMERO_NAME,
+            'type' => Number::class,
+            'options' => [
+                'label' => ConstantesPedidos::NUMERO_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::BAIRRO_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::BAIRRO_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::CIDADE_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::CIDADE_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::CEP_NAME,
+            'type' => Number::class,
+            'options' => [
+                'label' => ConstantesPedidos::CEP_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::REFERENCIA_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::REFERENCIA_LABEL,
             ],
         ]);
 

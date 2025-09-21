@@ -8,6 +8,7 @@ use Clientes\Constantes\ConstantesClientes;
 use Clientes\Form\ClienteForm;
 use Clientes\Model\Clientes;
 use Clientes\Model\ClientesTable;
+use Laminas\Form\FormInterface;
 use Laminas\Http\Response;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
@@ -37,6 +38,7 @@ class ClientesController extends AbstractActionController
 
         $campos = [
             ConstantesClientes::CLIENTE_NOME_NAME,
+            ConstantesClientes::EMAIL_NAME,
             ConstantesClientes::CPF_NAME,
             ConstantesClientes::CNPJ_NAME,
             ConstantesClientes::RG_NAME,
@@ -93,9 +95,73 @@ class ClientesController extends AbstractActionController
 
     public function editAction(): ViewModel|Response
     {
+        $id = (int) $this->params()->fromRoute('cliente_id', 0);
+
+        if ($id === 0) {
+            return $this->redirect()->toRoute(ConstantesClientes::ROUTE, ['action' => 'index']);
+        }
+
+        $cliente = $this->tableClientes->getClientes($id);
+
+        $request = $this->getRequest();
+
+        if (! $request->isPost()) {
+            $this->clienteForm->setData($cliente->getArrayCopy());
+            $this->clienteForm->get('submit')->setAttribute('value', 'Salvar Alterações');
+
+            return (new ViewModel([
+                'action' => 'edit',
+                'cliente_id' => $id,
+                'clienteForm' => $this->clienteForm,
+            ]))->setTemplate('clientes/index');
+        }
+
+        $this->clienteForm->setData($request->getPost());
+
+        if (! $this->clienteForm->isValid()) {
+            return (new ViewModel([
+                'action' => 'edit',
+                'cliente_id'  => $id,
+                'clienteForm' => $this->clienteForm,
+            ]))->setTemplate('clientes/index');
+        }
+
+        $data = $this->clienteForm->getData(FormInterface::VALUES_AS_ARRAY);
+        $clienteAtualizado = new Clientes();
+        $clienteAtualizado->exchangeArray($data);
+        $clienteAtualizado->setId($id);
+
+        $this->tableClientes->saveCliente($clienteAtualizado);
+
+        return $this->redirect()->toRoute(ConstantesClientes::ROUTE, ['action' => 'index']);
     }
 
     public function deleteAction(): ViewModel|Response
     {
+        $id = (int) $this->params()->fromRoute('cliente_id', 0);
+
+        if ($id === 0) {
+            return $this->redirect()->toRoute(ConstantesClientes::ROUTE);
+        }
+
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $deleteStatus = (bool) $request->getPost('deleteStatus', false);
+
+            if ($deleteStatus) {
+                $cliente = $this->tableClientes->getClientes($id);
+                $cliente->setFlagOculto(1);
+                $this->tableClientes->saveCliente($cliente);
+            }
+
+            return $this->redirect()->toRoute(ConstantesClientes::ROUTE);
+        }
+
+        $cliente = $this->tableClientes->getClientes($id);
+
+        return (new ViewModel([
+            'action'      => 'delete',
+            'cliente'      => $cliente,
+        ]))->setTemplate('clientes/index');
     }
 }

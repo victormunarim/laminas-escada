@@ -9,10 +9,16 @@ class ConstantesClientes
     public const string ROUTE = 'clientes';
 
     public const string FLAG_OCULTO_NAME = 'flag_oculto';
+    public const string FLAG_OCULTO_VALUE = 'flagOculto';
 
     public const string CLIENTE_ID_NAME = 'cliente_id';
     public const string CLIENTE_ID_LABEL = 'ID do cliente';
     public const string CLIENTE_ID_VALUE = 'clienteId';
+
+
+    public const string EMAIL_NAME = 'email';
+    public const string EMAIL_VALUE = 'email';
+    public const string EMAIL_LABEL = 'E-mail';
 
     public const string CLIENTE_NOME_NAME = 'nome';
     public const string CLIENTE_NOME_LABEL = 'Nome do cliente';

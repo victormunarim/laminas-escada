@@ -61,18 +61,17 @@ class PedidosTable
     public function savePedido(Pedidos $pedido): void
     {
         $data = [
-            ConstantesPedidos::NUMERO_PEDIDO_NAME => $pedido->getNumeroPedido(),
-            ConstantesPedidos::PROFISSAO_NAME => $pedido->getProfissao(),
-            ConstantesPedidos::EMAIL_NAME => $pedido->getEmail(),
-            ConstantesPedidos::ADM_OBRA_NAME => $pedido->getAdmObra(),
-            ConstantesPedidos::TELEFONE_NAME => $pedido->getTelefone(),
-            ConstantesPedidos::TELEFONE_FIXO_NAME => $pedido->getTelefoneFixo(),
-            ConstantesPedidos::DESCRICAO_NAME => $pedido->getDescricao(),
-            ConstantesPedidos::ACABAMENTO_NAME => $pedido->getAcabamento(),
-            ConstantesPedidos::TUBOS_NAME => $pedido->getTubos(),
+            ConstantesPedidos::NUMERO_PEDIDO_NAME => $pedido->getNumeroPedido() ?? 0,
+            ConstantesPedidos::PROFISSAO_NAME => $pedido->getProfissao() ?? '',
+            ConstantesPedidos::ADM_OBRA_NAME => $pedido->getAdmObra() ?? '',
+            ConstantesPedidos::TELEFONE_NAME => $pedido->getTelefone() ?? 0,
+            ConstantesPedidos::TELEFONE_FIXO_NAME => $pedido->getTelefoneFixo() ?? 0,
+            ConstantesPedidos::DESCRICAO_NAME => $pedido->getDescricao() ?? '',
+            ConstantesPedidos::ACABAMENTO_NAME => $pedido->getAcabamento() ?? '',
+            ConstantesPedidos::TUBOS_NAME => $pedido->getTubos() ?? '',
             ConstantesPedidos::REVESTIMENTO_NAME => $pedido->getRevestimento() ? 1 : 0,
-            ConstantesPedidos::VALOR_TOTAL_NAME => $pedido->getValorTotal(),
-            ConstantesPedidos::PRAZO_MONTAGEM_NAME => $pedido->getPrazoMontagem(),
+            ConstantesPedidos::VALOR_TOTAL_NAME => $pedido->getValorTotal() ?? 0,
+            ConstantesPedidos::PRAZO_MONTAGEM_NAME => $pedido->getPrazoMontagem() ?? 0  ,
         ];
 
         $id = (int) $pedido->getId() ?? 0;
@@ -82,7 +81,7 @@ class PedidosTable
             return;
         }
 
-        $this->tableGateway->update($data, ['cliente_id' => $id]);
+        $this->tableGateway->update($data, ['id_pedido' => $id]);
     }
 
     /**

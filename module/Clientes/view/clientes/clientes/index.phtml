@@ -5,20 +5,25 @@ declare(strict_types=1);
 use Clientes\Constantes\ConstantesClientes;
 
 if ($this->action === 'edit') {
-//    echo $this->formEditPedidos(
-//        $this->form,
-//        'Editar Pedido',
-//        ConstantesPedidos::ROUTE,
-//        $this->id_pedido
-//    );
+    echo $this->formEditClientes(
+        $this->clienteForm,
+        'Editar cliente',
+        ConstantesClientes::ROUTE,
+        $this->cliente_id
+    );
 } elseif ($this->action === 'add') {
     echo $this->formAddClientes(
         $this->clienteForm,
         'Adicionar Cliente',
         ConstantesClientes::ROUTE
     );
+} elseif ($this->action === 'delete') {
+    echo $this->helperDeleteClientes(
+        'Excluir Clientes',
+        ConstantesClientes::ROUTE,
+        $this->cliente
+    );
 } else {
-    $clientes = $this->pedidos;
     $searchTerm = $this->searchTerm;
 
     $this->headTitle('Clientes');

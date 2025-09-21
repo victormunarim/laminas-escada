@@ -7,7 +7,7 @@ namespace Application\View\Helper;
 use Laminas\Form\Form;
 use Laminas\View\Helper\AbstractHelper;
 
-class FormEditHelperGenerico extends AbstractHelper
+abstract class FormEditHelperGenerico extends AbstractHelper
 {
     public function __invoke(Form $form, string $title, string $route, ?int $id = null): string
     {
@@ -34,9 +34,6 @@ class FormEditHelperGenerico extends AbstractHelper
             }
 
             $element->setAttribute('class', 'form-control');
-            if (! $element->getAttribute('placeholder')) {
-                $element->setAttribute('placeholder', ucfirst($element->getName()));
-            }
 
             $html .= '<div class="form-group row mb-3">';
             $html .= '<div class="col-sm-6 col-md-4">';
@@ -52,15 +49,5 @@ class FormEditHelperGenerico extends AbstractHelper
         return $html;
     }
 
-    private function prepareForm(Form $form, string $route, ?int $id): void
-    {
-        $form->setAttribute('action', $this->getView()->url($route, [
-            'action' => 'edit',
-            'id_pedido'  => $id,
-        ]));
-
-        $form->setAttribute('method', 'post');
-
-        $form->prepare();
-    }
+    abstract protected function prepareForm(Form $form, string $route, ?int $id): void;
 }
