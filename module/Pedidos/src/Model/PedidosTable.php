@@ -78,6 +78,7 @@ class PedidosTable
             ConstantesPedidos::CIDADE_NAME => $pedido->getCidade() ?? '',
             ConstantesPedidos::CEP_NAME => $pedido->getCep() ?? 0,
             ConstantesPedidos::REFERENCIA_NAME => $pedido->getReferencia() ?? '',
+            ConstantesPedidos::FLAG_OCULTO_NAME => $pedido->getFlagOculto() ?? 0,
         ];
 
         $id = (int) $pedido->getId() ?? 0;
