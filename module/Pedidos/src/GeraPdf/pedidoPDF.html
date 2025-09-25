@@ -71,6 +71,10 @@
             margin-top: 20px;
         }
 
+        .numero-pedido {
+            text-align: start;
+        }
+
     </style>
 </head>
 <body>
@@ -81,22 +85,22 @@
                 <div><strong>Data:</strong> <?= (new DateTime())->format('d/m/Y') ?></div>
             </div>
         </div>
-
+        <h4 class="numero-pedido"><strong>Pedido Nº:</strong> <?= $pedidoObj->getNumeroPedido() ?></h4>
         <h5>Dados do Cliente</h5>
         <div class="linha">
-            <div class="campo"><strong>Cliente:</strong></div>
-            <div class="campo"><strong>CPF:</strong> <?= $cliente['cpf'] ?></div>
+            <div class="campo"><strong>Cliente:</strong> <?= $pedidoObj->getClienteNome() ?></div>
+            <div class="campo"><strong>CPF:</strong> <?= $pedidoObj->getCpf() ?></div>
         </div>
         <div class="linha">
-            <div class="campo"><strong>RG:</strong> <?= $cliente['rg'] ?></div>
+            <div class="campo"><strong>RG:</strong> <?= $pedidoObj->getRg() ?></div>
             <div class="campo"><strong>Profissão:</strong> <?= $pedidoObj->getProfissao() ?></div>
         </div>
         <div class="linha">
-            <div class="campo"><strong>CNPJ:</strong> <?= $cliente['cnpj'] ?></div>
-            <div class="campo"><strong>Email:</strong> <?= $cliente['email'] ?></div>
+            <div class="campo"><strong>CNPJ:</strong> <?= $pedidoObj->getCnpj() ?></div>
+            <div class="campo"><strong>Email:</strong> <?= $pedidoObj->getEmail() ?></div>
         </div>
         <div class="linha">
-            <div class="campo"><strong>Serviço social:</strong> <?= $cliente['servico_social'] ?></div>
+            <div class="campo"><strong>Serviço social:</strong> <?= $pedidoObj->getServicoSocial() ?></div>
         </div>
         <div class="linha">
             <div class="campo"><strong>Adm. Obra:</strong> <?= $pedidoObj->getAdmObra() ?></div>
@@ -109,28 +113,28 @@
 
         <h5>Endereço da Obra</h5>
         <div class="linha">
-            <div class="campo"><strong>Bairro:</strong><?= $pedidoObj->getBairro() ?></div>
-            <div class="campo"><strong>Cidade:</strong><?= $pedidoObj->getCidade() ?></div>
+            <div class="campo"><strong>Bairro: </strong><?= $pedidoObj->getBairro() ?></div>
+            <div class="campo"><strong>Cidade: </strong><?= $pedidoObj->getCidade() ?></div>
         </div>
         <div class="linha">
-            <div class="campo"><strong>CEP:</strong><?= $pedidoObj->getCep() ?></div>
-            <div class="campo"><strong>Nº:</strong><?= $pedidoObj->getNumero() ?></div>
+            <div class="campo"><strong>CEP: </strong><?= $pedidoObj->getCep() ?></div>
+            <div class="campo"><strong>Nº: </strong><?= $pedidoObj->getNumero() ?></div>
         </div>
         <div class="linha">
-            <div class="campo"><strong>Referência:</strong></div>
+            <div class="campo"><strong>Referência: </strong><?= $pedidoObj->getReferencia() ?></div>
         </div>
 
         <h5>Endereço do Cliente</h5>
         <div class="linha">
-            <div class="campo"><strong>Bairro:</strong> <?= $cliente['bairro'] ?></div>
-            <div class="campo"><strong>Cidade:</strong> <?= $cliente['cidade'] ?></div>
+            <div class="campo"><strong>Bairro: </strong> <?= $pedidoObj->getBairroCliente() ?></div>
+            <div class="campo"><strong>Cidade: </strong> <?= $pedidoObj->getCidadeCliente() ?></div>
         </div>
         <div class="linha">
-            <div class="campo"><strong>CEP:</strong> <?= $cliente['cep'] ?></div>
-            <div class="campo"><strong>Nº:</strong> <?= $cliente['numero'] ?></div>
+            <div class="campo"><strong>CEP: </strong> <?= $pedidoObj->getCepCliente() ?></div>
+            <div class="campo"><strong>Nº: </strong> <?= $pedidoObj->getNumeroCliente() ?></div>
         </div>
         <div class="linha">
-            <div class="campo"><strong>Referência:</strong> <?= $cliente['referencia'] ?></div>
+            <div class="campo"><strong>Referência: </strong> <?= $pedidoObj->getReferenciaCliente() ?></div>
         </div>
 
         <h5>Detalhes do Pedido</h5>
