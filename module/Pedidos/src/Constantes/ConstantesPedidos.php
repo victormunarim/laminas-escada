@@ -20,9 +20,6 @@ class ConstantesPedidos
     public const string NUMERO_PEDIDO_VALUE = 'numeroPedido';
     public const string NUMERO_PEDIDO_LABEL = 'Número';
 
-    public const string CLIENTE_ID_NAME = 'cliente_id';
-    public const string CLIENTE_ID_VALUE = 'clienteId';
-
     public const string PROFISSAO_NAME = 'profissao';
     public const string PROFISSAO_VALUE = 'profissao';
     public const string PROFISSAO_LABEL = 'Profissão';
@@ -85,4 +82,44 @@ class ConstantesPedidos
     public const string REFERENCIA_NAME = 'referencia';
     public const string REFERENCIA_LABEL = 'Referência';
     public const string REFERENCIA_VALUE = 'referencia';
+
+    public const string EMAIL_NAME = 'email';
+    public const string EMAIL_VALUE = 'email';
+    public const string EMAIL_LABEL = 'E-mail';
+
+    public const string CPF_NAME = 'cpf';
+    public const string CPF_VALUE = 'cpf';
+    public const string CPF_LABEL = 'CPF';
+
+    public const string RG_NAME = 'rg';
+    public const string RG_VALUE = 'rg';
+    public const string RG_LABEL = 'RG';
+
+    public const string CNPJ_NAME = 'cnpj';
+    public const string CNPJ_VALUE = 'cnpj';
+    public const string CNPJ_LABEL = 'CNPJ';
+
+    public const string SS_NAME = 'servico_social';
+    public const string SS_VALUE = 'servicoSocial';
+    public const string SS_LABEL = 'Serviço social';
+
+    public const string NUMERO_CLIENTE_NAME = 'numero_cliente';
+    public const string NUMERO_CLIENTE_LABEL = 'Número do cliente';
+    public const string NUMERO_CLIENTE_VALUE = 'numeroCliente';
+
+    public const string BAIRRO_CLIENTE_NAME = 'bairro_cliente';
+    public const string BAIRRO_CLIENTE_LABEL = 'Bairro do cliente';
+    public const string BAIRRO_CLIENTE_VALUE = 'bairroCliente';
+
+    public const string CIDADE_CLIENTE_NAME = 'cidade_cliente';
+    public const string CIDADE_CLIENTE_LABEL = 'Cidade do cliente';
+    public const string CIDADE_CLIENTE_VALUE = 'cidadeCliente';
+
+    public const string CEP_CLIENTE_NAME = 'cep_cliente';
+    public const string CEP_CLIENTE_LABEL = 'CEP do cliente';
+    public const string CEP_CLIENTE_VALUE = 'cepCliente';
+
+    public const string REFERENCIA_CLIENTE_NAME = 'referencia_cliente';
+    public const string REFERENCIA_CLIENTE_LABEL = 'Referência do cliente';
+    public const string REFERENCIA_CLIENTE_VALUE = 'referenciaCliente';
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Pedidos\Form;
 
-use Clientes\Model\ClientesTable;
 use Laminas\Form\Element\Hidden;
 use Laminas\Form\Element\Number;
 use Laminas\Form\Element\Select;
@@ -13,18 +12,17 @@ use Laminas\Form\Element\Tel;
 use Laminas\Form\Element\Text;
 use Laminas\Form\Form;
 use Laminas\InputFilter\InputFilterProviderInterface;
+use Laminas\Validator\Callback;
 use Pedidos\Constantes\ConstantesPedidos;
 
 class PedidoForm extends Form implements InputFilterProviderInterface
 {
-    private $clientesTable;
 
     /**
      * @param string|null $name
      */
-    public function __construct(ClientesTable $clientesTable)
+    public function __construct()
     {
-        $this->clientesTable = $clientesTable;
         parent::__construct(ConstantesPedidos::ROUTE);
 
         $this->add([
@@ -34,23 +32,97 @@ class PedidoForm extends Form implements InputFilterProviderInterface
 
         $this->add([
             'name' => ConstantesPedidos::NUMERO_PEDIDO_NAME,
-            'type' => Number::class,
+            'type' => Text::class,
             'options' => [
                 'label' => ConstantesPedidos::NUMERO_PEDIDO_LABEL,
             ],
         ]);
 
-        $clientes = $this->clientesTable->pegaTodosClientes();
-        $clientesNomes = [];
-        foreach ($clientes as $cliente) {
-            $clientesNomes[$cliente->getId()] = $cliente->getNome();
-        }
         $this->add([
-            'name' => ConstantesPedidos::CLIENTE_ID_NAME,
-            'type' => Select::class,
+            'name' => ConstantesPedidos::CLIENTE_NOME_NAME,
+            'type' => Text::class,
             'options' => [
-                'label' => ConstantesPedidos::CLIENTE_NOME_LABEL,
-                'value_options' => $clientesNomes
+                'label' => ConstantesPedidos::CLIENTE_NOME_LABEL
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::EMAIL_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::EMAIL_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::CPF_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::CPF_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::RG_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::RG_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::CNPJ_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::CNPJ_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::SS_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::SS_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::NUMERO_CLIENTE_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::NUMERO_CLIENTE_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::BAIRRO_CLIENTE_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::BAIRRO_CLIENTE_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::CIDADE_CLIENTE_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::CIDADE_CLIENTE_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::CEP_CLIENTE_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::CEP_CLIENTE_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::REFERENCIA_CLIENTE_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::REFERENCIA_CLIENTE_LABEL,
             ],
         ]);
 
@@ -214,6 +286,82 @@ class PedidoForm extends Form implements InputFilterProviderInterface
             'prazo_montagem' => [
                 'required'    => false,
                 'allow_empty' => true,
+            ],
+            'cpf' => [
+                'required' => false,
+                'validators' => [[
+                    'name' => Callback::class,
+                    'options' => [
+                        'messages' => [
+                            Callback::INVALID_VALUE =>
+                                'CPF só pode ser preenchido se CNPJ e SS estiverem vazios.',
+                        ],
+                        'callback' => function ($value, $context = []) {
+                            if (! empty($value)) {
+                                return empty($context['cnpj'])
+                                    && empty($context[ConstantesPedidos::SS_NAME]);
+                            }
+                            return true;
+                        },
+                    ],
+                ]],
+            ],
+            'rg' => [
+                'required' => false,
+                'validators' => [[
+                    'name' => Callback::class,
+                    'options' => [
+                        'messages' => [
+                            Callback::INVALID_VALUE =>
+                                'RG só pode ser preenchido se CNPJ e SS estiverem vazios.',
+                        ],
+                        'callback' => function ($value, $context = []) {
+                            if (! empty($value)) {
+                                return empty($context['cnpj'])
+                                    && empty($context[ConstantesPedidos::SS_NAME]);
+                            }
+                            return true;
+                        },
+                    ],
+                ]],
+            ],
+            'cnpj' => [
+                'required' => false,
+                'validators' => [[
+                    'name' => Callback::class,
+                    'options' => [
+                        'messages' => [
+                            Callback::INVALID_VALUE =>
+                                'CNPJ só pode ser preenchido se CPF e RG estiverem vazios.',
+                        ],
+                        'callback' => function ($value, $context = []) {
+                            if (! empty($value)) {
+                                return empty($context['cpf'])
+                                    && empty($context['rg']);
+                            }
+                            return true;
+                        },
+                    ],
+                ]],
+            ],
+            ConstantesPedidos::SS_NAME => [
+                'required' => false,
+                'validators' => [[
+                    'name' => Callback::class,
+                    'options' => [
+                        'messages' => [
+                            Callback::INVALID_VALUE =>
+                                'Serviço Social só pode ser preenchido se CPF e RG estiverem vazios.',
+                        ],
+                        'callback' => function ($value, $context = []) {
+                            if (! empty($value)) {
+                                return empty($context['cpf'])
+                                    && empty($context['rg']);
+                            }
+                            return true;
+                        },
+                    ],
+                ]],
             ],
         ];
     }

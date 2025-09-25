@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Pedidos\Factory\Controller;
 
-use Clientes\Model\ClientesTable;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Pedidos\Controller\PedidosController;
 use Pedidos\Form\PedidoForm;
@@ -29,8 +28,7 @@ class PedidosControllerFactory implements FactoryInterface
         $table = $container->get(PedidosTable::class);
         $form = $container->get(PedidoForm::class);
         $pesquisaForm = $container->get(PesquisaForm::class);
-        $clienteTable = $container->get(ClientesTable::class);
 
-        return new PedidosController($table, $form, $pesquisaForm, $clienteTable);
+        return new PedidosController($table, $form, $pesquisaForm);
     }
 }

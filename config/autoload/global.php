@@ -21,14 +21,9 @@ return [
         'default' => [
             [
                 'label' => 'Home',
-                'route' => 'home',
+                'route' => 'pedidos',
                 'icon'  => 'fa-solid fa-house',
             ],
-            [
-                'label' => 'Clientes',
-                'route' => 'clientes',
-                'icon' => 'fa-solid fa-person'
-            ]
         ],
     ],
 ];

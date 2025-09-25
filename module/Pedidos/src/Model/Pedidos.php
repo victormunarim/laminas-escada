@@ -12,7 +12,16 @@ class Pedidos implements InputFilterAwareInterface
 {
     private ?int $id = null;
     private ?int $numeroPedido = null;
-    private ?int $clienteId = null;
+    private ?string $email = null;
+    private ?int $cpf = null;
+    private ?int $rg = null;
+    private ?string $cnpj = null;
+    private ?string $servicoSocial = null;
+    private ?int $numeroCliente = null;
+    private ?string $bairroCliente = null;
+    private ?string $cidadeCliente = null;
+    private ?int $cepCliente = null;
+    private ?string $referenciaCliente = null;
     private ?string $profissao = null;
     private ?string $admObra = null;
     private ?int $telefone = null;
@@ -44,8 +53,48 @@ class Pedidos implements InputFilterAwareInterface
             ? (int) $array[ConstantesPedidos::NUMERO_PEDIDO_NAME]
             : null;
 
-        $this->clienteId = ! empty($array[ConstantesPedidos::CLIENTE_ID_NAME])
-            ? (int) $array[ConstantesPedidos::CLIENTE_ID_NAME]
+        $this->clienteNome = ! empty($array[ConstantesPedidos::CLIENTE_NOME_NAME])
+            ? (string) $array[ConstantesPedidos::CLIENTE_NOME_NAME]
+            : null;
+
+        $this->email = ! empty($array[ConstantesPedidos::EMAIL_NAME])
+            ? (string) $array[ConstantesPedidos::EMAIL_NAME]
+            : null;
+
+        $this->cpf = ! empty($array[ConstantesPedidos::CPF_NAME])
+            ? (int) $array[ConstantesPedidos::CPF_NAME]
+            : null;
+
+        $this->rg = ! empty($array[ConstantesPedidos::RG_NAME])
+            ? (int) $array[ConstantesPedidos::RG_NAME]
+            : null;
+
+        $this->cnpj = ! empty($array[ConstantesPedidos::CNPJ_NAME])
+            ? (string) $array[ConstantesPedidos::CNPJ_NAME]
+            : null;
+
+        $this->servicoSocial = ! empty($array[ConstantesPedidos::SS_NAME])
+            ? (string) $array[ConstantesPedidos::SS_NAME]
+            : null;
+
+        $this->numeroCliente = ! empty($array[ConstantesPedidos::NUMERO_CLIENTE_NAME])
+            ? (int) $array[ConstantesPedidos::NUMERO_CLIENTE_NAME]
+            : null;
+
+        $this->bairroCliente = ! empty($array[ConstantesPedidos::BAIRRO_CLIENTE_NAME])
+            ? (string) $array[ConstantesPedidos::BAIRRO_CLIENTE_NAME]
+            : null;
+
+        $this->cidadeCliente = ! empty($array[ConstantesPedidos::CIDADE_CLIENTE_NAME])
+            ? (string) $array[ConstantesPedidos::CIDADE_CLIENTE_NAME]
+            : null;
+
+        $this->cepCliente = ! empty($array[ConstantesPedidos::CEP_CLIENTE_NAME])
+            ? (int) $array[ConstantesPedidos::CEP_CLIENTE_NAME]
+            : null;
+
+        $this->referenciaCliente = ! empty($array[ConstantesPedidos::REFERENCIA_CLIENTE_NAME])
+            ? (string) $array[ConstantesPedidos::REFERENCIA_CLIENTE_NAME]
             : null;
 
         $this->profissao = ! empty($array[ConstantesPedidos::PROFISSAO_NAME])
@@ -121,7 +170,7 @@ class Pedidos implements InputFilterAwareInterface
         return [
             ConstantesPedidos::ID_NAME => $this->id,
             ConstantesPedidos::NUMERO_PEDIDO_NAME => $this->numeroPedido,
-            ConstantesPedidos::CLIENTE_ID_NAME => $this->clienteId,
+            ConstantesPedidos::CLIENTE_NOME_NAME => $this->clienteNome,
             ConstantesPedidos::PROFISSAO_NAME => $this->profissao,
             ConstantesPedidos::ADM_OBRA_NAME => $this->admObra,
             ConstantesPedidos::TELEFONE_NAME => $this->telefone,
@@ -137,7 +186,17 @@ class Pedidos implements InputFilterAwareInterface
             ConstantesPedidos::BAIRRO_NAME => $this->bairro,
             ConstantesPedidos::CIDADE_NAME => $this->cidade,
             ConstantesPedidos::CEP_NAME => $this->cep,
-            ConstantesPedidos::REFERENCIA_NAME => $this->referencia
+            ConstantesPedidos::REFERENCIA_NAME => $this->referencia,
+            ConstantesPedidos::EMAIL_NAME => $this->email,
+            ConstantesPedidos::CPF_NAME => $this->cpf,
+            ConstantesPedidos::RG_NAME => $this->rg,
+            ConstantesPedidos::CNPJ_NAME => $this->cnpj,
+            ConstantesPedidos::SS_NAME => $this->servicoSocial,
+            ConstantesPedidos::NUMERO_CLIENTE_NAME => $this->numeroCliente,
+            ConstantesPedidos::BAIRRO_CLIENTE_NAME => $this->bairroCliente,
+            ConstantesPedidos::CIDADE_CLIENTE_NAME => $this->cidadeCliente,
+            ConstantesPedidos::CEP_CLIENTE_NAME => $this->cepCliente,
+            ConstantesPedidos::REFERENCIA_CLIENTE_NAME => $this->referenciaCliente,
         ];
     }
 
@@ -156,14 +215,6 @@ class Pedidos implements InputFilterAwareInterface
     public function setNumeroPedido(?int $numero): void
     {
         $this->numeroPedido = $numero;
-    }
-    public function getClienteId(): ?int
-    {
-        return $this->clienteId;
-    }
-    public function setClienteId(?int $clienteId): void
-    {
-        $this->clienteId = $clienteId;
     }
     public function getProfissao(): ?string
     {
@@ -314,6 +365,116 @@ class Pedidos implements InputFilterAwareInterface
     public function setReferencia(?string $referencia): self
     {
         $this->referencia = $referencia;
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): self
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    public function getCpf(): ?int
+    {
+        return $this->cpf;
+    }
+
+    public function setCpf(?int $cpf): self
+    {
+        $this->cpf = $cpf;
+        return $this;
+    }
+
+    public function getRg(): ?int
+    {
+        return $this->rg;
+    }
+
+    public function setRg(?int $rg): self
+    {
+        $this->rg = $rg;
+        return $this;
+    }
+
+    public function getCnpj(): ?string
+    {
+        return $this->cnpj;
+    }
+
+    public function setCnpj(?string $cnpj): self
+    {
+        $this->cnpj = $cnpj;
+        return $this;
+    }
+
+    public function getServicoSocial(): ?string
+    {
+        return $this->servicoSocial;
+    }
+
+    public function setServicoSocial(?string $servicoSocial): self
+    {
+        $this->servicoSocial = $servicoSocial;
+        return $this;
+    }
+
+    public function getNumeroCliente(): ?int
+    {
+        return $this->numeroCliente;
+    }
+
+    public function setNumeroCliente(?int $numeroCliente): self
+    {
+        $this->numeroCliente = $numeroCliente;
+        return $this;
+    }
+
+    public function getBairroCliente(): ?string
+    {
+        return $this->bairroCliente;
+    }
+
+    public function setBairroCliente(?string $bairroCliente): self
+    {
+        $this->bairroCliente = $bairroCliente;
+        return $this;
+    }
+
+    public function getCidadeCliente(): ?string
+    {
+        return $this->cidadeCliente;
+    }
+
+    public function setCidadeCliente(?string $cidadeCliente): self
+    {
+        $this->cidadeCliente = $cidadeCliente;
+        return $this;
+    }
+
+    public function getCepCliente(): ?int
+    {
+        return $this->cepCliente;
+    }
+
+    public function setCepCliente(?int $cepCliente): self
+    {
+        $this->cepCliente = $cepCliente;
+        return $this;
+    }
+
+    public function getReferenciaCliente(): ?string
+    {
+        return $this->referenciaCliente;
+    }
+
+    public function setReferenciaCliente(?string $referenciaCliente): self
+    {
+        $this->referenciaCliente = $referenciaCliente;
         return $this;
     }
 

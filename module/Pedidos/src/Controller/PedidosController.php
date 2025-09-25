@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Pedidos\Controller;
 
-use Clientes\Model\ClientesTable;
 use Laminas\Form\FormInterface;
 use Laminas\Http\PhpEnvironment\Request;
 use Laminas\Http\Response;
@@ -19,7 +18,6 @@ use Pedidos\Model\PedidosTable;
 class PedidosController extends AbstractActionController
 {
     private PedidosTable $table;
-    private ClientesTable $tableClientes;
     private PedidoForm $form;
     private PesquisaForm $pesquisaForm;
 
@@ -27,12 +25,10 @@ class PedidosController extends AbstractActionController
         PedidosTable $table,
         PedidoForm $form,
         PesquisaForm $pesquisaForm,
-        ClientesTable $tableClientes
     ) {
         $this->table = $table;
         $this->form = $form;
         $this->pesquisaForm = $pesquisaForm;
-        $this->tableClientes = $tableClientes;
     }
 
     public function indexAction(): ViewModel
@@ -43,7 +39,6 @@ class PedidosController extends AbstractActionController
         $campos = [
             ConstantesPedidos::ID_NAME,
             ConstantesPedidos::NUMERO_PEDIDO_NAME,
-            ConstantesPedidos::CLIENTE_ID_NAME,
             ConstantesPedidos::PROFISSAO_NAME,
             ConstantesPedidos::ADM_OBRA_NAME,
             ConstantesPedidos::TELEFONE_NAME,
@@ -59,6 +54,16 @@ class PedidosController extends AbstractActionController
             ConstantesPedidos::CIDADE_NAME,
             ConstantesPedidos::CEP_NAME,
             ConstantesPedidos::REFERENCIA_NAME,
+            ConstantesPedidos::EMAIL_NAME,
+            ConstantesPedidos::CPF_NAME,
+            ConstantesPedidos::RG_NAME,
+            ConstantesPedidos::CNPJ_NAME,
+            ConstantesPedidos::SS_NAME,
+            ConstantesPedidos::NUMERO_CLIENTE_NAME,
+            ConstantesPedidos::BAIRRO_CLIENTE_NAME,
+            ConstantesPedidos::CIDADE_CLIENTE_NAME,
+            ConstantesPedidos::CEP_CLIENTE_NAME,
+            ConstantesPedidos::REFERENCIA_CLIENTE_NAME
         ];
 
         $filters = [];
@@ -175,8 +180,7 @@ class PedidosController extends AbstractActionController
         }
 
         $pedido = $this->table->getPedidos($id);
-        $nomeCliente = $this->tableClientes->getClientes($pedido->getClienteId())->getNome();
-        $nomeCliente = empty($nomeCliente) ? '[nome do cliente não informado]' : $nomeCliente;
+        $nomeCliente = $pedido->getClienteNome() ?? '';
 
         return (new ViewModel([
             'action'      => 'delete',
@@ -194,12 +198,10 @@ class PedidosController extends AbstractActionController
         }
 
         $pedido = $this->table->getPedidos($id);
-        $cliente = $this->tableClientes->getEnderecoPeloIdpedido($id);
 
         return (new ViewModel([
             'action' => 'pdf',
             'pedido' => $pedido,
-            'cliente' => $cliente,
         ]))->setTemplate('pedidos/index');
     }
 }

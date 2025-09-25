@@ -16,6 +16,5 @@ return [
     'Laminas\Router',
     'Laminas\Validator',
     'Application',
-    'Pedidos',
-    'Clientes'
+    'Pedidos'
 ];

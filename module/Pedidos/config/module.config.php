@@ -6,8 +6,6 @@ namespace Pedidos;
 
 use Application\View\Helper\BarraPesquisaHelperGenerica;
 use Application\View\Helper\FormAddHelperGenerico;
-use Clientes\Model\ClientesTable;
-use Clientes\Model\ClientesTableFactory;
 use Laminas\Db\Adapter\Adapter;
 use Laminas\Db\Adapter\AdapterServiceFactory;
 use Laminas\Db\ResultSet\ResultSet;
@@ -17,7 +15,6 @@ use Laminas\ServiceManager\Factory\InvokableFactory;
 use Pedidos\Constantes\ConstantesPedidos;
 use Pedidos\Controller\PedidosController;
 use Pedidos\Factory\Controller\PedidosControllerFactory;
-use Pedidos\Form\NotEmptyNumber;
 use Pedidos\Form\PedidoForm;
 use Pedidos\Form\PesquisaForm;
 use Pedidos\GeraPdf\GeraPdf;
@@ -90,10 +87,8 @@ return [
         'factories' => [
             PedidosTable::class => function ($container) {
                 $tableGateway = $container->get('PedidosTableGateway');
-                $clientesTable = $container->get(ClientesTable::class);
-                return new PedidosTable($tableGateway, $clientesTable);
+                return new PedidosTable($tableGateway);
             },
-            ClientesTable::class => ClientesTableFactory::class,
             Adapter::class => AdapterServiceFactory::class,
 
             'PedidosTableGateway' => function ($container) {
@@ -108,19 +103,11 @@ return [
              * @return PedidoForm
              */
             PedidoForm::class => function ($container): PedidoForm {
-                $clientesTable = $container->get(ClientesTable::class);
-                return new PedidoForm($clientesTable);
+                return new PedidoForm();
             },
             PesquisaForm::class => function ($container): PesquisaForm {
                 return new PesquisaForm();
             },
         ],
     ],
-
-    'validators' => [
-        'factories' => [
-            NotEmptyNumber::class => InvokableFactory::class,
-        ],
-    ],
-
 ];

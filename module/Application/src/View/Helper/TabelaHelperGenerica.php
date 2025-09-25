@@ -37,11 +37,6 @@ abstract class TabelaHelperGenerica extends AbstractHelper
             return '';
         }
 
-        foreach ($dados as $dado) {
-            if ($dado instanceof Pedidos) {
-                $dado->setClienteNome($this->pedidosTable->getNomeClientePorId($dado->getClienteId()));
-            }
-        }
         $primeiro = $dados[0];
         $colunas = $this->getColunasDisponiveis($primeiro);
 
@@ -133,7 +128,6 @@ abstract class TabelaHelperGenerica extends AbstractHelper
     {
         return $this->renderizarAcoes($linha);
     }
-
 
     /**
      * @return array<int, string>

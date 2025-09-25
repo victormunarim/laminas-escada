@@ -16,7 +16,6 @@ class TabelaPedidosHelper extends TabelaHelperGenerica
 
     public function __construct(PedidosTable $pedidosTable)
     {
-        parent::__construct($pedidosTable);
         $this->pedidosTable = $pedidosTable;
     }
 
@@ -39,7 +38,6 @@ class TabelaPedidosHelper extends TabelaHelperGenerica
     {
         return [
             ConstantesPedidos::FLAG_OCULTO_VALUE,
-            ConstantesPedidos::CLIENTE_ID_VALUE,
         ];
     }
 
@@ -65,6 +63,17 @@ class TabelaPedidosHelper extends TabelaHelperGenerica
             ConstantesPedidos::CIDADE_VALUE => ConstantesPedidos::CIDADE_LABEL,
             ConstantesPedidos::CEP_VALUE => ConstantesPedidos::CEP_LABEL,
             ConstantesPedidos::REFERENCIA_VALUE => ConstantesPedidos::REFERENCIA_LABEL,
+            ConstantesPedidos::EMAIL_VALUE => ConstantesPedidos::EMAIL_LABEL,
+            ConstantesPedidos::CPF_VALUE => ConstantesPedidos::CPF_LABEL,
+            ConstantesPedidos::RG_VALUE => ConstantesPedidos::RG_LABEL,
+            ConstantesPedidos::CNPJ_VALUE => ConstantesPedidos::CNPJ_LABEL,
+            ConstantesPedidos::SS_VALUE => ConstantesPedidos::SS_LABEL,
+            ConstantesPedidos::NUMERO_CLIENTE_VALUE => ConstantesPedidos::NUMERO_CLIENTE_LABEL,
+            ConstantesPedidos::BAIRRO_CLIENTE_VALUE => ConstantesPedidos::BAIRRO_CLIENTE_LABEL,
+            ConstantesPedidos::CIDADE_CLIENTE_VALUE => ConstantesPedidos::CIDADE_CLIENTE_LABEL,
+            ConstantesPedidos::CEP_CLIENTE_VALUE => ConstantesPedidos::CEP_CLIENTE_LABEL,
+            ConstantesPedidos::REFERENCIA_CLIENTE_VALUE => ConstantesPedidos::REFERENCIA_CLIENTE_LABEL,
+
 
         ];
     }

@@ -30,6 +30,86 @@ class PesquisaForm extends Form
         ]);
 
         $this->add([
+            'name' => ConstantesPedidos::EMAIL_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::EMAIL_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::CPF_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::CPF_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::RG_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::RG_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::CNPJ_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::CNPJ_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::SS_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::SS_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::NUMERO_CLIENTE_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::NUMERO_CLIENTE_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::BAIRRO_CLIENTE_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::BAIRRO_CLIENTE_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::CIDADE_CLIENTE_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::CIDADE_CLIENTE_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::CEP_CLIENTE_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::CEP_CLIENTE_LABEL,
+            ],
+        ]);
+
+        $this->add([
+            'name' => ConstantesPedidos::REFERENCIA_CLIENTE_NAME,
+            'type' => Text::class,
+            'options' => [
+                'label' => ConstantesPedidos::REFERENCIA_CLIENTE_LABEL,
+            ],
+        ]);
+
+        $this->add([
             'name' => ConstantesPedidos::NUMERO_PEDIDO_NAME,
             'type' => Number::class,
             'options' => [
